@@ -36,6 +36,8 @@ public class logincontroller {
     private PasswordField passwordField;
     @FXML
     private PasswordField passwordTextField;
+    @FXML
+    private Button loginButton;
 
     @FXML
     private void handleSignUpLink() throws IOException {
@@ -53,7 +55,7 @@ public class logincontroller {
         String URL, USER, PASSWORD;
         URL = "jdbc:mysql://localhost:3306/libraryy";
         USER = "root";
-        PASSWORD = "huyen16125";
+        PASSWORD = "caohuongiang171";
 
         int notFound = 0;
         try {
@@ -75,7 +77,14 @@ public class logincontroller {
                     notFound = 1;
                 }
                 if (notFound == 1 && password.equals(passDb)) {
-                    System.out.println("OKAY!");
+                    //System.out.println("OKAY!");
+                    Stage stage = (Stage) loginButton.getScene().getWindow();
+
+                    Parent signUpRoot = FXMLLoader.load(getClass().getResource("/library.fxml"));
+
+                    Scene scene = new Scene(signUpRoot, 900, 600);
+
+                    stage.setScene(scene);
                 } else {
                     loginMessageLabel.setText("Incorrect username or password!");
                 }
@@ -87,5 +96,6 @@ public class logincontroller {
         } catch (Exception event) {
             System.out.println("Error!" + event.getMessage());
         }
+
     }
 }
