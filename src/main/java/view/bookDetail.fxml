@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" alignment="TOP_CENTER" spacing="10" prefWidth="400" prefHeight="600"
+      fx:controller="view.BookDetailsController">
+
+    <!-- Ảnh bìa của sách -->
+    <ImageView fx:id="bookThumbnail" fitWidth="200" fitHeight="300" preserveRatio="true" />
+
+    <!-- Thông tin sách -->
+    <VBox alignment="CENTER" spacing="10">
+        <Label fx:id="bookTitle" text="Book Title" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+        <Label fx:id="bookAuthors" text="Author(s): " style="-fx-font-size: 14px;" />
+        <Label fx:id="bookCategory" text="Category: " style="-fx-font-size: 14px;" />
+    </VBox>
+
+    <!-- Mô tả sách -->
+    <TextArea fx:id="book" editable="false" wrapText="true" prefHeight="150" prefWidth="350" />
+
+    <!-- Nút đóng -->
+    <Button text="Close" onAction="#handleClose" style="-fx-background-color: #d9534f; -fx-text-fill: white;" />
+
+</VBox>
