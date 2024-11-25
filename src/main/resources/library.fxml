@@ -6,15 +6,15 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(to bottom, #fceff9, #e0ffe0);" stylesheets="@DashboardStyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="linkui.librarycontroller">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@DashboardStyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="linkui.librarycontroller">
     <children>
-        <HBox alignment="CENTER" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(to bottom, #fceff9, #e0ffe0);">
+        <HBox alignment="CENTER" prefHeight="600.0" prefWidth="900.0">
             <children>
-                <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="226.0" style="-fx-background-color: linear-gradient(to bottom, #fceff9, #e0ffe0); -fx-padding: 20; -fx-background-radius: 15; -fx-border-radius: 15;">
+                <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="226.0" style="-fx-padding: 20; -fx-background-radius: 15; -fx-border-radius: 15;">
                     <children>
                         <ImageView fitHeight="126.0" fitWidth="195.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
                             <image>
@@ -62,67 +62,84 @@
                                 <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="104.0" style="-fx-background-color: black; -fx-text-fill: white; -fx-background-radius: 20; -fx-padding: 0 15;" text="Search" HBox.hgrow="ALWAYS" />
                             </children>
                         </HBox>
-                        <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="600.0" prefWidth="751.0" style="-fx-background-color: linear-gradient(to bottom, #fceff9, #e0ffe0);" VBox.vgrow="ALWAYS">
+                        <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="600.0" prefWidth="751.0" VBox.vgrow="ALWAYS">
                             <content>
-                                <VBox prefHeight="664.0" prefWidth="658.0" style="-fx-background-color: linear-gradient(to bottom, #fceff9, #e0ffe0);">
+                                <VBox prefHeight="664.0" prefWidth="658.0">
                                     <children>
                                         <HBox prefHeight="210.0" prefWidth="658.0" VBox.vgrow="ALWAYS">
                                             <children>
-                                                <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" style="-fx-background-color: transparent; -fx-padding: 10;" HBox.hgrow="ALWAYS">
-                                                    <graphic>
-                                                        <VBox alignment="CENTER" prefHeight="199.0" prefWidth="134.0" spacing="5">
-                                                            <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
-                                                                <image>
-                                                                    <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
-                                                                </image>
-                                                            </ImageView>
-                                                            <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
-                                                            <Label style="-fx-font-weight: normal; -fx-font-size: 12px; -fx-text-fill: #666;" text="Author" VBox.vgrow="ALWAYS" />
-                                                        </VBox>
-                                                    </graphic>
-                                                </Button>
+                                                <StackPane fx:id="bookCard" onMouseEntered="#showOverlay" onMouseExited="#hideOverlay">
+                                                    <!-- Nút chứa hình ảnh sách và thông tin -->
+                                                    <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" style="-fx-background-color: transparent; -fx-padding: 10;">
+                                                        <graphic>
+                                                            <VBox alignment="CENTER" spacing="5">
+                                                                <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);">
+                                                                    <image>
+                                                                        <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                                    </image>
+                                                                </ImageView>
+                                                                <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" />
+                                                                <Label style="-fx-font-weight: normal; -fx-font-size: 12px; -fx-text-fill: #666;" text="Author" />
+                                                            </VBox>
+                                                        </graphic>
+                                                    </Button>
 
-                                                <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" style="-fx-background-color: transparent; -fx-padding: 10;" HBox.hgrow="ALWAYS">
-                                                    <graphic>
-                                                        <VBox alignment="CENTER" spacing="5">
-                                                            <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
-                                                                <image>
-                                                                    <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
-                                                                </image>
-                                                            </ImageView>
-                                                            <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
-                                                            <Label style="-fx-font-weight: normal; -fx-font-size: 12px; -fx-text-fill: #666;" text="Author" VBox.vgrow="ALWAYS" />
-                                                        </VBox>
-                                                    </graphic>
-                                                </Button>
-
-                                                <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" style="-fx-background-color: transparent; -fx-padding: 10;" HBox.hgrow="ALWAYS">
-                                                    <graphic>
-                                                        <VBox alignment="CENTER" spacing="5">
-                                                            <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
-                                                                <image>
-                                                                    <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
-                                                                </image>
-                                                            </ImageView>
-                                                            <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
-                                                            <Label style="-fx-font-weight: normal; -fx-font-size: 12px; -fx-text-fill: #666;" text="Author" VBox.vgrow="ALWAYS" />
-                                                        </VBox>
-                                                    </graphic>
-                                                </Button>
-
-                                                <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" style="-fx-background-color: transparent; -fx-padding: 10;" HBox.hgrow="ALWAYS">
-                                                    <graphic>
-                                                        <VBox alignment="CENTER" spacing="5">
-                                                            <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
-                                                                <image>
-                                                                    <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
-                                                                </image>
-                                                            </ImageView>
-                                                            <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
-                                                            <Label style="-fx-font-weight: normal; -fx-font-size: 12px; -fx-text-fill: #666;" text="Author" VBox.vgrow="ALWAYS" />
-                                                        </VBox>
-                                                    </graphic>
-                                                </Button>
+                                                    <!-- Lớp phủ hiện lên khi hover -->
+                                                    <VBox fx:id="overlay" alignment="CENTER" spacing="10" style="-fx-background-color: rgba(255, 255, 255, 0.7);" visible="false">
+                                                        <Button style="-fx-background-radius: 20;" styleClass="overlay-button" text="   Borrow   " />
+                                                        <Button style="-fx-background-radius: 20;" styleClass="overlay-button" text="More Detail" />
+                                                    </VBox>
+                                                </StackPane>
+                                    <StackPane fx:id="bookCard1" onMouseEntered="#showOverlay" onMouseExited="#hideOverlay">
+                                       <children>
+                                          <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" style="-fx-background-color: transparent; -fx-padding: 10;">
+                                             <graphic>
+                                                <VBox alignment="CENTER" spacing="5">
+                                                   <children>
+                                                      <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);">
+                                                         <image>
+                                                            <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                         </image>
+                                                      </ImageView>
+                                                      <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" />
+                                                      <Label style="-fx-font-weight: normal; -fx-font-size: 12px; -fx-text-fill: #666;" text="Author" />
+                                                   </children>
+                                                </VBox>
+                                             </graphic>
+                                          </Button>
+                                          <VBox fx:id="overlay1" alignment="CENTER" spacing="10" style="-fx-background-color: rgba(255, 255, 255, 0.7);" visible="false">
+                                             <children>
+                                                <Button styleClass="overlay-button" text="  Borrow  " />
+                                                <Button styleClass="overlay-button" text="More Detail" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </StackPane>
+                                    <StackPane fx:id="bookCard2" onMouseEntered="#showOverlay" onMouseExited="#hideOverlay">
+                                       <children>
+                                          <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" style="-fx-background-color: transparent; -fx-padding: 10;">
+                                             <graphic>
+                                                <VBox alignment="CENTER" spacing="5">
+                                                   <children>
+                                                      <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);">
+                                                         <image>
+                                                            <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                         </image>
+                                                      </ImageView>
+                                                      <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" />
+                                                      <Label style="-fx-font-weight: normal; -fx-font-size: 12px; -fx-text-fill: #666;" text="Author" />
+                                                   </children>
+                                                </VBox>
+                                             </graphic>
+                                          </Button>
+                                          <VBox fx:id="overlay2" alignment="CENTER" spacing="10" style="-fx-background-color: rgba(255, 255, 255, 0.7);" visible="false">
+                                             <children>
+                                                <Button styleClass="overlay-button" text="Borrow" />
+                                                <Button styleClass="overlay-button" text="More Detail" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </StackPane>
 
                                             </children>
                                         </HBox>
@@ -183,6 +200,66 @@
                                                         </VBox>
                                                     </graphic>
                                                 </Button>
+                                    <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" style="-fx-background-color: transparent; -fx-padding: 10;">
+                                       <graphic>
+                                          <VBox alignment="CENTER" prefHeight="199.0" prefWidth="134.0" spacing="5">
+                                             <children>
+                                                <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
+                                                   <image>
+                                                      <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                   </image>
+                                                </ImageView>
+                                                <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
+                                                <Label style="-fx-font-weight: normal; -fx-font-size: 12px; -fx-text-fill: #666;" text="Author" VBox.vgrow="ALWAYS" />
+                                             </children>
+                                          </VBox>
+                                       </graphic>
+                                    </Button>
+                                    <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" style="-fx-background-color: transparent; -fx-padding: 10;">
+                                       <graphic>
+                                          <VBox alignment="CENTER" spacing="5">
+                                             <children>
+                                                <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
+                                                   <image>
+                                                      <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                   </image>
+                                                </ImageView>
+                                                <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
+                                                <Label style="-fx-font-weight: normal; -fx-font-size: 12px; -fx-text-fill: #666;" text="Author" VBox.vgrow="ALWAYS" />
+                                             </children>
+                                          </VBox>
+                                       </graphic>
+                                    </Button>
+                                    <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" style="-fx-background-color: transparent; -fx-padding: 10;">
+                                       <graphic>
+                                          <VBox alignment="CENTER" spacing="5">
+                                             <children>
+                                                <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
+                                                   <image>
+                                                      <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                   </image>
+                                                </ImageView>
+                                                <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
+                                                <Label style="-fx-font-weight: normal; -fx-font-size: 12px; -fx-text-fill: #666;" text="Author" VBox.vgrow="ALWAYS" />
+                                             </children>
+                                          </VBox>
+                                       </graphic>
+                                    </Button>
+                                    <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" style="-fx-background-color: transparent; -fx-padding: 10;">
+                                       <graphic>
+                                          <VBox alignment="CENTER" spacing="5">
+                                             <children>
+                                                <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
+                                                   <image>
+                                                      <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                   </image>
+                                                </ImageView>
+                                                <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
+                                                <Label style="-fx-font-weight: normal; -fx-font-size: 12px; -fx-text-fill: #666;" text="Author" VBox.vgrow="ALWAYS" />
+                                             </children>
+                                          </VBox>
+                                       </graphic>
+                                    </Button>
 
                                             </children>
                                         </HBox>
@@ -238,6 +315,66 @@
                                           <VBox alignment="CENTER" spacing="5">
                                              <children>
                                                 <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
+                                                    <image>
+                                                      <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                   </image>
+                                                </ImageView>
+                                                <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
+                                                <Label style="-fx-font-weight: normal; -fx-font-size: 12px; -fx-text-fill: #666;" text="Author" VBox.vgrow="ALWAYS" />
+                                             </children>
+                                          </VBox>
+                                       </graphic>
+                                    </Button>
+                                    <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" style="-fx-background-color: transparent; -fx-padding: 10;">
+                                       <graphic>
+                                          <VBox alignment="CENTER" prefHeight="199.0" prefWidth="134.0" spacing="5">
+                                             <children>
+                                                <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
+                                                   <image>
+                                                      <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                   </image>
+                                                </ImageView>
+                                                <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
+                                                <Label style="-fx-font-weight: normal; -fx-font-size: 12px; -fx-text-fill: #666;" text="Author" VBox.vgrow="ALWAYS" />
+                                             </children>
+                                          </VBox>
+                                       </graphic>
+                                    </Button>
+                                    <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" style="-fx-background-color: transparent; -fx-padding: 10;">
+                                       <graphic>
+                                          <VBox alignment="CENTER" spacing="5">
+                                             <children>
+                                                <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
+                                                   <image>
+                                                      <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                   </image>
+                                                </ImageView>
+                                                <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
+                                                <Label style="-fx-font-weight: normal; -fx-font-size: 12px; -fx-text-fill: #666;" text="Author" VBox.vgrow="ALWAYS" />
+                                             </children>
+                                          </VBox>
+                                       </graphic>
+                                    </Button>
+                                    <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" style="-fx-background-color: transparent; -fx-padding: 10;">
+                                       <graphic>
+                                          <VBox alignment="CENTER" spacing="5">
+                                             <children>
+                                                <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
+                                                   <image>
+                                                      <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                   </image>
+                                                </ImageView>
+                                                <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
+                                                <Label style="-fx-font-weight: normal; -fx-font-size: 12px; -fx-text-fill: #666;" text="Author" VBox.vgrow="ALWAYS" />
+                                             </children>
+                                          </VBox>
+                                       </graphic>
+                                    </Button>
+                                    <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" style="-fx-background-color: transparent; -fx-padding: 10;">
+                                       <graphic>
+                                          <VBox alignment="CENTER" spacing="5">
+                                             <children>
+                                                <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
                                                    <image>
                                                       <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
                                                    </image>
@@ -259,4 +396,5 @@
             </children>
         </HBox>
     </children>
-</AnchorPane>
+
+</StackPane>
