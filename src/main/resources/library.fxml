@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -9,198 +10,246 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="linkui.librarycontroller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(to bottom, #fceff9, #e0ffe0);" stylesheets="@DashboardStyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="linkui.librarycontroller">
     <children>
-        <HBox alignment="CENTER" prefHeight="600.0" prefWidth="900.0">
+        <HBox alignment="CENTER" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(to bottom, #fceff9, #e0ffe0);">
             <children>
-                <VBox prefHeight="600.0" prefWidth="150.0">
+                <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="226.0" style="-fx-background-color: linear-gradient(to bottom, #fceff9, #e0ffe0); -fx-padding: 20; -fx-background-radius: 15; -fx-border-radius: 15;">
                     <children>
-                        <ImageView fitHeight="126.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="126.0" fitWidth="195.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
                             <image>
                                 <Image url="@Meolib-Photoroom.png" />
                             </image>
                         </ImageView>
-                        <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="148.0">
+                        <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="43.0" prefWidth="226.0" style="-fx-background-color: transparent; -fx-text-fill: black; -fx-font-family: 'Segoe UI'; -fx-font-size: 14px;" text="   HOME" VBox.vgrow="ALWAYS">
                             <graphic>
-                                <ImageView fitHeight="35.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="20.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@3574480-200.png" />
+                                        <Image url="@home%20(3).png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="148.0">
+
+                        <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="43.0" prefWidth="226.0" style="-fx-background-color: transparent; -fx-text-fill: black; -fx-font-family: 'Segoe UI'; -fx-font-size: 14px;" text="   BORROWED" VBox.vgrow="ALWAYS">
                             <graphic>
-                                <ImageView fitHeight="17.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@history-icon-2048x1863-258qellh.png" />
+                                        <Image url="@book.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="148.0">
+
+                        <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="43.0" prefWidth="226.0" style="-fx-background-color: transparent; -fx-text-fill: black; -fx-font-family: 'Segoe UI'; -fx-font-size: 14px;" text="   MORE" VBox.vgrow="ALWAYS">
                             <graphic>
-                                <ImageView fitHeight="24.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="21.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@809340-200.png" />
+                                        <Image url="@application%20(1).png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="148.0">
-                            <graphic>
-                                <ImageView fitHeight="20.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@settings-icon-1964x2048-8nigtrtt.png" />
-                                    </image>
-                                </ImageView>
-                            </graphic>
-                        </Button>
+
                     </children>
                 </VBox>
-                <VBox prefHeight="600.0" prefWidth="751.0">
+
+                <VBox prefHeight="600.0" prefWidth="813.0" spacing="15.0" style="-fx-padding: 20;" HBox.hgrow="ALWAYS">
                     <children>
-                        <HBox alignment="CENTER" prefHeight="224.0" prefWidth="733.0" spacing="5.0">
+                        <HBox alignment="CENTER" prefHeight="50.0" prefWidth="700.0" spacing="10.0" VBox.vgrow="ALWAYS">
                             <children>
-                                <TextField promptText="Search books..." prefHeight="35.0" prefWidth="550.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 20; -fx-padding: 5 10; -fx-border-color: #CCCCCC; -fx-border-radius: 20;"/>                                <Button mnemonicParsing="false">
-                                    <graphic>
-                                        <ImageView fitHeight="11.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@6688620.png" />
-                                            </image>
-                                        </ImageView>
-                                    </graphic></Button>
-                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                                    <children>
-                                        <Button mnemonicParsing="false" text="Avatar" />
-                                    </children>
-                                </VBox>
+                                <TextField prefHeight="35.0" prefWidth="550.0" promptText="Search books..." style="-fx-background-color: #FFFFFF; -fx-background-radius: 20; -fx-padding: 5 10; -fx-border-color: #CCCCCC; -fx-border-radius: 20;" HBox.hgrow="ALWAYS" />
+                                <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="104.0" style="-fx-background-color: black; -fx-text-fill: white; -fx-background-radius: 20; -fx-padding: 0 15;" text="Search" HBox.hgrow="ALWAYS" />
                             </children>
                         </HBox>
-                        <ScrollPane prefHeight="600.0" prefWidth="751.0">
+                        <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="600.0" prefWidth="751.0" style="-fx-background-color: linear-gradient(to bottom, #fceff9, #e0ffe0);" VBox.vgrow="ALWAYS">
                             <content>
-                                <VBox prefHeight="600.0" prefWidth="720.0" spacing="10.0">
+                                <VBox prefHeight="664.0" prefWidth="658.0" style="-fx-background-color: linear-gradient(to bottom, #fceff9, #e0ffe0);">
                                     <children>
-                                        <HBox alignment="CENTER" prefHeight="212.0" prefWidth="751.0" spacing="15.0">
+                                        <HBox prefHeight="210.0" prefWidth="658.0" VBox.vgrow="ALWAYS">
                                             <children>
-                                                <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" text="Name">
+                                                <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" style="-fx-background-color: transparent; -fx-padding: 10;" HBox.hgrow="ALWAYS">
                                                     <graphic>
-                                                        <ImageView accessibleRole="BUTTON" fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true">
-                                                            <image>
-                                                                <Image url="@b4fa1304-4413-4cdb-9a67-7177135e8d3a.jpg" />
-                                                            </image>
-                                                        </ImageView>
+                                                        <VBox alignment="CENTER" prefHeight="199.0" prefWidth="134.0" spacing="5">
+                                                            <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
+                                                                <image>
+                                                                    <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                                </image>
+                                                            </ImageView>
+                                                            <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
+                                                            <Label style="-fx-font-weight: normal; -fx-font-size: 12px; -fx-text-fill: #666;" text="Author" VBox.vgrow="ALWAYS" />
+                                                        </VBox>
                                                     </graphic>
                                                 </Button>
-                                                <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" text="Name">
+
+                                                <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" style="-fx-background-color: transparent; -fx-padding: 10;" HBox.hgrow="ALWAYS">
                                                     <graphic>
-                                                        <ImageView accessibleRole="BUTTON" fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true">
-                                                            <image>
-                                                                <Image url="@b635fe26-7992-4696-ba3e-0dec9d010d4d.jpg" />
-                                                            </image>
-                                                        </ImageView>
+                                                        <VBox alignment="CENTER" spacing="5">
+                                                            <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
+                                                                <image>
+                                                                    <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                                </image>
+                                                            </ImageView>
+                                                            <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
+                                                            <Label style="-fx-font-weight: normal; -fx-font-size: 12px; -fx-text-fill: #666;" text="Author" VBox.vgrow="ALWAYS" />
+                                                        </VBox>
                                                     </graphic>
                                                 </Button>
-                                                <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" text="Name">
+
+                                                <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" style="-fx-background-color: transparent; -fx-padding: 10;" HBox.hgrow="ALWAYS">
                                                     <graphic>
-                                                        <ImageView accessibleRole="BUTTON" fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true">
-                                                            <image>
-                                                                <Image url="@187bd191-91b0-4f79-8742-74e5e943964f.jpg" />
-                                                            </image>
-                                                        </ImageView>
+                                                        <VBox alignment="CENTER" spacing="5">
+                                                            <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
+                                                                <image>
+                                                                    <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                                </image>
+                                                            </ImageView>
+                                                            <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
+                                                            <Label style="-fx-font-weight: normal; -fx-font-size: 12px; -fx-text-fill: #666;" text="Author" VBox.vgrow="ALWAYS" />
+                                                        </VBox>
                                                     </graphic>
                                                 </Button>
-                                                <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" text="Name">
+
+                                                <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" style="-fx-background-color: transparent; -fx-padding: 10;" HBox.hgrow="ALWAYS">
                                                     <graphic>
-                                                        <ImageView accessibleRole="BUTTON" fitHeight="167.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
-                                                            <image>
-                                                                <Image url="@5af6261f-e165-46a8-8c21-b0512c211960.jpg" />
-                                                            </image>
-                                                        </ImageView>
+                                                        <VBox alignment="CENTER" spacing="5">
+                                                            <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
+                                                                <image>
+                                                                    <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                                </image>
+                                                            </ImageView>
+                                                            <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
+                                                            <Label style="-fx-font-weight: normal; -fx-font-size: 12px; -fx-text-fill: #666;" text="Author" VBox.vgrow="ALWAYS" />
+                                                        </VBox>
                                                     </graphic>
                                                 </Button>
+
                                             </children>
                                         </HBox>
-                                        <HBox alignment="CENTER" prefHeight="212.0" prefWidth="751.0" spacing="15.0">
+                                        <HBox VBox.vgrow="ALWAYS">
                                             <children>
-                                                <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" text="Name">
+                                                <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" style="-fx-background-color: transparent; -fx-padding: 10;" HBox.hgrow="ALWAYS">
                                                     <graphic>
-                                                        <ImageView accessibleRole="BUTTON" fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true">
-                                                            <image>
-                                                                <Image url="@a327d082-4239-4b42-887e-a1658e1d902b.jpg" />
-                                                            </image>
-                                                        </ImageView>
+                                                        <VBox alignment="CENTER" spacing="5">
+                                                            <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
+                                                                <image>
+                                                                    <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                                </image>
+                                                            </ImageView>
+                                                            <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
+                                                            <Label style="-fx-font-weight: normal; -fx-font-size: 12px; -fx-text-fill: #666;" text="Author" VBox.vgrow="ALWAYS" />
+                                                        </VBox>
                                                     </graphic>
                                                 </Button>
-                                                <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" text="Name">
+
+                                                <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" style="-fx-background-color: transparent; -fx-padding: 10;" HBox.hgrow="ALWAYS">
                                                     <graphic>
-                                                        <ImageView accessibleRole="BUTTON" fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true">
-                                                            <image>
-                                                                <Image url="@a55d9596-8a52-4502-9e85-1b9205753462.jpg" />
-                                                            </image>
-                                                        </ImageView>
+                                                        <VBox alignment="CENTER" spacing="5">
+                                                            <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
+                                                                <image>
+                                                                    <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                                </image>
+                                                            </ImageView>
+                                                            <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
+                                                            <Label style="-fx-font-weight: normal; -fx-font-size: 12px; -fx-text-fill: #666;" text="Author" VBox.vgrow="ALWAYS" />
+                                                        </VBox>
                                                     </graphic>
                                                 </Button>
-                                                <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" text="Name">
+
+                                                <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" style="-fx-background-color: transparent; -fx-padding: 10;" HBox.hgrow="ALWAYS">
                                                     <graphic>
-                                                        <ImageView accessibleRole="BUTTON" fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true">
-                                                            <image>
-                                                                <Image url="@7b7005d3-e0f3-4ad0-ad91-26b5086eb8b7.jpg" />
-                                                            </image>
-                                                        </ImageView>
+                                                        <VBox alignment="CENTER" spacing="5">
+                                                            <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
+                                                                <image>
+                                                                    <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                                </image>
+                                                            </ImageView>
+                                                            <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
+                                                            <Label style="-fx-font-weight: normal; -fx-font-size: 12px; -fx-text-fill: #666;" text="Author" VBox.vgrow="ALWAYS" />
+                                                        </VBox>
                                                     </graphic>
                                                 </Button>
-                                                <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" text="Name">
+
+                                                <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" style="-fx-background-color: transparent; -fx-padding: 10;" HBox.hgrow="ALWAYS">
                                                     <graphic>
-                                                        <ImageView accessibleRole="BUTTON" fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true">
-                                                            <image>
-                                                                <Image url="@d1e434b1-27dc-41f1-a788-5861e030c2ac.jpg" />
-                                                            </image>
-                                                        </ImageView>
+                                                        <VBox alignment="CENTER" spacing="5">
+                                                            <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
+                                                                <image>
+                                                                    <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                                </image>
+                                                            </ImageView>
+                                                            <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
+                                                            <Label style="-fx-font-weight: normal; -fx-font-size: 12px; -fx-text-fill: #666;" text="Author" VBox.vgrow="ALWAYS" />
+                                                        </VBox>
                                                     </graphic>
                                                 </Button>
+
                                             </children>
                                         </HBox>
-                                        <HBox alignment="CENTER" prefHeight="212.0" prefWidth="751.0" spacing="15.0">
-                                            <children>
-                                                <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" text="Name">
-                                                    <graphic>
-                                                        <ImageView accessibleRole="BUTTON" fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true">
-                                                            <image>
-                                                                <Image url="@1e9b5710-2a31-4193-8487-20018e360736.jpg" />
-                                                            </image>
-                                                        </ImageView>
-                                                    </graphic>
-                                                </Button>
-                                                <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" text="Name">
-                                                    <graphic>
-                                                        <ImageView accessibleRole="BUTTON" fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true">
-                                                            <image>
-                                                                <Image url="@8c0dbb04-090a-4790-9560-d586084ef00c.jpg" />
-                                                            </image>
-                                                        </ImageView>
-                                                    </graphic>
-                                                </Button>
-                                                <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" text="Name">
-                                                    <graphic>
-                                                        <ImageView accessibleRole="BUTTON" fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true">
-                                                            <image>
-                                                                <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
-                                                            </image>
-                                                        </ImageView>
-                                                    </graphic>
-                                                </Button>
-                                                <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" text="Name">
-                                                    <graphic>
-                                                        <ImageView accessibleRole="BUTTON" fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true">
-                                                            <image>
-                                                                <Image url="@03c8c41f-e943-475b-b9fc-d6f9203a4b93.jpg" />
-                                                            </image>
-                                                        </ImageView>
-                                                    </graphic>
-                                                </Button>
-                                            </children>
-                                        </HBox>
+                              <HBox>
+                                 <children>
+                                    <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" style="-fx-background-color: transparent; -fx-padding: 10;" HBox.hgrow="ALWAYS">
+                                       <graphic>
+                                          <VBox alignment="CENTER" prefHeight="237.0" prefWidth="119.0" spacing="5">
+                                             <children>
+                                                <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
+                                                   <image>
+                                                      <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                   </image>
+                                                </ImageView>
+                                                <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
+                                                <Label style="-fx-font-weight: normal; -fx-font-size: 12px; -fx-text-fill: #666;" text="Author" VBox.vgrow="ALWAYS" />
+                                             </children>
+                                          </VBox>
+                                       </graphic>
+                                    </Button>
+                                    <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" style="-fx-background-color: transparent; -fx-padding: 10;" HBox.hgrow="ALWAYS">
+                                       <graphic>
+                                          <VBox alignment="CENTER" spacing="5">
+                                             <children>
+                                                <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
+                                                   <image>
+                                                      <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                   </image>
+                                                </ImageView>
+                                                <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
+                                                <Label style="-fx-font-weight: normal; -fx-font-size: 12px; -fx-text-fill: #666;" text="Author" VBox.vgrow="ALWAYS" />
+                                             </children>
+                                          </VBox>
+                                       </graphic>
+                                    </Button>
+                                    <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" style="-fx-background-color: transparent; -fx-padding: 10;" HBox.hgrow="ALWAYS">
+                                       <graphic>
+                                          <VBox alignment="CENTER" spacing="5">
+                                             <children>
+                                                <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
+                                                   <image>
+                                                      <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                   </image>
+                                                </ImageView>
+                                                <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
+                                                <Label style="-fx-font-weight: normal; -fx-font-size: 12px; -fx-text-fill: #666;" text="Author" VBox.vgrow="ALWAYS" />
+                                             </children>
+                                          </VBox>
+                                       </graphic>
+                                    </Button>
+                                    <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="218.0" prefWidth="155.0" style="-fx-background-color: transparent; -fx-padding: 10;" HBox.hgrow="ALWAYS">
+                                       <graphic>
+                                          <VBox alignment="CENTER" spacing="5">
+                                             <children>
+                                                <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
+                                                   <image>
+                                                      <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                   </image>
+                                                </ImageView>
+                                                <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
+                                                <Label style="-fx-font-weight: normal; -fx-font-size: 12px; -fx-text-fill: #666;" text="Author" VBox.vgrow="ALWAYS" />
+                                             </children>
+                                          </VBox>
+                                       </graphic>
+                                    </Button>
+                                 </children>
+                              </HBox>
                                     </children>
                                 </VBox>
                             </content>
