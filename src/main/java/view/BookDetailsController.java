@@ -40,4 +40,14 @@ public class BookDetailsController {
         Stage stage = (Stage) bookThumbnail.getScene().getWindow();
         stage.close();
     }
+    public void handleBorrowBook() {
+        // Xử lý logic mượn sách
+        System.out.println("Mượn sách thành công!");
+    }
+
+    public void handleReturnBook() {
+        // Xử lý logic trả sách
+        System.out.println("Trả sách thành công!");
+    }
+
 }
