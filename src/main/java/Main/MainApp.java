@@ -8,11 +8,13 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
-public class giaodien extends Application {
+import static javafx.application.Application.launch;
+
+public class MainApp extends Application {
 
         @Override
         public void start(Stage primaryStage) throws Exception {
-                Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/login.fxml")));
+                Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/login.fxml")));
                 Scene scene = new Scene(root, 400, 600);
                 primaryStage.centerOnScreen();
                 primaryStage.setScene(scene);
@@ -23,3 +25,4 @@ public class giaodien extends Application {
                 launch(args);
         }
 }
+

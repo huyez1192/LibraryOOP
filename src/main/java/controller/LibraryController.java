@@ -1,9 +1,9 @@
-package linkui;
+package controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
 
-public class librarycontroller {
+public class LibraryController {
     @FXML
     private VBox overlay;
 

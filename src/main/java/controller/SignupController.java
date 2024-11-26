@@ -1,4 +1,4 @@
-package linkui;
+package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,7 +19,7 @@ import java.sql.Statement;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
-public class signupcontroller {
+public class SignupController {
     @FXML
     private Hyperlink loginLink;
     @FXML
@@ -38,7 +38,7 @@ public class signupcontroller {
     private void handleLoginLink() throws IOException {
         Stage stage = (Stage) loginLink.getScene().getWindow();
 
-        Parent loginRoot = FXMLLoader.load(getClass().getResource("/login.fxml"));
+        Parent loginRoot = FXMLLoader.load(getClass().getResource("/fxml/login.fxml"));
 
         Scene scene = new Scene(loginRoot, 400, 600);
 

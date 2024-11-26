@@ -1,10 +1,10 @@
-package linkui;
+package controller;
 
 import javafx.fxml.FXML;
 
 import java.awt.*;
 
-public class searchcontroller {
+public class SearchController {
     @FXML
     private TextField search;
 

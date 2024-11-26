@@ -5,7 +5,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="TOP_CENTER" prefHeight="600" prefWidth="400" spacing="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="view.BookDetailsController">
+<VBox alignment="TOP_CENTER" prefHeight="600" prefWidth="400" spacing="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="controller.BookDetailsController">
 
     <!-- Ảnh bìa của sách -->
     <ImageView fx:id="bookThumbnail" fitHeight="300" fitWidth="200" preserveRatio="true" />

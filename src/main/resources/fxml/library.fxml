@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@DashboardStyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="linkui.librarycontroller">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@DashboardStyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LibraryController">
     <children>
         <HBox alignment="CENTER" prefHeight="600.0" prefWidth="900.0">
             <children>
@@ -18,7 +18,7 @@
                     <children>
                         <ImageView fitHeight="126.0" fitWidth="195.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
                             <image>
-                                <Image url="@Meolib-Photoroom.png" />
+                                <Image url="@../image/Meolib-Photoroom.png" />
                             </image>
                         </ImageView>
                         <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="43.0" prefWidth="226.0" style="-fx-background-color: transparent; -fx-text-fill: black; -fx-font-family: 'Segoe UI'; -fx-font-size: 14px;" text="   HOME" VBox.vgrow="ALWAYS">
@@ -75,7 +75,7 @@
                                                             <VBox alignment="CENTER" spacing="5">
                                                                 <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);">
                                                                     <image>
-                                                                        <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                                        <Image url="@../image/0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
                                                                     </image>
                                                                 </ImageView>
                                                                 <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" />
@@ -98,7 +98,7 @@
                                                    <children>
                                                       <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);">
                                                          <image>
-                                                            <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                            <Image url="@../image/0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
                                                          </image>
                                                       </ImageView>
                                                       <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" />
@@ -123,7 +123,7 @@
                                                    <children>
                                                       <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);">
                                                          <image>
-                                                            <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                            <Image url="@../image/0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
                                                          </image>
                                                       </ImageView>
                                                       <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" />
@@ -150,7 +150,7 @@
                                                         <VBox alignment="CENTER" spacing="5">
                                                             <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
                                                                 <image>
-                                                                    <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                                    <Image url="@../image/0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
                                                                 </image>
                                                             </ImageView>
                                                             <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
@@ -164,7 +164,7 @@
                                                         <VBox alignment="CENTER" spacing="5">
                                                             <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
                                                                 <image>
-                                                                    <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                                    <Image url="@../image/0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
                                                                 </image>
                                                             </ImageView>
                                                             <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
@@ -178,7 +178,7 @@
                                                         <VBox alignment="CENTER" spacing="5">
                                                             <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
                                                                 <image>
-                                                                    <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                                    <Image url="@../image/0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
                                                                 </image>
                                                             </ImageView>
                                                             <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
@@ -192,7 +192,7 @@
                                                         <VBox alignment="CENTER" spacing="5">
                                                             <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
                                                                 <image>
-                                                                    <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                                    <Image url="@../image/0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
                                                                 </image>
                                                             </ImageView>
                                                             <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
@@ -206,7 +206,7 @@
                                              <children>
                                                 <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
                                                    <image>
-                                                      <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                      <Image url="@../image/0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
                                                    </image>
                                                 </ImageView>
                                                 <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
@@ -221,7 +221,7 @@
                                              <children>
                                                 <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
                                                    <image>
-                                                      <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                      <Image url="@../image/0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
                                                    </image>
                                                 </ImageView>
                                                 <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
@@ -236,7 +236,7 @@
                                              <children>
                                                 <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
                                                    <image>
-                                                      <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                      <Image url="@../image/0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
                                                    </image>
                                                 </ImageView>
                                                 <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
@@ -251,7 +251,7 @@
                                              <children>
                                                 <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
                                                    <image>
-                                                      <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                      <Image url="@../image/0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
                                                    </image>
                                                 </ImageView>
                                                 <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
@@ -271,7 +271,7 @@
                                              <children>
                                                 <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
                                                    <image>
-                                                      <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                      <Image url="@../image/0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
                                                    </image>
                                                 </ImageView>
                                                 <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
@@ -286,7 +286,7 @@
                                              <children>
                                                 <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
                                                    <image>
-                                                      <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                      <Image url="@../image/0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
                                                    </image>
                                                 </ImageView>
                                                 <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
@@ -301,7 +301,7 @@
                                              <children>
                                                 <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
                                                    <image>
-                                                      <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                      <Image url="@../image/0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
                                                    </image>
                                                 </ImageView>
                                                 <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
@@ -316,7 +316,7 @@
                                              <children>
                                                 <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
                                                     <image>
-                                                      <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                      <Image url="@../image/0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
                                                    </image>
                                                 </ImageView>
                                                 <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
@@ -331,7 +331,7 @@
                                              <children>
                                                 <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
                                                    <image>
-                                                      <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                      <Image url="@../image/0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
                                                    </image>
                                                 </ImageView>
                                                 <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
@@ -346,7 +346,7 @@
                                              <children>
                                                 <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
                                                    <image>
-                                                      <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                      <Image url="@../image/0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
                                                    </image>
                                                 </ImageView>
                                                 <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
@@ -361,7 +361,7 @@
                                              <children>
                                                 <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
                                                    <image>
-                                                      <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                      <Image url="@../image/0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
                                                    </image>
                                                 </ImageView>
                                                 <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />
@@ -376,7 +376,7 @@
                                              <children>
                                                 <ImageView fitHeight="166.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);" VBox.vgrow="ALWAYS">
                                                    <image>
-                                                      <Image url="@0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
+                                                      <Image url="@../image/0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
                                                    </image>
                                                 </ImageView>
                                                 <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #333;" text="Book" VBox.vgrow="ALWAYS" />

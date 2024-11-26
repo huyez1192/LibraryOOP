@@ -1,4 +1,4 @@
-package linkui;
+package controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
@@ -15,16 +15,14 @@ import javafx.event.ActionEvent;
 import java.io.IOException;
 import javafx.scene.Parent;
 
-import javax.swing.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
-public class logincontroller {
+public class LoginController {
 
     @FXML
     private Hyperlink signUpLink; // Liên kết tới nút Sign Up
@@ -43,7 +41,7 @@ public class logincontroller {
     private void handleSignUpLink() throws IOException {
         Stage stage = (Stage) signUpLink.getScene().getWindow();
 
-        Parent signUpRoot = FXMLLoader.load(getClass().getResource("/signup.fxml"));
+        Parent signUpRoot = FXMLLoader.load(getClass().getResource("/fxml/signup.fxml"));
 
         Scene scene = new Scene(signUpRoot, 400, 600);
 
@@ -55,7 +53,7 @@ public class logincontroller {
         String URL, USER, PASSWORD;
         URL = "jdbc:mysql://localhost:3306/libraryy";
         USER = "root";
-        PASSWORD = "caohuongiang171";
+        PASSWORD = "huyen16125";
 
         int notFound = 0;
         try {
@@ -80,7 +78,7 @@ public class logincontroller {
                     //System.out.println("OKAY!");
                     Stage stage = (Stage) loginButton.getScene().getWindow();
 
-                    Parent signUpRoot = FXMLLoader.load(getClass().getResource("/library.fxml"));
+                    Parent signUpRoot = FXMLLoader.load(getClass().getResource("/fxml/library.fxml"));
 
                     Scene scene = new Scene(signUpRoot, 900, 600);
 
