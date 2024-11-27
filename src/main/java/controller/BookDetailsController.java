@@ -1,53 +1,68 @@
 package controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
-import Objects.Book;
 
 public class BookDetailsController {
 
     @FXML
     private ImageView bookThumbnail;
+
     @FXML
     private Label bookTitle;
+
     @FXML
     private Label bookAuthors;
+
     @FXML
     private Label bookCategory;
+
     @FXML
-    private Label bookDescription;
+    private TextArea bookDescription;
 
-    // Phương thức để truyền dữ liệu sách vào giao diện
-    public void setBookDetails(Book book) {
-        bookTitle.setText(book.getTitle());
-        bookAuthors.setText("Author(s): " + book.getAuthors());
-        bookCategory.setText("Category: " + book.getCategories());
-        bookDescription.setText(book.getDescription());
+    @FXML
+    private Button borrowButton;
 
-        // Thiết lập ảnh bìa của sách nếu có link
-        if (book.getThumbnailLink() != null && !book.getThumbnailLink().isEmpty()) {
-            Image image = new Image(book.getThumbnailLink(), true);
-            bookThumbnail.setImage(image);
-        }
+    @FXML
+    private Button shareButton;
+
+    @FXML
+    private Button closeButton;
+
+    // Hàm khởi tạo (initialize) để load dữ liệu mặc định
+    @FXML
+    public void initialize() {
+        // Đặt hình ảnh cho bìa sách
+        Image thumbnail = new Image("file:///C:/Users/ASUS/Pictures/bookCover.jpg"); // Đường dẫn ảnh
+        bookThumbnail.setImage(thumbnail);
+
+        // Gán dữ liệu ví dụ
+        bookTitle.setText("Kỹ Thuật Bào Chế Pellet");
+        bookAuthors.setText("Tác giả: Nguyễn Văn A");
+        bookCategory.setText("Thể loại: Dược học");
+        bookDescription.setText("Đây là một giáo trình đào tạo sau đại học về kỹ thuật bào chế pellet, cung cấp thông tin chi tiết về các phương pháp bào chế hiện đại...");
     }
 
-    // Phương thức để đóng cửa sổ
+    // Xử lý khi nhấn "Mượn Sách"
+    @FXML
+    private void handleBorrowBook() {
+        System.out.println("Đã mượn sách!");
+    }
+
+    // Xử lý khi nhấn "Chia Sẻ"
+    @FXML
+    private void handleShareBook() {
+        System.out.println("Chia sẻ sách...");
+    }
+
+    // Xử lý khi nhấn "Đóng"
     @FXML
     private void handleClose() {
-        Stage stage = (Stage) bookThumbnail.getScene().getWindow();
-        stage.close();
+        System.out.println("Đóng giao diện.");
+        // Logic đóng cửa sổ, ví dụ: Platform.exit();
     }
-    public void handleBorrowBook() {
-        // Xử lý logic mượn sách
-        System.out.println("Mượn sách thành công!");
-    }
-
-    public void handleReturnBook() {
-        // Xử lý logic trả sách
-        System.out.println("Trả sách thành công!");
-    }
-
 }
