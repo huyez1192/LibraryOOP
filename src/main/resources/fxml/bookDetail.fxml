@@ -1,35 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<VBox alignment="TOP_CENTER" prefHeight="600" prefWidth="400" spacing="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="controller.BookDetailsController">
+<BorderPane prefHeight="600" prefWidth="900" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BookDetailsController">
 
-    <!-- Ảnh bìa của sách -->
-    <ImageView fx:id="bookThumbnail" fitHeight="300" fitWidth="200" preserveRatio="true" />
+    <!-- Bên trái: Ảnh bìa -->
+    <left>
+        <VBox alignment="CENTER" prefWidth="250" spacing="20" style="-fx-padding: 60;">
+            <ImageView fx:id="bookThumbnail" fitHeight="600" fitWidth="300" preserveRatio="true" />
+        </VBox>
+    </left>
 
-    <!-- Thông tin sách -->
-    <VBox alignment="CENTER" spacing="10">
-        <Label fx:id="bookTitle" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Book Title" />
-        <Label fx:id="bookAuthors" style="-fx-font-size: 14px;" text="Author(s): " />
-        <Label fx:id="bookCategory" style="-fx-font-size: 14px;" text="Category: " />
-    </VBox>
+    <!-- Bên phải: Thông tin sách và các nút -->
+    <center>
+        <VBox alignment="TOP_LEFT" spacing="30" style="-fx-padding: 50;">
+            <!-- Tiêu đề sách -->
+            <Label fx:id="bookTitle" style="-fx-font-size: 28px; -fx-font-weight: bold;" text="Tên Sách" />
+            <!-- Tác giả -->
+            <Label fx:id="bookAuthors" style="-fx-font-size: 20px;" text="Tác giả: ..." />
+            <!-- Thể loại -->
+            <Label fx:id="bookCategory" style="-fx-font-size: 20px;" text="Thể loại: ..." />
 
-    <!-- Mô tả sách -->
-    <TextArea fx:id="book" editable="false" prefHeight="150" prefWidth="350" wrapText="true" />
+            <!-- Mô tả sách -->
+            <TextArea fx:id="bookDescription" editable="false" prefHeight="200" style="-fx-font-size: 18px;" text="Mô tả sách..." wrapText="true" />
 
-    <!-- Các nút điều khiển -->
-    <HBox alignment="CENTER" spacing="10">
-        <Button onAction="#handleBorrowBook" style="-fx-background-color: #5cb85c; -fx-text-fill: white;" text="Mượn Sách" />
-        <Button onAction="#handleReturnBook" style="-fx-background-color: #f0ad4e; -fx-text-fill: white;" text="Trả Sách" />
-    </HBox>
+            <!-- Các nút -->
+            <HBox alignment="CENTER_LEFT" spacing="15">
+                <Button fx:id="borrowButton" onAction="#handleBorrowBook" style="-fx-background-color: #5cb85c; -fx-text-fill: white; -fx-font-size: 18px;" text="Mượn Sách" />
+                <Button fx:id="shareButton" onAction="#handleShareBook" style="-fx-background-color: #0275d8; -fx-text-fill: white; -fx-font-size: 18px;" text="Chia Sẻ" />
+                <Button fx:id="closeButton" onAction="#handleClose" style="-fx-background-color: #d9534f; -fx-text-fill: white; -fx-font-size: 18px" text="Đóng" />
+            </HBox>
 
-    <!-- Nút đóng -->
-    <Button onAction="#handleClose" style="-fx-background-color: #d9534f; -fx-text-fill: white;" text="Close">
-      <VBox.margin>
-         <Insets bottom="10.0" />
-      </VBox.margin></Button>
-
-</VBox>
+            <!-- Thông báo khi chia sẻ -->
+            <Label fx:id="shareMessage" style="-fx-font-size: 16px; -fx-text-fill: green;" visible="false" text="Đã Lưu Đường Dẫn" />
+        </VBox>
+    </center>
+</BorderPane>

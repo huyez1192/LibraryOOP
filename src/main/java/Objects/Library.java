@@ -17,8 +17,8 @@ public class Library {
     }
 
     // Thêm một bản ghi mượn sách
-    public void addBorrowRecord(String bookTitle, String bookId, LocalDate borrowDate, LocalDate returnDate) {
-        BorrowRecord record = new BorrowRecord(bookTitle, bookId, borrowDate, returnDate);
+    public void addBorrowRecord(String borrowerName, String borrowerID, String bookTitle, String bookId, LocalDate borrowDate, LocalDate returnDate) {
+        BorrowRecord record = new BorrowRecord(borrowerName, borrowerID, bookTitle, bookId, borrowDate, returnDate);
         borrowList.add(record);
     }
 

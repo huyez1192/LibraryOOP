@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane
+        fx:controller="controller.borrowedAdminController" xmlns:fx="http://javafx.com/fxml/1">
+        maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="linkui.borrowedAdminController">
+    <center>
+        <TableView fx:id="tableView" prefHeight="600.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+            <columns>
+                <TableColumn fx:id="borrowerNameColumn" prefWidth="249.0" text="Borrower's Name" />
+                <TableColumn fx:id="borrowerIDColumn" prefWidth="108.0" text="Borrower ID" />
+                <TableColumn fx:id="documentTitleColumn" prefWidth="227.0" text="Document Title" />
+                <TableColumn fx:id="isbnColumn" prefWidth="83.0" text="ISBN" />
+                <TableColumn fx:id="borrowDateColumn" prefWidth="126.0" text="Borrow Date" />
+                <TableColumn fx:id="returnDateColumn" prefWidth="106.0" text="Return Date" />
+            </columns>
+        </TableView>
+    </center>
+    <top>
+        <HBox prefHeight="30.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+            <children>
+                <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="124.0" text="Back" />
+                <TextField fx:id="filterField" onAction="#search_documents" prefHeight="31.0" prefWidth="895.0" promptText="Search" />
+            </children>
+        </HBox>
+    </top>
+</BorderPane>
