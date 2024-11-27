@@ -3,66 +3,78 @@ package controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.control.TextArea;
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
 
 public class BookDetailsController {
 
     @FXML
-    private ImageView bookThumbnail;
-
+    private ImageView bookThumbnail;  // Ảnh bìa
     @FXML
-    private Label bookTitle;
-
+    private Label bookTitle;         // Tiêu đề sách
     @FXML
-    private Label bookAuthors;
-
+    private Label bookAuthors;       // Tác giả
     @FXML
-    private Label bookCategory;
-
+    private Label bookCategory;      // Thể loại
     @FXML
-    private TextArea bookDescription;
-
+    private TextArea bookDescription; // Mô tả sách
     @FXML
-    private Button borrowButton;
-
+    private Button borrowButton;     // Nút Mượn Sách
     @FXML
-    private Button shareButton;
-
+    private Button shareButton;      // Nút Chia Sẻ
     @FXML
-    private Button closeButton;
+    private Button closeButton;      // Nút Đóng
+    @FXML
+    private Label shareMessage;      // Thông báo "Đã Lưu Đường Dẫn"
 
-    // Hàm khởi tạo (initialize) để load dữ liệu mặc định
+    // Phương thức initialize được gọi tự động sau khi FXML đã được nạp xong
     @FXML
     public void initialize() {
-        // Đặt hình ảnh cho bìa sách
-        Image thumbnail = new Image("file:///C:/Users/ASUS/Pictures/bookCover.jpg"); // Đường dẫn ảnh
-        bookThumbnail.setImage(thumbnail);
+        // Thiết lập ảnh bìa sách
+        Image image = new Image("file:///C:/Users/ASUS/Pictures/bookCover.jpg"); // Đảm bảo đường dẫn ảnh chính xác
+        bookThumbnail.setImage(image);
 
-        // Gán dữ liệu ví dụ
-        bookTitle.setText("Kỹ Thuật Bào Chế Pellet");
-        bookAuthors.setText("Tác giả: Nguyễn Văn A");
-        bookCategory.setText("Thể loại: Dược học");
-        bookDescription.setText("Đây là một giáo trình đào tạo sau đại học về kỹ thuật bào chế pellet, cung cấp thông tin chi tiết về các phương pháp bào chế hiện đại...");
+        // Thiết lập thông tin sách
+        bookTitle.setText("Tên Sách");
+        bookAuthors.setText("Tác giả: Tên Tác Giả");
+        bookCategory.setText("Thể loại: Tiểu Thuyết");
+        bookDescription.setText("Đây là mô tả về sách. Nó có thể dài và bao gồm các chi tiết về nội dung sách.");
+
+        // Thiết lập trạng thái ban đầu cho các nút và label
+        borrowButton.setText("Mượn Sách");
+        shareMessage.setVisible(false); // Ban đầu ẩn thông báo "Đã Lưu Đường Dẫn"
+
+        // Bạn có thể thêm bất kỳ logic khởi tạo nào ở đây
     }
 
-    // Xử lý khi nhấn "Mượn Sách"
+    // Xử lý sự kiện khi nhấn nút "Mượn Sách"
     @FXML
-    private void handleBorrowBook() {
-        System.out.println("Đã mượn sách!");
+    public void handleBorrowBook() {
+        // Thay đổi văn bản của nút "Mượn Sách" thành "Đã Mượn"
+        borrowButton.setText("Đã Mượn");
     }
 
-    // Xử lý khi nhấn "Chia Sẻ"
+    // Xử lý sự kiện khi nhấn nút "Chia Sẻ"
     @FXML
-    private void handleShareBook() {
-        System.out.println("Chia sẻ sách...");
+    public void handleShareBook() {
+        // Hiển thị thông báo "Đã Lưu Đường Dẫn"
+        shareMessage.setVisible(true);
+
+        // Tạo một PauseTransition để ẩn thông báo sau 3 giây
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+        pause.setOnFinished(event -> shareMessage.setVisible(false));
+
+        // Bắt đầu hiệu ứng ẩn
+        pause.play();
     }
 
-    // Xử lý khi nhấn "Đóng"
+    // Xử lý sự kiện khi nhấn nút "Đóng"
     @FXML
-    private void handleClose() {
-        System.out.println("Đóng giao diện.");
-        // Logic đóng cửa sổ, ví dụ: Platform.exit();
+    public void handleClose() {
+        // Đóng cửa sổ hoặc thực hiện các hành động khác nếu cần
+        System.exit(0);
     }
 }

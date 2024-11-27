@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="900" prefWidth="600" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BookDetailsController">
+<BorderPane prefHeight="600" prefWidth="900" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BookDetailsController">
 
     <!-- Bên trái: Ảnh bìa -->
     <left>
         <VBox alignment="CENTER" prefWidth="250" spacing="20" style="-fx-padding: 60;">
-            <ImageView fx:id="bookThumbnail" fitHeight="500" fitWidth="300" preserveRatio="true" />
+            <ImageView fx:id="bookThumbnail" fitHeight="600" fitWidth="300" preserveRatio="true" />
         </VBox>
     </left>
 
@@ -29,19 +28,13 @@
 
             <!-- Các nút -->
             <HBox alignment="CENTER_LEFT" spacing="15">
-                <Button fx:id="borrowButton" onAction="#handleBorrowBook" style="-fx-background-color: #5cb85c; -fx-text-fill: white; -fx-front-size: 18px;" text="Mượn Sách">
-               <font>
-                  <Font size="14.0" />
-               </font></Button>
-                <Button fx:id="shareButton" onAction="#handleShareBook" style="-fx-background-color: #0275d8; -fx-text-fill: white; -fx-front-size: 18px;" text="Chia Sẻ">
-               <font>
-                  <Font size="14.0" />
-               </font></Button>
-                <Button fx:id="closeButton" onAction="#handleClose" style="-fx-background-color: #d9534f; -fx-text-fill: white; -fx-front-size: 18px" text="Đóng">
-               <font>
-                  <Font size="14.0" />
-               </font></Button>
+                <Button fx:id="borrowButton" onAction="#handleBorrowBook" style="-fx-background-color: #5cb85c; -fx-text-fill: white; -fx-font-size: 18px;" text="Mượn Sách" />
+                <Button fx:id="shareButton" onAction="#handleShareBook" style="-fx-background-color: #0275d8; -fx-text-fill: white; -fx-font-size: 18px;" text="Chia Sẻ" />
+                <Button fx:id="closeButton" onAction="#handleClose" style="-fx-background-color: #d9534f; -fx-text-fill: white; -fx-font-size: 18px" text="Đóng" />
             </HBox>
+
+            <!-- Thông báo khi chia sẻ -->
+            <Label fx:id="shareMessage" style="-fx-font-size: 16px; -fx-text-fill: green;" visible="false" text="Đã Lưu Đường Dẫn" />
         </VBox>
     </center>
 </BorderPane>
