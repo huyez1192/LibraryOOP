@@ -15,12 +15,10 @@ import okhttp3.Response;
 
 import java.io.IOException;
 
-import static java.lang.System.exit;
-
 public class LibraryController {
 
     @FXML
-    private VBox overlay;
+    private VBox overlay;  // Đảm bảo bạn đã khai báo VBox này
 
     @FXML
     private void showOverlay() {
@@ -38,26 +36,42 @@ public class LibraryController {
     @FXML
     private VBox suggestionBox;
 
+    @FXML
+    private Button searchButton;
+
     private static final String API_URL = "https://www.googleapis.com/books/v1/volumes?q=";
     private final OkHttpClient client = new OkHttpClient();
 
     @FXML
     public void initialize() {
-        // Xử lý sự kiện khi người dùng nhập trong thanh tìm kiếm
+        // Lắng nghe sự kiện nhập liệu trên TextField để hiển thị gợi ý
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.trim().isEmpty()) {
                 fetchBookSuggestions(newValue);
+                showSuggestions();  // Đảm bảo gợi ý luôn hiện khi có thay đổi
             } else {
                 hideSuggestions();
             }
         });
 
-        // Ẩn danh sách gợi ý khi mất tiêu điểm
+        // Ẩn gợi ý khi mất tiêu điểm
         searchField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                hideSuggestions();
+            if (!newValue) {  // Khi thanh tìm kiếm mất tiêu điểm
+                // Chỉ ẩn khi không có gợi ý hoặc không có sự thay đổi nào
+                if (searchField.getText().trim().isEmpty()) {
+                    hideSuggestions();
+                }
             }
         });
+    }
+
+    // Phương thức xử lý khi nhấn nút tìm kiếm
+    @FXML
+    private void onSearchButtonClick() {
+        String query = searchField.getText().trim();
+        if (!query.isEmpty()) {
+            fetchBookSuggestions(query);
+        }
     }
 
     private void fetchBookSuggestions(String query) {
@@ -87,7 +101,7 @@ public class LibraryController {
 
         Platform.runLater(() -> {
             suggestionBox.getChildren().clear();
-            if (items != null) {
+            if (items != null && items.size() > 0) {  // Kiểm tra có gợi ý hay không
                 int maxSuggestions = Math.min(items.size(), 5);
                 for (int i = 0; i < maxSuggestions; i++) {
                     JsonObject book = items.get(i).getAsJsonObject();
@@ -99,13 +113,13 @@ public class LibraryController {
                     suggestion.setStyle("-fx-padding: 8; -fx-font-size: 14px; -fx-cursor: hand;");
                     suggestion.setOnMouseClicked(event -> {
                         searchField.setText(title); // Điền tiêu đề vào thanh tìm kiếm
-                        hideSuggestions();
+                        hideSuggestions(); // Ẩn danh sách khi chọn gợi ý
                     });
                     suggestionBox.getChildren().add(suggestion);
                 }
-                suggestionBox.setVisible(true); // Hiển thị danh sách gợi ý
+                showSuggestions();  // Hiển thị danh sách gợi ý
             } else {
-                hideSuggestions();
+                hideSuggestions(); // Nếu không có gợi ý, ẩn danh sách
             }
         });
     }
@@ -116,6 +130,7 @@ public class LibraryController {
             suggestionBox.setManaged(false); // Không chiếm không gian
         });
     }
+
     private void showSuggestions() {
         Platform.runLater(() -> {
             suggestionBox.setVisible(true);  // Hiển thị hộp gợi ý
