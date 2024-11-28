@@ -57,19 +57,17 @@
                 <VBox prefHeight="600.0" prefWidth="813.0" spacing="10.0" style="-fx-padding: 30;" HBox.hgrow="ALWAYS">
                     <children>
                         <!-- Thanh tìm kiếm -->
-                        <TextField fx:id="searchField" prefHeight="35.0" prefWidth="550.0" promptText="Search books..."
-                                   style="-fx-background-color: #FFFFFF; -fx-background-radius: 20; -fx-padding: 5 10; -fx-border-color: #CCCCCC; -fx-border-radius: 20;"
-                                   StackPane.alignment="TOP_CENTER" />
+                        <TextField fx:id="searchField" promptText="Search for books..."
+                                   style="-fx-font-size: 14px; -fx-padding: 10px; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-color: #0078d4; -fx-border-width: 2; -fx-background-color: #f1f1f1;"/>
 
-                        <!-- Hộp gợi ý -->
-                        <VBox fx:id="suggestionBox" spacing="5" maxWidth="550.0"
-                              style="-fx-background-color: #ffffff; -fx-border-color: #ddd; -fx-border-radius: 4;" visible="false"
-                              StackPane.alignment="BOTTOM_LEFT"/>
+                        <Button fx:id="searchButton" text="Search" onAction="#onSearchButtonClick"
+                                style="-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-color: #0078d4; -fx-text-fill: white; -fx-background-radius: 25; -fx-border-radius: 25; -fx-cursor: hand; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, rgba(0, 120, 212, 0.7), 10, 0, 0, 4);"/>
 
-                        <!-- Nút tìm kiếm -->
-                        <Button fx:id="searchButton" mnemonicParsing="false" prefHeight="100.0" prefWidth="150.0"
-                                style="-fx-background-color: black; -fx-text-fill: white; -fx-background-radius: 20; -fx-padding: 0 15;"
-                                text="Search" StackPane.alignment="BOTTOM_RIGHT"/>
+                        <VBox fx:id="suggestionBox" visible="false" managed="false"
+                              style="-fx-background-color: #f9f9f9; -fx-padding: 10; -fx-background-radius: 8; -fx-spacing: 8; -fx-border-radius: 10; -fx-border-color: #ddd; -fx-border-width: 1; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 4);">
+                            <!-- Gợi ý sách sẽ được thêm vào đây -->
+                        </VBox>
+
                         <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="600.0" prefWidth="751.0" VBox.vgrow="ALWAYS">
                             <content>
                                 <VBox prefHeight="664.0" prefWidth="658.0">
