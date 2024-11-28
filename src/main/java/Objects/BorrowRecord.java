@@ -1,72 +1,74 @@
 package Objects;
-
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-
 import java.time.LocalDate;
+import java.util.Date;
+
 
 public class BorrowRecord {
-    private final StringProperty borrowerName;
-    private final StringProperty borrowerID;
-    private final StringProperty documentTitle;
-    private final StringProperty isbn;
-    private final StringProperty borrowDate;
-    private final StringProperty returnDate;
+    private int borrowId;
+    private int userId;
+    private String isbn;
+    private Date borrowDate;
+    private Date returnDate;
+    private String status;
 
-    public BorrowRecord(String borrowerName, String borrowerID, String documentTitle, String bookId, LocalDate borrowDate, LocalDate returnDate) {
-        this.borrowerName = new SimpleStringProperty(borrowerName);
-        this.borrowerID = new SimpleStringProperty(borrowerID);
-        this.documentTitle = new SimpleStringProperty(documentTitle);
-        this.isbn = new SimpleStringProperty(bookId);
-        this.borrowDate = new SimpleStringProperty(borrowDate.toString());
-        this.returnDate = new SimpleStringProperty(returnDate.toString());
+    // Constructors, getters and setters
+    public BorrowRecord() {
     }
 
-    public String getBorrowerName() {
-        return borrowerName.getName();
+    public BorrowRecord(int borrowId, int userId, String isbn, Date borrowDate, Date returnDate, String status) {
+        this.borrowId = borrowId;
+        this.userId = userId;
+        this.isbn = isbn;
+        this.borrowDate = borrowDate;
+        this.returnDate = returnDate;
+        this.status = status;
     }
 
-    public StringProperty borrowerNameProperty() {
-        return borrowerName;
+    public int getBorrowId() {
+        return borrowId;
     }
 
-    public String getBorrowerID() {
-        return borrowerID.get();
+    public void setBorrowId(int borrowId) {
+        this.borrowId = borrowId;
     }
 
-    public StringProperty borrowerIDProperty() {
-        return borrowerID;
+    public int getUserId() {
+        return userId;
     }
 
-    public String getDocumentTitle() {
-        return documentTitle.get();
-    }
-
-    public StringProperty documentTitleProperty() {
-        return documentTitle;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getIsbn() {
-        return isbn.get();
-    }
-
-    public StringProperty isbnProperty() {
         return isbn;
     }
 
-    public String getBorrowDate() {
-        return borrowDate.get();
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
     }
 
-    public StringProperty borrowDateProperty() {
-        return borrowDate;
+    public java.sql.Date getBorrowDate() {
+        return (java.sql.Date) borrowDate;
     }
 
-    public String getReturnDate() {
-        return returnDate.get();
+    public void setBorrowDate(Date borrowDate) {
+        this.borrowDate = borrowDate;
     }
 
-    public StringProperty returnDateProperty() {
-        return returnDate;
+    public java.sql.Date getReturnDate() {
+        return (java.sql.Date) returnDate;
+    }
+
+    public void setReturnDate(Date returnDate) {
+        this.returnDate = returnDate;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

@@ -3,12 +3,16 @@ package Objects;
 public class Document {
     private String isbn;
     private String title;
-    private String authors;
     private String description;
-    private String categories;
     private String thumbnailLink;
     private String previewLink;
-    private boolean isBorrowed;
+    private String authors;
+    private String categories;
+    private String publisher;
+
+    // Constructors, getters and setters
+    public Document() {
+    }
 
     public Document(String isbn, String title, String authors, String description, String categories, String thumbnailLink, String previewLink) {
         this.isbn = isbn;
@@ -18,10 +22,20 @@ public class Document {
         this.categories = categories;
         this.thumbnailLink = thumbnailLink;
         this.previewLink = previewLink;
-        this.isBorrowed = false;
     }
 
-    // Getters and setters
+    public Document(String isbn, String title, String description, String thumbnailLink, String previewLink,
+                String authors, String categories, String publisher) {
+        this.isbn = isbn;
+        this.title = title;
+        this.description = description;
+        this.thumbnailLink = thumbnailLink;
+        this.previewLink = previewLink;
+        this.authors = authors;
+        this.categories = categories;
+        this.publisher = publisher;
+    }
+
     public String getIsbn() {
         return isbn;
     }
@@ -38,28 +52,12 @@ public class Document {
         this.title = title;
     }
 
-    public String getAuthor() {
-        return authors;
-    }
-
-    public void setAuthor(String authors) {
-        this.authors = authors;
-    }
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getCategories() {
-        return categories;
-    }
-
-    public void setCategories(String categories) {
-        this.categories = categories;
     }
 
     public String getThumbnailLink() {
@@ -70,16 +68,35 @@ public class Document {
         this.thumbnailLink = thumbnailLink;
     }
 
-    public boolean isBorrowed() {
-        return isBorrowed;
+    public String getPreviewLink() {
+        return previewLink;
     }
 
-    public void borrowBook() {
-        this.isBorrowed = true;
+    public void setPreviewLink(String previewLink) {
+        this.previewLink = previewLink;
     }
 
-    public void returnBook() {
-        this.isBorrowed = false;
+    public String getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(String authors) {
+        this.authors = authors;
+    }
+
+    public String getCategories() {
+        return categories;
+    }
+
+    public void setCategories(String categories) {
+        this.categories = categories;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
     }
 }
-
