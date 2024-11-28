@@ -1,0 +1,13 @@
+{
+  "name": "send_request",
+  "version": "1.0.0",
+  "main": "Send_Request.js",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.21.1",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.11.4",
+    "nodemailer": "^6.7.0",
+    "send_request": "file:"
+  }
+}
