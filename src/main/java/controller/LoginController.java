@@ -68,7 +68,7 @@ public class LoginController {
                 username = usernameTextField.getText();
                 password = passwordField.getText();
 
-                query = "SELECT * FROM useraccounts WHERE user_name = '" + username + "'";
+                query = "SELECT * FROM Users WHERE user_name = '" + username + "'";
                 ResultSet resultSet = statement.executeQuery(query);
                 while (resultSet.next()) {
                     passDb = resultSet.getString("pass_word");

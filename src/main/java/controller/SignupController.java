@@ -77,7 +77,7 @@ public class SignupController {
                 email = emailAddress.getText();
                 password = passwordPasswordField.getText();
 
-                query = "INSERT INTO useraccounts(full_name, user_name, pass_word, email) " +
+                query = "INSERT INTO Users(full_name, user_name, pass_word, email) " +
                         "VALUES('" + fullName + "', '" + username + "', '" + password + "', '" + email + "')";
 
                 statement.execute(query);

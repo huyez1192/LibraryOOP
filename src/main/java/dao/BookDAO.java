@@ -110,7 +110,6 @@ public class BookDAO {
                 preparedStatement.executeUpdate();
                 System.out.println("Books saved to the database.");
             }
-            System.out.println("No books found.");
         }
     }
 
