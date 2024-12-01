@@ -1,20 +1,21 @@
 package Objects;
 
-import Objects.BorrowRecord;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Person {
+public class User {
     private String name;
     private String personId;
-    private String phoneNumber;
+    private String mail;
+    private String password;
     private List<BorrowRecord> borrowRecords; // Danh sách bản ghi mượn
 
-    public Person(String name, String personId, String phoneNumber) {
+    public User(String name, String personId, String mail, String password) {
         this.name = name;
         this.personId = personId;
-        this.phoneNumber = phoneNumber;
+        this.mail = mail;
+        this.password = password;
         this.borrowRecords = new ArrayList<>(); // Khởi tạo danh sách bản ghi
     }
 
@@ -35,12 +36,20 @@ public class Person {
         this.personId = personId;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getMail() {
+        return mail;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public List<BorrowRecord> getBorrowRecords() {
