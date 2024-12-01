@@ -52,7 +52,7 @@ public class SignupController {
         String URL, USER, PASSWORD;
         URL = "jdbc:mysql://localhost:3306/libraryy";
         USER = "root";
-        PASSWORD = "huyen16125";
+        PASSWORD = "";
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");

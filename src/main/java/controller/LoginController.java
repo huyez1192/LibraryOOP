@@ -53,7 +53,7 @@ public class LoginController {
         String URL, USER, PASSWORD;
         URL = "jdbc:mysql://localhost:3306/libraryy";
         USER = "root";
-        PASSWORD = "huyen16125";
+        PASSWORD = "";
 
         int notFound = 0;
         try {
