@@ -51,15 +51,16 @@ public class LoginController {
     public void loginButtonOnAction(ActionEvent e) {
         String username, password, query, passDb = null;
         String URL, USER, PASSWORD;
-        URL = "jdbc:mysql://localhost:3306/libraryy";
+        URL = "jdbc:mysql://localhost:3306/library";
         USER = "root";
-        PASSWORD = "";
+        PASSWORD = "caohuongiang171";
 
         int notFound = 0;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
             Statement statement = connection.createStatement();
+
             if ("".equals(usernameTextField.getText())) {
                 loginMessageLabel.setText("You try to login!");
             } else if ("".equals(passwordField.getText())) {
@@ -68,32 +69,35 @@ public class LoginController {
                 username = usernameTextField.getText();
                 password = passwordField.getText();
 
+                // Kiểm tra thông tin đăng nhập đặc biệt
+                if (username.equals("giangcute") && password.equals("caohuongiang171")) {
+                    Stage stage = (Stage) loginButton.getScene().getWindow();
+                    Parent signUpRoot = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/admindashboard.fxml"));
+                    Scene scene = new Scene(signUpRoot, 900, 600);
+                    stage.setScene(scene);
+                    return; // Dừng lại sau khi chuyển đến màn hình admin
+                }
+
+                // Kiểm tra trong cơ sở dữ liệu
                 query = "SELECT * FROM Users WHERE user_name = '" + username + "'";
                 ResultSet resultSet = statement.executeQuery(query);
                 while (resultSet.next()) {
                     passDb = resultSet.getString("pass_word");
                     notFound = 1;
                 }
+
                 if (notFound == 1 && password.equals(passDb)) {
-                    //System.out.println("OKAY!");
                     Stage stage = (Stage) loginButton.getScene().getWindow();
-
                     Parent signUpRoot = FXMLLoader.load(getClass().getResource("/fxml/library.fxml"));
-
                     Scene scene = new Scene(signUpRoot, 900, 600);
-
                     stage.setScene(scene);
                 } else {
                     loginMessageLabel.setText("Incorrect username or password!");
                 }
-
-                statement.execute(query);
-                passwordField.setText("");
-
             }
         } catch (Exception event) {
+            event.printStackTrace();
             System.out.println("Error!" + event.getMessage());
         }
-
     }
 }

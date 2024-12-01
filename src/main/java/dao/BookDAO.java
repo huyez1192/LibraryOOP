@@ -51,7 +51,7 @@ public class BookDAO {
 //    }
 
 
-    private static final String API_URL = "https://www.googleapis.com/books/v1/volumes?q=java+programming";
+    public static final String API_URL = "https://www.googleapis.com/books/v1/volumes?q=java+programming";
 
     private static final String INSERT_QUERY = "INSERT INTO Books (isbn, title, authors, description, categories, thumbnail_link, previewLink, publisher, quantity) "
             + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) "
