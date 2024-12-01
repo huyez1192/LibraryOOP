@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
@@ -10,7 +9,8 @@
       <ImageView fx:id="bookImage" fitHeight="120.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
          <VBox.margin>
             <Insets bottom="10.0" />
-         </VBox.margin></ImageView>
+         </VBox.margin>
+      </ImageView>
       <Label fx:id="titleLabel" text="Label" />
       <Label fx:id="authorLabel" text="Label" />
    </children>

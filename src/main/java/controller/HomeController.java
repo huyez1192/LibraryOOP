@@ -6,16 +6,20 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 
 import javafx.event.ActionEvent;
+import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -34,11 +38,31 @@ public class HomeController implements Initializable {
 
     private List<Document> recommended;
 
+    private void openBookDetail(Document document) {
+        try {
+            // Tạo FXMLLoader để load file FXML cho trang chi tiết sách
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/bookDetail.fxml"));
+            BorderPane bookDetailPage = fxmlLoader.load();
+
+            // Lấy controller của trang chi tiết sách và load thông tin sách
+            BookDetailsController bookDetailsController = fxmlLoader.getController();
+            bookDetailsController.loadBookDetails(document);
+
+            // Mở cửa sổ mới để hiển thị chi tiết sách
+            Stage stage = new Stage();
+            Scene scene = new Scene(bookDetailPage);
+            stage.setScene(scene);
+            stage.setTitle(document.getTitle());
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         recommended = documents();
-        System.out.println(recommended.toString());
-        System.out.println(recommended.size());
         int column = 0;
         int row = 1;
 
@@ -52,18 +76,22 @@ public class HomeController implements Initializable {
                 SmallBookController smallBookController = fxmlLoader.getController();
                 smallBookController.loadBookInfo(document);
 
+                // Gắn sự kiện nhấn vào thẻ sách để mở trang chi tiết
+                bookBox.setOnMouseClicked(event -> openBookDetail(document));
+
                 if (column == 8) {
                     column = 0;
-                    ++ row;
+                    ++row;
                 }
 
                 bookContainer.add(bookBox, column++, row);
-                GridPane.setMargin(bookBox, new Insets(10));
+                GridPane.setMargin(bookBox, new Insets(15));
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
 
     private List<Document> documents() {
@@ -76,4 +104,5 @@ public class HomeController implements Initializable {
     @FXML
     private void search(ActionEvent event) {
     }
+
 }

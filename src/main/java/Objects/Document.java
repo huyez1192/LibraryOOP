@@ -10,10 +10,11 @@ public class Document {
     private String categories;
     private String publisher;
 
-    // Constructors, getters and setters
+    // Constructor mặc định
     public Document() {
     }
 
+    // Constructor với tất cả các tham số
     public Document(String isbn, String title, String authors, String description, String categories, String thumbnailLink, String previewLink) {
         this.isbn = isbn;
         this.title = title;
@@ -24,8 +25,9 @@ public class Document {
         this.previewLink = previewLink;
     }
 
+    // Constructor với tất cả các tham số bao gồm publisher
     public Document(String isbn, String title, String description, String thumbnailLink, String previewLink,
-                String authors, String categories, String publisher) {
+                    String authors, String categories, String publisher) {
         this.isbn = isbn;
         this.title = title;
         this.description = description;
@@ -36,6 +38,7 @@ public class Document {
         this.publisher = publisher;
     }
 
+    // Getters và Setters
     public String getIsbn() {
         return isbn;
     }

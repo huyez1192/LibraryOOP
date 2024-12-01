@@ -1,80 +1,75 @@
 package controller;
 
+import Objects.Document;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.control.TextArea;
-import javafx.animation.PauseTransition;
-import javafx.util.Duration;
+import javafx.scene.control.Button;
 
 public class BookDetailsController {
 
     @FXML
-    private ImageView bookThumbnail;  // Ảnh bìa
-    @FXML
-    private Label bookTitle;         // Tiêu đề sách
-    @FXML
-    private Label bookAuthors;       // Tác giả
-    @FXML
-    private Label bookCategory;      // Thể loại
-    @FXML
-    private TextArea bookDescription; // Mô tả sách
-    @FXML
-    private Button borrowButton;     // Nút Mượn Sách
-    @FXML
-    private Button shareButton;      // Nút Chia Sẻ
-    @FXML
-    private Button closeButton;      // Nút Đóng
-    @FXML
-    private Label shareMessage;      // Thông báo "Đã Lưu Đường Dẫn"
+    private ImageView bookThumbnail;
 
-    // Phương thức initialize được gọi tự động sau khi FXML đã được nạp xong
     @FXML
-    public void initialize() {
-        // Thiết lập ảnh bìa sách
-        Image image = new Image("file:///C:/Users/ASUS/Pictures/bookCover.jpg"); // Đảm bảo đường dẫn ảnh chính xác
-        bookThumbnail.setImage(image);
+    private Label bookTitle;
 
-        // Thiết lập thông tin sách
-        bookTitle.setText("Tên Sách");
-        bookAuthors.setText("Tác giả: Tên Tác Giả");
-        bookCategory.setText("Thể loại: Tiểu Thuyết");
-        bookDescription.setText("Đây là mô tả về sách. Nó có thể dài và bao gồm các chi tiết về nội dung sách.");
+    @FXML
+    private Label bookAuthors;
 
-        // Thiết lập trạng thái ban đầu cho các nút và label
-        borrowButton.setText("Mượn Sách");
-        shareMessage.setVisible(false); // Ban đầu ẩn thông báo "Đã Lưu Đường Dẫn"
+    @FXML
+    private Label bookCategory;
 
-        // Bạn có thể thêm bất kỳ logic khởi tạo nào ở đây
+    @FXML
+    private TextArea bookDescription;
+
+    @FXML
+    private Button borrowButton;
+
+    @FXML
+    private Button shareButton;
+
+    @FXML
+    private Button closeButton;
+
+    @FXML
+    private Label shareMessage;
+
+    // Phương thức này sẽ được gọi để load thông tin cuốn sách
+    public void loadBookDetails(Document document) {
+        // Set thông tin sách vào các control
+        bookTitle.setText(document.getTitle());
+        bookAuthors.setText("Tác giả: " + document.getAuthors());  // Thay getAuthor() thành getAuthors()
+        bookCategory.setText("Thể loại: " + document.getCategories());
+        bookDescription.setText(document.getDescription());
+
+        // Cập nhật hình ảnh bìa sách
+        if (document.getThumbnailLink() != null) {
+            bookThumbnail.setImage(new Image(document.getThumbnailLink()));
+        }
     }
 
-    // Xử lý sự kiện khi nhấn nút "Mượn Sách"
+    // Xử lý nút mượn sách
     @FXML
-    public void handleBorrowBook() {
-        // Thay đổi văn bản của nút "Mượn Sách" thành "Đã Mượn"
-        borrowButton.setText("Đã Mượn");
+    private void handleBorrowBook() {
+        // Code để xử lý mượn sách
+        System.out.println("Sách đã được mượn: " + bookTitle.getText());
     }
 
-    // Xử lý sự kiện khi nhấn nút "Chia Sẻ"
+    // Xử lý nút chia sẻ sách
     @FXML
-    public void handleShareBook() {
-        // Hiển thị thông báo "Đã Lưu Đường Dẫn"
+    private void handleShareBook() {
+        // Code để chia sẻ sách
         shareMessage.setVisible(true);
-
-        // Tạo một PauseTransition để ẩn thông báo sau 3 giây
-        PauseTransition pause = new PauseTransition(Duration.seconds(3));
-        pause.setOnFinished(event -> shareMessage.setVisible(false));
-
-        // Bắt đầu hiệu ứng ẩn
-        pause.play();
+        System.out.println("Đã chia sẻ đường dẫn của sách.");
     }
 
-    // Xử lý sự kiện khi nhấn nút "Đóng"
+    // Xử lý nút đóng
     @FXML
-    public void handleClose() {
-        // Đóng cửa sổ hoặc thực hiện các hành động khác nếu cần
-        System.exit(0);
+    private void handleClose() {
+        // Đóng cửa sổ chi tiết sách
+        closeButton.getScene().getWindow().hide();
     }
 }
