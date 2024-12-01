@@ -94,11 +94,15 @@ package utils;//package Main;
 
 
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import static dao.BookDAO.saveBooksToDatabase;
@@ -126,10 +130,10 @@ public class GoogleBooksAPI {
             googleBooksAPI.getData(queries.get(i));
         }
     }
-    
+
     public void getData(String isbn) {
         OkHttpClient client = new OkHttpClient();
-        
+
         String url = BASE_URL + "?q=isbn" + isbn + "&key=" + API_KEY;
             // Tạo Request
             Request request = new Request.Builder()
@@ -153,6 +157,70 @@ public class GoogleBooksAPI {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
+    }
+
+
+    public static List<BookSuggestion> getSuggestions(String query) {
+        List<BookSuggestion> suggestions = new ArrayList<>();
+
+        String url = BASE_URL + "?q=" + query + "&key=" + API_KEY;
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful() && response.body() != null) {
+                String jsonResponse = response.body().string();
+                suggestions = parseBooks(jsonResponse);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return suggestions;
+    }
+
+    private static List<BookSuggestion> parseBooks(String jsonResponse) {
+        List<BookSuggestion> suggestions = new ArrayList<>();
+        Gson gson = new Gson();
+        JsonObject jsonObject = gson.fromJson(jsonResponse, JsonObject.class);
+
+        JsonArray items = jsonObject.getAsJsonArray("items");
+        if (items != null) {
+            for (int i = 0; i < items.size(); i++) {
+                JsonObject book = items.get(i).getAsJsonObject();
+                JsonObject volumeInfo = book.getAsJsonObject("volumeInfo");
+
+                String title = volumeInfo.has("title") ? volumeInfo.get("title").getAsString() : "Unknown Title";
+                String thumbnail = volumeInfo.has("imageLinks") && volumeInfo.getAsJsonObject("imageLinks").has("thumbnail")
+                        ? volumeInfo.getAsJsonObject("imageLinks").get("thumbnail").getAsString()
+                        : null;
+
+                suggestions.add(new BookSuggestion(title, thumbnail));
+            }
+        }
+
+        return suggestions;
+    }
+
+    public static class BookSuggestion {
+        private final String title;
+        private final String thumbnail;
+
+        public BookSuggestion(String title, String thumbnail) {
+            this.title = title;
+            this.thumbnail = thumbnail;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public String getThumbnail() {
+            return thumbnail;
+        }
     }
 
 //    private static void parseBooks(String jsonResponse) {

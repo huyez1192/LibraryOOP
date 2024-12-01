@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../css/homeStyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.HomeController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../css/homeStyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LibraryHomeController">
     <children>
         <HBox alignment="CENTER" prefHeight="600.0" prefWidth="900.0">
             <children>
@@ -23,9 +23,9 @@
                             <image>
                                 <Image url="@../image/Meolib-Photoroom.png" />
                             </image>
-                     <VBox.margin>
-                        <Insets bottom="20.0" />
-                     </VBox.margin>
+                            <VBox.margin>
+                                <Insets bottom="20.0" />
+                            </VBox.margin>
                         </ImageView>
                         <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" text="   HOME" VBox.vgrow="ALWAYS">
                             <graphic>
@@ -35,13 +35,13 @@
                                     </image>
                                 </ImageView>
                             </graphic>
-                     <VBox.margin>
-                        <Insets bottom="20.0" />
-                     </VBox.margin>
-                     <styleClass>
-                        <String fx:value="navButton" />
-                        <String fx:value="pickButton" />
-                     </styleClass>
+                            <VBox.margin>
+                                <Insets bottom="20.0" />
+                            </VBox.margin>
+                            <styleClass>
+                                <String fx:value="navButton" />
+                                <String fx:value="pickButton" />
+                            </styleClass>
                         </Button>
 
                         <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="   BORROWED" VBox.vgrow="ALWAYS">
@@ -52,9 +52,9 @@
                                     </image>
                                 </ImageView>
                             </graphic>
-                     <VBox.margin>
-                        <Insets bottom="20.0" />
-                     </VBox.margin>
+                            <VBox.margin>
+                                <Insets bottom="20.0" />
+                            </VBox.margin>
                         </Button>
 
                         <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="   MORE" VBox.vgrow="ALWAYS">
@@ -72,31 +72,30 @@
 
                 <VBox prefHeight="600.0" prefWidth="813.0" spacing="10.0" style="-fx-padding: 30;" HBox.hgrow="ALWAYS">
                     <children>
-                  <HBox prefHeight="34.0" prefWidth="683.0">
-                     <children>
-                              <!-- Thanh tìm kiếm -->
-                              <TextField fx:id="searchField" prefHeight="42.0" prefWidth="578.0" promptText="Search for books..." style="-fx-font-size: 14px; -fx-padding: 10px; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-color: #0078d4; -fx-border-width: 2; -fx-background-color: #f1f1f1;">
-                           <HBox.margin>
-                              <Insets right="10.0" />
-                           </HBox.margin>
-                        </TextField>
-      
-                              <Button fx:id="searchButton" onAction="#search" style="-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-color: #0078d4; -fx-text-fill: white; -fx-background-radius: 25; -fx-border-radius: 25; -fx-cursor: hand; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, rgba(0, 120, 212, 0.7), 10, 0, 0, 4);" text="Search" textFill="#dfe7ef" />
-                     </children>
-                  </HBox>
-                  <ScrollPane prefHeight="216.0" prefWidth="652.0" style="-fx-border-width: 0; -fx-background-color: transparent;" VBox.vgrow="ALWAYS">
-                     <content>
-                        <GridPane fx:id="bookContainer">
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                        </GridPane>
-                     </content>
-                  </ScrollPane>
+                        <HBox prefHeight="34.0" prefWidth="683.0">
+                            <children>
+                                <!-- Thanh tìm kiếm -->
+                                <TextField fx:id="searchField" prefHeight="42.0" prefWidth="578.0" promptText="Search for books..." style="-fx-font-size: 14px; -fx-padding: 10px; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-color: #0078d4; -fx-border-width: 2; -fx-background-color: #f1f1f1;">
+                                    <HBox.margin>
+                                        <Insets right="10.0" />
+                                    </HBox.margin>
+                                </TextField>
+
+                                <Button fx:id="searchButton" onAction="#search" style="-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-color: #0078d4; -fx-text-fill: white; -fx-background-radius: 25; -fx-border-radius: 25; -fx-cursor: hand; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, rgba(0, 120, 212, 0.7), 10, 0, 0, 4);" text="Search" textFill="#dfe7ef" />
+                            </children>
+                        </HBox>
+                        <ScrollPane prefHeight="216.0" prefWidth="652.0" style="-fx-border-width: 0; -fx-background-color: transparent;" VBox.vgrow="ALWAYS">
+                            <content>
+                                <GridPane fx:id="bookContainer">
+                                    <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    </rowConstraints>
+                                </GridPane>
+                            </content>
+                        </ScrollPane>
                     </children>
                 </VBox>
             </children>
         </HBox>
     </children>
-
 </StackPane>
