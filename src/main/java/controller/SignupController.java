@@ -27,6 +27,8 @@ public class SignupController {
     @FXML
     private TextField usernameTextField;
     @FXML
+    private TextField emailAddress;
+    @FXML
     private PasswordField passwordPasswordField;
     @FXML
     private PasswordField confirmPasswordPasswordField;
@@ -46,7 +48,7 @@ public class SignupController {
     }
 
     public void SignUpButtonActionPerformed(ActionEvent event) {
-        String fullName, username, password, query;
+        String fullName, username, password, query, email;
         String URL, USER, PASSWORD;
         URL = "jdbc:mysql://localhost:3306/libraryy";
         USER = "root";
@@ -62,6 +64,9 @@ public class SignupController {
                 showMessageDialog(new JFrame(), "Username is require", "Error", JOptionPane.ERROR_MESSAGE);
             } else if ("".equals(passwordPasswordField.getText())) {
                 showMessageDialog(new JFrame(), "Password is require", "Error", JOptionPane.ERROR_MESSAGE);
+            } else if ("".equals(emailAddress.getText())) {
+
+                showMessageDialog(new JFrame(), "Email is require", "Error", JOptionPane.ERROR_MESSAGE);
             } else if ("".equals(confirmPasswordPasswordField.getText())) {
                 showMessageDialog(new JFrame(), "Confirm password is require", "Error", JOptionPane.ERROR_MESSAGE);
             } else if (!confirmPasswordPasswordField.getText().equals(passwordPasswordField.getText())) {
@@ -69,15 +74,16 @@ public class SignupController {
             } else {
                 fullName = fullnameTextField.getText();
                 username = usernameTextField.getText();
+                email = emailAddress.getText();
                 password = passwordPasswordField.getText();
-                System.out.println(password);
 
-                query = "INSERT INTO useraccounts(full_name, user_name, pass_word) " +
-                        "VALUES('" + fullName + "', '" + username + "', '" + password + "')";
+                query = "INSERT INTO Users(full_name, user_name, pass_word, email) " +
+                        "VALUES('" + fullName + "', '" + username + "', '" + password + "', '" + email + "')";
 
                 statement.execute(query);
                 fullnameTextField.setText("");
                 usernameTextField.setText("");
+                emailAddress.setText("");
                 passwordPasswordField.setText("");
                 showMessageDialog(null, "New account has been created successfully!");
             }

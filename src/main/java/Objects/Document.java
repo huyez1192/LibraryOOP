@@ -8,10 +8,9 @@ public class Document {
     private String categories;
     private String thumbnailLink;
     private String previewLink;
-    private int copiesAvailable;
     private boolean isBorrowed;
 
-    public Document(String isbn, String title, String authors, String description, String categories, String thumbnailLink, String previewLink, int copiesAvailable) {
+    public Document(String isbn, String title, String authors, String description, String categories, String thumbnailLink, String previewLink) {
         this.isbn = isbn;
         this.title = title;
         this.authors = authors;
@@ -19,7 +18,6 @@ public class Document {
         this.categories = categories;
         this.thumbnailLink = thumbnailLink;
         this.previewLink = previewLink;
-        this.copiesAvailable = copiesAvailable;
         this.isBorrowed = false;
     }
 
@@ -70,22 +68,6 @@ public class Document {
 
     public void setThumbnailLink(String thumbnailLink) {
         this.thumbnailLink = thumbnailLink;
-    }
-
-    public String getPreviewlLink() {
-        return previewLink;
-    }
-
-    public void setPreviewLink(String previewLink) {
-        this.previewLink = previewLink;
-    }
-
-    public int getCopiesAvailable() {
-        return copiesAvailable;
-    }
-
-    public void setCopiesAvailable(int copiesAvailable) {
-        this.copiesAvailable = copiesAvailable;
     }
 
     public boolean isBorrowed() {

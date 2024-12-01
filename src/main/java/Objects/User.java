@@ -1,47 +1,44 @@
 package Objects;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
 public class User {
-    private String name;
-    private String personId;
-    private String mail;
+    private int userId;
+    private String fullName;
+    private String userName;
     private String password;
-    private List<BorrowRecord> borrowRecords; // Danh sách bản ghi mượn
+    private String email;
 
-    public User(String name, String personId, String mail, String password) {
-        this.name = name;
-        this.personId = personId;
-        this.mail = mail;
+    // Constructors, getters and setters
+    public User(int userId, String fullName, String userName, String password, String email) {
+        this.userId = userId;
+        this.fullName = fullName;
+        this.userName = userName;
         this.password = password;
-        this.borrowRecords = new ArrayList<>(); // Khởi tạo danh sách bản ghi
+        this.email = email;
     }
 
-    // Getters and setters
-    public String getName() {
-        return name;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public String getPersonId() {
-        return personId;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setPersonId(String personId) {
-        this.personId = personId;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
-    public String getMail() {
-        return mail;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
@@ -52,33 +49,24 @@ public class User {
         this.password = password;
     }
 
-    public List<BorrowRecord> getBorrowRecords() {
-        return borrowRecords;
+    public String getEmail() {
+        return email;
     }
 
-    // Thêm bản ghi mượn mới
-    public void addBorrowRecord(String documentTitle, String isbn, LocalDate borrowDate, LocalDate returnDate) {
-        BorrowRecord record = new BorrowRecord(name, personId, documentTitle, isbn, borrowDate, returnDate);
-        borrowRecords.add(record);
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    // Xóa bản ghi mượn (theo ISBN)
-    public boolean removeBorrowRecord(String isbn) {
-        return borrowRecords.removeIf(record -> record.getIsbn().equals(isbn));
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return userId == user.userId && Objects.equals(userName, user.userName);
     }
 
-    // Hiển thị danh sách các bản ghi mượn
-    public void showBorrowRecords() {
-        if (borrowRecords.isEmpty()) {
-            System.out.println(name + " has not borrowed any documents.");
-        } else {
-            System.out.println(name + "'s borrowed documents:");
-            for (BorrowRecord record : borrowRecords) {
-                System.out.printf("Title: %s, ISBN: %s, Borrowed: %s, Return: %s%n",
-                        record.getDocumentTitle(), record.getIsbn(), record.getBorrowDate(), record.getReturnDate());
-            }
-        }
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, userName);
     }
 }
-
-
