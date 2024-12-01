@@ -51,9 +51,9 @@ public class LoginController {
     public void loginButtonOnAction(ActionEvent e) {
         String username, password, query, passDb = null;
         String URL, USER, PASSWORD;
-        URL = "jdbc:mysql://localhost:3306/library";
+        URL = "jdbc:mysql://localhost:3306/libraryy";
         USER = "root";
-        PASSWORD = "gem07012005";
+        PASSWORD = "huyen16125";
 
         int notFound = 0;
         try {

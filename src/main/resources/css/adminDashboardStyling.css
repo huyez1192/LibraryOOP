@@ -1,0 +1,23 @@
+.navButton {
+
+    /*-fx-border-radius: 7 7 7 7;
+    -fx-background-radius: 7 7 7 7;*/
+    -fx-background-color:transparent ;
+}
+
+.navButton: hover {
+    -fx-background-color: #a7bed1;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.root {
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+}
+
+.pickButton {
+-fx-background-color:#a7bed1 ;
+-fx-border-color:  #0078d4;
+-fx-border-width:  0 0 0 4;
+}

@@ -1,6 +1,8 @@
 package dao;
 
 import Objects.User;
+import connect.MySQLConnection;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +10,10 @@ import java.util.List;
 public class UserDAO {
 
     private Connection connection;
+
+    public UserDAO() {
+        this.connection = MySQLConnection.getConnection(); // Tự động lấy Connection
+    }
 
     public UserDAO(Connection connection) {
         this.connection = connection;
