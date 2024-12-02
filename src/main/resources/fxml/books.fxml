@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+
+<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="208.0" spacing="10.0" stylesheets="@../css/bookStyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BooksController">
+   <children>
+      <ImageView fitHeight="23.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+         <HBox.margin>
+            <Insets left="10.0" />
+         </HBox.margin>
+         <image>
+            <Image url="@../image/book%20(1).png" />
+         </image>
+      </ImageView>
+      <TextField fx:id="bookname" prefHeight="26.0" prefWidth="60.0" HBox.hgrow="ALWAYS">
+         <styleClass>
+            <String fx:value="button" />
+            <String fx:value="name" />
+         </styleClass></TextField>
+      <TextField fx:id="bookisbn" prefHeight="26.0" prefWidth="40.0" styleClass="button" HBox.hgrow="ALWAYS" />
+      <TextField fx:id="bookauthor" prefHeight="26.0" prefWidth="10.0" styleClass="button" HBox.hgrow="ALWAYS" />
+      <TextField fx:id="bookquantity" prefHeight="23.0" prefWidth="10.0" styleClass="button" HBox.hgrow="ALWAYS">
+         <HBox.margin>
+            <Insets />
+         </HBox.margin>
+      </TextField>
+      <ImageView fitHeight="21.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+         <image>
+            <Image url="@../image/bin.png" />
+         </image>
+         <HBox.margin>
+            <Insets right="8.0" />
+         </HBox.margin>
+      </ImageView>
+   </children>
+</HBox>

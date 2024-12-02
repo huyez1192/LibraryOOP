@@ -138,7 +138,8 @@ public class BookDAO {
                             rs.getString("description"),
                             rs.getString("categories"),
                             rs.getString("thumbnail_link"),
-                            rs.getString("previewLink")
+                            rs.getString("previewLink"),
+                            rs.getString("quantity")
                     );
                     documents.add(doc);
                 }
@@ -163,7 +164,8 @@ public class BookDAO {
                             rs.getString("description"),
                             rs.getString("categories"),
                             rs.getString("thumbnail_link"),
-                            rs.getString("previewLink")
+                            rs.getString("previewLink"),
+                            rs.getString("quantity")
                     );
                     documents.add(doc);
                 }
@@ -210,7 +212,8 @@ public class BookDAO {
                         rs.getString("description"),
                         rs.getString("categories"),
                         rs.getString("thumbnail_link"),
-                        rs.getString("previewLink")
+                        rs.getString("previewLink"),
+                        rs.getString("quantity")
                 );
                 documents.add(doc);
             }
