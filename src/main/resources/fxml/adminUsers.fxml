@@ -1,14 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="$CONTROLLER_NAME$"
-            prefHeight="400.0" prefWidth="600.0" >
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../css/homeStyling.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminUsersController">
+    <children>
+        <HBox alignment="CENTER" prefHeight="600.0" prefWidth="900.0">
+            <children>
+            <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="226.0" style="-fx-background-color: #e3f2f7; -fx-border-radius: 0 20 20 0;" HBox.hgrow="SOMETIMES">
+                <children>
+                    <ImageView fitHeight="126.0" fitWidth="195.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
+                        <image>
+                            <Image url="@../image/Meolib-Photoroom.png" />
+                        </image>
+                        <VBox.margin>
+                            <Insets bottom="20.0" />
+                        </VBox.margin>
+                    </ImageView>
+                    <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="HOME" onAction="#switchToAdminHome" textFill="#a7bed1" VBox.vgrow="ALWAYS">
+                        <VBox.margin>
+                            <Insets />
+                        </VBox.margin>
+                    </Button>
 
-</AnchorPane>
+                    <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" text="USERS" textFill="#c9dbe1" VBox.vgrow="ALWAYS">
+                        <VBox.margin>
+                            <Insets />
+                        </VBox.margin>
+                     <styleClass>
+                        <String fx:value="navButton" />
+                        <String fx:value="pickButton" />
+                     </styleClass>
+                    </Button>
+
+                    <Button fx:id="sumBookButton" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchToAdminDocuments" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="DOCUMENTS" textFill="#a7bed1" VBox.vgrow="ALWAYS" />
+                    <Button fx:id="requestsButton" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="242.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="REQUESTS" textFill="#a7bed1" />
+                    <Button alignment="BASELINE_LEFT" layoutX="10.0" layoutY="285.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="MORE" textFill="#a7bed1" />
+
+                </children>
+            </VBox>
+
+            <VBox prefHeight="600.0" prefWidth="813.0" spacing="10.0" style="-fx-padding: 30;" HBox.hgrow="ALWAYS">
+            <children>
+                <HBox alignment="TOP_CENTER" prefHeight="34.0" prefWidth="683.0" VBox.vgrow="SOMETIMES">
+                    <children>
+                        <!-- Thanh tìm kiếm -->
+                        <TextField fx:id="searchField" prefHeight="42.0" prefWidth="578.0" promptText="Search for users..." onAction="#searchUsers" style="-fx-font-size: 14px; -fx-padding: 10px; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-color: #0078d4; -fx-border-width: 2; -fx-background-color: #f1f1f1;" HBox.hgrow="ALWAYS">
+                            <HBox.margin>
+                                <Insets right="10.0" />
+                            </HBox.margin>
+                        </TextField>
+
+                        <Button fx:id="searchButton" prefHeight="44.0" prefWidth="84.0" style="-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-color: #0078d4; -fx-text-fill: white; -fx-background-radius: 25; -fx-border-radius: 25; -fx-cursor: hand; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, rgba(0, 120, 212, 0.7), 10, 0, 0, 4);" text="Search" onAction="#searchUsers" textFill="#c9c9c9" />
+                    </children>
+                </HBox>
+                        <HBox alignment="TOP_CENTER" prefHeight="347.0" prefWidth="683.0" spacing="10.0" VBox.vgrow="ALWAYS">
+                            <children>
+                                <ScrollPane prefHeight="446.0" prefWidth="604.0" HBox.hgrow="ALWAYS">
+                                    <content>
+                                        <TableView fx:id="usersTableViewTable" prefHeight="1250.0" prefWidth="1620.0">
+                                            <columns>
+                                                <TableColumn fx:id="idColumn" prefWidth="57.0" text="ID" />
+                                                <TableColumn fx:id="fullNameColumn" minWidth="0.0" prefWidth="170.0" text="Full name" />
+                                                <TableColumn fx:id="userNameColumn" prefWidth="119.66665649414062" text="User name" />
+                                                <TableColumn fx:id="passwordColumn" minWidth="0.0" prefWidth="90.3333740234375" text="Password" />
+                                                <TableColumn fx:id="emailColumn" minWidth="0.0" prefWidth="224.6666259765625" text="email" />
+                                            </columns>
+                                        </TableView>
+                                    </content>
+                                </ScrollPane>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </children>
+
+</StackPane>
