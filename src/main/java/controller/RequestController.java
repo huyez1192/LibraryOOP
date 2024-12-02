@@ -4,6 +4,8 @@ import Objects.Request;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
+import javax.swing.text.html.ImageView;
+
 public class RequestController {
     @FXML
     private TextField requestid;
@@ -16,6 +18,9 @@ public class RequestController {
 
     @FXML
     private TextField requestdate;
+
+    @FXML
+    private ImageView delete;
 
     @FXML
     public void loadRequestsInfo(Request request) {
