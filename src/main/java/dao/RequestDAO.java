@@ -1,6 +1,7 @@
 package dao;
 
 import Objects.Request;
+import connect.MySQLConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,6 +10,10 @@ import java.util.List;
 public class RequestDAO {
 
     private Connection connection;
+
+    public RequestDAO() {
+        this.connection = MySQLConnection.getConnection();
+    }
 
     public RequestDAO(Connection connection) {
         this.connection = connection;

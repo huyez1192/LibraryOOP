@@ -13,7 +13,8 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../css/homeStyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LibraryHomeController">
+<?import javafx.scene.layout.ColumnConstraints?>
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../css/homeStyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.HomeController">
     <children>
         <HBox alignment="CENTER" prefHeight="600.0" prefWidth="900.0">
             <children>
@@ -86,11 +87,25 @@
                         </HBox>
                         <ScrollPane prefHeight="216.0" prefWidth="652.0" style="-fx-border-width: 0; -fx-background-color: transparent;" VBox.vgrow="ALWAYS">
                             <content>
-                                <GridPane fx:id="bookContainer">
+                                <GridPane fx:id="bookContainer" hgap="5" vgap="5" alignment="CENTER">
+                                    <columnConstraints>
+                                        <!-- Đảm bảo mỗi cột có độ rộng bằng nhau, chiếm đều không gian -->
+                                        <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
+                                        <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
+                                        <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
+                                        <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
+                                        <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
+                                        <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
+                                        <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
+                                        <ColumnConstraints hgrow="ALWAYS" halignment="CENTER" />
+                                    </columnConstraints>
+
                                     <rowConstraints>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <!-- Các hàng có chiều cao tự động -->
+                                        <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES"/>
                                     </rowConstraints>
                                 </GridPane>
+
                             </content>
                         </ScrollPane>
                     </children>
@@ -98,4 +113,5 @@
             </children>
         </HBox>
     </children>
+
 </StackPane>
