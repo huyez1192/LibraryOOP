@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -14,7 +16,8 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../css/homeStyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LibraryHomeController">
+<?import javafx.geometry.Insets?>
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../css/homeStyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BorrowedController">
     <children>
         <HBox alignment="CENTER" prefHeight="600.0" prefWidth="900.0">
             <children>
@@ -28,7 +31,7 @@
                                 <Insets bottom="20.0" />
                             </VBox.margin>
                         </ImageView>
-                        <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" text="   HOME" VBox.vgrow="ALWAYS">
+                        <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="   HOME" onAction="#switchToHome" VBox.vgrow="ALWAYS">
                             <graphic>
                                 <ImageView fitHeight="20.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -39,13 +42,9 @@
                             <VBox.margin>
                                 <Insets bottom="20.0" />
                             </VBox.margin>
-                            <styleClass>
-                                <String fx:value="navButton" />
-                                <String fx:value="pickButton" />
-                            </styleClass>
                         </Button>
 
-                        <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="   BORROWED" VBox.vgrow="ALWAYS">
+                        <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" text="   BORROWED" VBox.vgrow="ALWAYS">
                             <graphic>
                                 <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -56,6 +55,10 @@
                             <VBox.margin>
                                 <Insets bottom="20.0" />
                             </VBox.margin>
+                            <styleClass>
+                                <String fx:value="navButton" />
+                                <String fx:value="pickButton" />
+                            </styleClass>
                         </Button>
 
                         <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="   MORE" VBox.vgrow="ALWAYS">
@@ -82,19 +85,20 @@
                                     </HBox.margin>
                                 </TextField>
 
-                                <Button fx:id="searchButton" onAction="#search" style="-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-color: #0078d4; -fx-text-fill: white; -fx-background-radius: 25; -fx-border-radius: 25; -fx-cursor: hand; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, rgba(0, 120, 212, 0.7), 10, 0, 0, 4);" text="Search" textFill="#dfe7ef" />
+                                <Button fx:id="searchButton" onAction="#searchDocuments" style="-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-color: #0078d4; -fx-text-fill: white; -fx-background-radius: 25; -fx-border-radius: 25; -fx-cursor: hand; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, rgba(0, 120, 212, 0.7), 10, 0, 0, 4);" text="Search" textFill="#dfe7ef" />
                             </children>
                         </HBox>
-                        <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="600.0" prefWidth="751.0" VBox.vgrow="ALWAYS">
-                     <content>
-                        <TableView prefHeight="200.0" prefWidth="200.0">
-                          <columns>
-                            <TableColumn prefWidth="345.0" text="Title" />
-                            <TableColumn prefWidth="132.0" text="ISBN" />
-                              <TableColumn prefWidth="192.0" text="Borrow Date" />
-                          </columns>
-                        </TableView>
-                     </content>
+                        <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="600.0" prefWidth="750.0" VBox.vgrow="ALWAYS">
+                            <content>
+                                <TableView fx:id="borrowedTable" prefHeight="200.0" prefWidth="200.0">
+                                    <columns>
+                                        <TableColumn fx:id="titleColumn" prefWidth="350.0" text="Title" />
+                                        <TableColumn fx:id="isbnColumn" prefWidth="130.0" text="ISBN" />
+                                        <TableColumn fx:id="borrowDateColumn" prefWidth="100.0" text="Borrow Date" />
+                                        <TableColumn fx:id="returnDateColumn" prefWidth="100.0" text="Return Date" />
+                                    </columns>
+                                </TableView>
+                            </content>
                         </ScrollPane>
                     </children>
                 </VBox>

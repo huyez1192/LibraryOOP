@@ -1,5 +1,8 @@
 package Objects;
 
+import com.mysql.cj.conf.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+
 public class Document {
     private String isbn;
     private String title;
@@ -8,9 +11,11 @@ public class Document {
     private String categories;
     private String thumbnailLink;
     private String previewLink;
+    private int quantity;
     private boolean isBorrowed;
+    private boolean add;
 
-    public Document(String isbn, String title, String authors, String description, String categories, String thumbnailLink, String previewLink) {
+    public Document(String isbn, String title, String authors, String description, String categories, String thumbnailLink, String previewLink, int quantity) {
         this.isbn = isbn;
         this.title = title;
         this.authors = authors;
@@ -18,6 +23,7 @@ public class Document {
         this.categories = categories;
         this.thumbnailLink = thumbnailLink;
         this.previewLink = previewLink;
+        this.quantity = quantity;
         this.isBorrowed = false;
     }
 
@@ -38,11 +44,11 @@ public class Document {
         this.title = title;
     }
 
-    public String getAuthor() {
+    public String getAuthors() {
         return authors;
     }
 
-    public void setAuthor(String authors) {
+    public void setAuthors(String authors) {
         this.authors = authors;
     }
 
@@ -70,6 +76,22 @@ public class Document {
         this.thumbnailLink = thumbnailLink;
     }
 
+    public String getPreviewLink() {
+        return previewLink;
+    }
+
+    public void setPreviewLink(String previewLink) {
+        this.previewLink = previewLink;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     public boolean isBorrowed() {
         return isBorrowed;
     }
@@ -80,6 +102,10 @@ public class Document {
 
     public void returnBook() {
         this.isBorrowed = false;
+    }
+
+    public boolean isAdd() {
+        return add;
     }
 }
 

@@ -6,6 +6,7 @@ import java.util.Date;
 public class BorrowRecord {
     private int borrowId;
     private int userId;
+    private String documentTitle;
     private String isbn;
     private Date borrowDate;
     private Date returnDate;
@@ -13,6 +14,13 @@ public class BorrowRecord {
 
     // Constructors, getters and setters
     public BorrowRecord() {
+    }
+
+    public BorrowRecord(String documentTitle, String isbn, Date borrowDate, Date returnDate) {
+        this.documentTitle = documentTitle;
+        this.isbn = isbn;
+        this.borrowDate = borrowDate;
+        this.returnDate = returnDate;
     }
 
     public BorrowRecord(int borrowId, int userId, String isbn, Date borrowDate, Date returnDate, String status) {
@@ -38,6 +46,14 @@ public class BorrowRecord {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public String getDocumentTitle() {
+        return documentTitle;
+    }
+
+    public void setDocumentTitle(String documentTitle) {
+        this.documentTitle = documentTitle;
     }
 
     public String getIsbn() {

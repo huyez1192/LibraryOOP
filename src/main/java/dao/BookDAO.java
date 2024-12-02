@@ -66,8 +66,8 @@ public class BookDAO {
 
     public static void saveBooksToDatabase(String jsonResponse) throws SQLException {
 
-        String insertQuery = "INSERT INTO Books (isbn, title, authors, description, categories, thumbnail_link, previewLink) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?) "
+        String insertQuery = "INSERT INTO Books (isbn, title, authors, description, categories, thumbnail_link, previewLink, quantity) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?) "
                 + "ON DUPLICATE KEY UPDATE title=VALUES(title), authors=VALUES(authors)";
 
         Connection connection = getConnection();
@@ -96,6 +96,7 @@ public class BookDAO {
                         ? volumeInfo.getAsJsonObject("imageLinks").get("thumbnail").getAsString()
                         : null;
                 String previewLink = volumeInfo.has("previewLink") ? volumeInfo.get("previewLink").getAsString() : "This book doesn't have any preview link";
+                int quantity = volumeInfo.has("quantity") ? volumeInfo.get("quantity").getAsInt() : 0;
 
                 // Gán giá trị vào PreparedStatement
                 preparedStatement.setString(1, isbn);
@@ -105,6 +106,7 @@ public class BookDAO {
                 preparedStatement.setString(5, categories);
                 preparedStatement.setString(6, thumbnail_link);
                 preparedStatement.setString(7, previewLink);
+                preparedStatement.setInt(8, quantity);
 
                 // Thực thi lệnh INSERT
                 preparedStatement.executeUpdate();
@@ -138,7 +140,8 @@ public class BookDAO {
                             rs.getString("description"),
                             rs.getString("categories"),
                             rs.getString("thumbnail_link"),
-                            rs.getString("previewLink")
+                            rs.getString("previewLink"),
+                            rs.getInt("quantity")
                     );
                     documents.add(doc);
                 }
@@ -163,7 +166,8 @@ public class BookDAO {
                             rs.getString("description"),
                             rs.getString("categories"),
                             rs.getString("thumbnail_link"),
-                            rs.getString("previewLink")
+                            rs.getString("previewlink"),
+                            rs.getInt("quantity")
                     );
                     documents.add(doc);
                 }
@@ -210,7 +214,8 @@ public class BookDAO {
                         rs.getString("description"),
                         rs.getString("categories"),
                         rs.getString("thumbnail_link"),
-                        rs.getString("previewLink")
+                        rs.getString("previewLink"),
+                        rs.getInt("quantity")
                 );
                 documents.add(doc);
             }
