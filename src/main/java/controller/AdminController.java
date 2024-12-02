@@ -10,10 +10,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -39,6 +42,9 @@ public class AdminController implements Initializable {
 
     @FXML
     private VBox userContainer;
+
+    @FXML
+    private Button requestButton;
 
     List<User> recommended;
 
@@ -90,5 +96,20 @@ public class AdminController implements Initializable {
     @FXML
     private void search(ActionEvent event) {
         // Xử lý tìm kiếm tại đây
+    }
+
+
+
+
+    //huyen
+    @FXML
+    private void handleRequestButton() throws IOException {
+        Stage stage = (Stage) requestButton.getScene().getWindow();
+
+        Parent requestRoot = FXMLLoader.load(getClass().getResource("/fxml/requestsScreen.fxml"));
+
+        Scene scene = new Scene(requestRoot, 900, 600);
+
+        stage.setScene(scene);
     }
 }
