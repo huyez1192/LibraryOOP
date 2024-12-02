@@ -2,6 +2,7 @@ package controller;
 
 import Objects.Document;
 import dao.BookDAO;
+import dao.RequestDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -37,6 +38,14 @@ public class HomeController implements Initializable {
     private TextField searchField;
 
     private List<Document> recommended;
+    private int userId ; // ID người dùng, cần phải lấy từ đăng nhập hoặc session
+    private RequestDAO requestDAO = new RequestDAO();  // Khởi tạo RequestDAO
+
+    // Phương thức để gán userId từ đăng nhập
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
     private void openBookDetail(Document document) {
         try {
@@ -46,7 +55,7 @@ public class HomeController implements Initializable {
 
             // Lấy controller của trang chi tiết sách và load thông tin sách
             BookDetailsController bookDetailsController = fxmlLoader.getController();
-            bookDetailsController.loadBookDetails(document);
+            bookDetailsController.loadBookDetails(document, userId, requestDAO);  // Truyền đủ ba tham số
 
             // Mở cửa sổ mới để hiển thị chi tiết sách
             Stage stage = new Stage();
@@ -92,8 +101,6 @@ public class HomeController implements Initializable {
         }
     }
 
-
-
     private List<Document> documents() {
         List<Document> ls = new ArrayList<>();
         BookDAO bookDAO = new BookDAO();
@@ -104,5 +111,4 @@ public class HomeController implements Initializable {
     @FXML
     private void search(ActionEvent event) {
     }
-
 }

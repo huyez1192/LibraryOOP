@@ -10,21 +10,41 @@ public class RequestDAO {
 
     private Connection connection;
 
+    public RequestDAO() {
+        try {
+            // Tạo kết nối với cơ sở dữ liệu (thay thế với thông tin kết nối của bạn)
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            this.connection = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/library", "root", "gem07012005"); // Cập nhật thông tin kết nối
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+            // Lỗi nếu kết nối không thành công
+        }
+    }
     public RequestDAO(Connection connection) {
         this.connection = connection;
     }
 
     // Thêm một yêu cầu mới
-    public void addRequest(int userId, String isbn, Date requestDate) {
-        String query = "INSERT INTO Requests (user_id, isbn, request_date) VALUES (?, ?, ?)";
-        try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setInt(1, userId);
-            ps.setString(2, isbn);
-            ps.setDate(3, requestDate);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+    // Thêm một yêu cầu mượn sách vào cơ sở dữ liệu
+    public void addRequest(int userId, String isbn, Date requestDate) throws SQLException {
+        if (checkIfUserExists(userId)) {
+            // Tiến hành thêm yêu cầu
+            String query = "INSERT INTO requests (user_id, isbn, request_date) VALUES (?, ?, ?)";
+            try (PreparedStatement ps = connection.prepareStatement(query)) {
+                ps.setInt(1, userId);
+                ps.setString(2, isbn);
+                ps.setDate(3, requestDate);
+
+                int rowsAffected = ps.executeUpdate();
+                if (rowsAffected > 0) {
+                    System.out.println("Yêu cầu mượn sách đã được thêm thành công.");
+                }
+            }
+        } else {
+            System.out.println("Người dùng không tồn tại.");
         }
+
     }
 
     // Lấy tất cả các yêu cầu
@@ -99,4 +119,22 @@ public class RequestDAO {
         }
         return false;
     }
+    public boolean checkIfUserExists(int userId) {
+        String query = "SELECT COUNT(*) FROM users WHERE user_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    int count = rs.getInt(1);
+                    System.out.println("Số người dùng có ID " + userId + ": " + count);
+                    return count > 0;  // Nếu có ít nhất một người dùng trùng thì trả về true
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
 }
