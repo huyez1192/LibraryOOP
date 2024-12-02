@@ -1,8 +1,6 @@
 package controller;
 
-import Objects.Document;
 import Objects.User;
-import dao.BookDAO;
 import dao.UserDAO;
 import dao.Statistics;
 import javafx.event.ActionEvent;
@@ -10,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -100,7 +99,6 @@ public class AdminController implements Initializable {
 
 
 
-
     //huyen
     @FXML
     private void handleRequestButton() throws IOException {
@@ -111,5 +109,22 @@ public class AdminController implements Initializable {
         Scene scene = new Scene(requestRoot, 900, 600);
 
         stage.setScene(scene);
+    }    
+        
+    public void switchToAdminDocuments(ActionEvent event) {
+        try {
+            // Tải FXML của giao diện thứ hai
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/libraryDocument.fxml"));
+            Parent root = loader.load();
+
+            // Lấy Stage hiện tại
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+
+            // Đổi Scene
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

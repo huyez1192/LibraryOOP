@@ -1,21 +1,21 @@
 package Objects;
 
+import com.mysql.cj.conf.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+
 public class Document {
     private String isbn;
     private String title;
+    private String authors;
     private String description;
+    private String categories;
     private String thumbnailLink;
     private String previewLink;
-    private String authors;
-    private String categories;
-    private String publisher;
+    private int quantity;
+    private boolean isBorrowed;
+    private boolean add;
 
-    // Constructor mặc định
-    public Document() {
-    }
-
-    // Constructor với tất cả các tham số
-    public Document(String isbn, String title, String authors, String description, String categories, String thumbnailLink, String previewLink) {
+    public Document(String isbn, String title, String authors, String description, String categories, String thumbnailLink, String previewLink, int quantity) {
         this.isbn = isbn;
         this.title = title;
         this.authors = authors;
@@ -23,22 +23,11 @@ public class Document {
         this.categories = categories;
         this.thumbnailLink = thumbnailLink;
         this.previewLink = previewLink;
+        this.quantity = quantity;
+        this.isBorrowed = false;
     }
 
-    // Constructor với tất cả các tham số bao gồm publisher
-    public Document(String isbn, String title, String description, String thumbnailLink, String previewLink,
-                    String authors, String categories, String publisher) {
-        this.isbn = isbn;
-        this.title = title;
-        this.description = description;
-        this.thumbnailLink = thumbnailLink;
-        this.previewLink = previewLink;
-        this.authors = authors;
-        this.categories = categories;
-        this.publisher = publisher;
-    }
-
-    // Getters và Setters
+    // Getters and setters
     public String getIsbn() {
         return isbn;
     }
@@ -55,12 +44,28 @@ public class Document {
         this.title = title;
     }
 
+    public String getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(String authors) {
+        this.authors = authors;
+    }
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getCategories() {
+        return categories;
+    }
+
+    public void setCategories(String categories) {
+        this.categories = categories;
     }
 
     public String getThumbnailLink() {
@@ -79,27 +84,28 @@ public class Document {
         this.previewLink = previewLink;
     }
 
-    public String getAuthors() {
-        return authors;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setAuthors(String authors) {
-        this.authors = authors;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
-    public String getCategories() {
-        return categories;
+    public boolean isBorrowed() {
+        return isBorrowed;
     }
 
-    public void setCategories(String categories) {
-        this.categories = categories;
+    public void borrowBook() {
+        this.isBorrowed = true;
     }
 
-    public String getPublisher() {
-        return publisher;
+    public void returnBook() {
+        this.isBorrowed = false;
     }
 
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
+    public boolean isAdd() {
+        return add;
     }
 }
+
