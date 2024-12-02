@@ -93,7 +93,7 @@
                               <String fx:value="sumBookButton" />
                               <String fx:value="sumGeneral" />
                            </styleClass></Button>
-                        <Button fx:id="sumRequestButton" mnemonicParsing="false" prefHeight="100.0" prefWidth="200.0" textFill="#a1a1a1" HBox.hgrow="ALWAYS">
+                        <Button fx:id="sumRequestButton" mnemonicParsing="false" prefHeight="100.0" prefWidth="200.0" textFill="#d6e7ea" HBox.hgrow="ALWAYS">
                            <graphic>
                               <ImageView fitHeight="31.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -119,12 +119,12 @@
                         </ScrollPane>
                         <ScrollPane prefHeight="200.0" prefWidth="320.0" HBox.hgrow="ALWAYS">
                            <content>
-                              <VBox fx:id="bookContainer" prefHeight="488.0" prefWidth="347.0" />
+                              <VBox prefHeight="488.0" prefWidth="347.0" />
                            </content>
                         </ScrollPane>
                         <ScrollPane prefHeight="94.0" prefWidth="320.0" HBox.hgrow="ALWAYS">
                            <content>
-                              <VBox fx:id="requestContainer" prefHeight="482.0" prefWidth="338.0" />
+                              <VBox prefHeight="482.0" prefWidth="338.0" />
                            </content>
                         </ScrollPane>
                      </children>
