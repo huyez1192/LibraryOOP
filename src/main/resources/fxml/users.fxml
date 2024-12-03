@@ -17,7 +17,7 @@
             <Insets left="10.0" />
          </HBox.margin>
       </ImageView>
-      <TextField fx:id="name" prefHeight="26.0" prefWidth="117.0" text="Cao Hương Giang" HBox.hgrow="ALWAYS">
+      <TextField fx:id="name" prefHeight="26.0" prefWidth="98.0" text="Cao Hương Giang" HBox.hgrow="ALWAYS">
          <HBox.margin>
             <Insets />
          </HBox.margin>
@@ -26,7 +26,7 @@
             <String fx:value="name" />
          </styleClass>
       </TextField>
-      <TextField fx:id="username" prefHeight="26.0" prefWidth="66.0" text="giangcute" HBox.hgrow="ALWAYS">
+      <TextField fx:id="username" prefHeight="26.0" prefWidth="51.0" text="giangcute" HBox.hgrow="ALWAYS">
          <HBox.margin>
             <Insets />
          </HBox.margin>
@@ -35,12 +35,12 @@
             <String fx:value="username" />
          </styleClass>
       </TextField>
-      <TextField fx:id="quantityBorrowing" prefHeight="23.0" prefWidth="55.0" styleClass="button" text="2" HBox.hgrow="ALWAYS">
+      <TextField fx:id="quantityBorrowing" prefHeight="23.0" prefWidth="96.0" styleClass="button" text="2" HBox.hgrow="ALWAYS">
          <HBox.margin>
             <Insets />
          </HBox.margin>
       </TextField>
-      <TextField fx:id="quantityBorrowed" prefHeight="23.0" prefWidth="56.0" styleClass="button" text="4" HBox.hgrow="ALWAYS">
+      <TextField fx:id="quantityBorrowed" prefHeight="23.0" prefWidth="76.0" styleClass="button" text="4" HBox.hgrow="ALWAYS">
          <HBox.margin>
             <Insets />
          </HBox.margin>

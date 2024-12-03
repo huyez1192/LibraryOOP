@@ -63,7 +63,7 @@
                   </HBox>
                   <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0" VBox.vgrow="SOMETIMES">
                      <children>
-                        <Button fx:id="sumUserButton" mnemonicParsing="false" prefHeight="100.0" prefWidth="200.0" textFill="#a1a1a1" HBox.hgrow="ALWAYS">
+                        <Button fx:id="sumUserButton" mnemonicParsing="false" prefHeight="100.0" prefWidth="200.0" textFill="#337ac1" HBox.hgrow="ALWAYS">
                            <graphic>
                               <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -87,7 +87,7 @@
                               <String fx:value="sumBookButton" />
                               <String fx:value="sumGeneral" />
                            </styleClass></Button>
-                        <Button fx:id="sumRequestButton" mnemonicParsing="false" prefHeight="100.0" prefWidth="200.0" textFill="#a1a1a1" HBox.hgrow="ALWAYS">
+                        <Button fx:id="sumRequestButton" mnemonicParsing="false" prefHeight="100.0" prefWidth="200.0" textFill="#337ac1" HBox.hgrow="ALWAYS">
                            <graphic>
                               <ImageView fitHeight="31.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -110,16 +110,18 @@
                            <content>
                               <VBox fx:id="userContainer" prefHeight="414.0" prefWidth="500.0">
                                  <children>
-                                    <HBox prefHeight="27.0" prefWidth="414.0" spacing="10.0">
+                                    <HBox prefHeight="27.0" prefWidth="414.0">
                                        <children>
-                                          <Label alignment="CENTER" prefHeight="35.0" prefWidth="117.0" text="Full name">
+                                          <Label maxWidth="34.0" prefHeight="27.0" prefWidth="34.0" text="        " />
+                                          <Label alignment="CENTER" prefHeight="35.0" prefWidth="125.2" text="Full name">
                                              <HBox.margin>
-                                                <Insets left="39.0" />
+                                                <Insets />
                                              </HBox.margin>
                                           </Label>
-                                          <Label alignment="CENTER" prefHeight="35.0" prefWidth="66.0" text="User name" />
-                                          <Label alignment="CENTER" prefHeight="35.0" prefWidth="55.0" text="Borrowing" />
-                                          <Label alignment="CENTER" prefHeight="35.0" prefWidth="56.0" text="Borrowed" />
+                                          <Label alignment="CENTER" prefHeight="35.0" prefWidth="88.0" text="User name" />
+                                          <Label alignment="CENTER" prefHeight="35.0" prefWidth="122.8" text="Borrowing" />
+                                          <Label alignment="CENTER" prefHeight="35.0" prefWidth="102.0" text="Borrowed" />
+                                          <Label maxWidth="34.0" prefHeight="27.0" prefWidth="34.0" text="        " />
                                        </children>
                                     </HBox>
                                  </children></VBox>
@@ -129,7 +131,18 @@
                            <content>
                               <VBox fx:id="bookContainer" prefHeight="488.0" prefWidth="500.0">
                                  <children>
-                                    <HBox prefHeight="100.0" prefWidth="200.0" />
+                                    <HBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="200.0">
+                                       <children>
+                                          <Label maxWidth="36.0" prefHeight="27.0" prefWidth="36.0" text="        " />
+                                          <Label alignment="CENTER" prefHeight="27.0" prefWidth="139.0" text="Name">
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin></Label>
+                                          <Label alignment="CENTER" prefHeight="35.0" prefWidth="79.0" text="ISBN" />
+                                          <Label alignment="CENTER" prefHeight="35.0" prefWidth="135.0" text="Author" />
+                                          <Label alignment="CENTER" prefHeight="35.0" prefWidth="71.0" text="Quantity" />
+                                          <Label maxWidth="34.0" prefHeight="27.0" prefWidth="45.0" text="        " />
+                                       </children></HBox>
                                  </children></VBox>
                            </content>
                         </ScrollPane>
@@ -137,7 +150,19 @@
                            <content>
                               <VBox fx:id="requestContainer" prefHeight="395.0" prefWidth="500.0">
                                  <children>
-                                    <HBox prefHeight="100.0" prefWidth="200.0" />
+                                    <HBox prefHeight="27.0" prefWidth="200.0">
+                                       <children>
+                                          <Label maxWidth="37.0" prefHeight="27.0" prefWidth="37.0" text="        " />
+                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="27.0" prefWidth="130.0" text="Request ID">
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </Label>
+                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="27.0" prefWidth="91.6" text="User ID" />
+                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="27.0" prefWidth="67.6" text="ISBN" />
+                                          <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="27.0" prefWidth="141.2" text="Request Date" />
+                                          <Label maxWidth="36.0" prefHeight="27.0" prefWidth="36.0" text="        " />
+                                       </children></HBox>
                                  </children></VBox>
                            </content>
                         </ScrollPane>

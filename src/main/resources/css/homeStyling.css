@@ -9,6 +9,13 @@
     -fx-scale-y: 1.05;
 }
 
+.label {
+-fx-font-family: "Segoe UI";
+-fx-background-color:#dbedf4;
+-fx-font-weight: bold;
+-fx-font-color: #337ac1;
+}
+
 .root {
     -fx-font-family: "Segoe UI";
     -fx-font-size: 14px;

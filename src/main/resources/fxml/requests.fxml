@@ -17,15 +17,15 @@
             <Image url="@../image/options.png" />
          </image>
       </ImageView>
-      <TextField fx:id="requestid" prefHeight="26.0" prefWidth="82.0">
+      <TextField fx:id="requestid" prefHeight="26.0" prefWidth="169.0">
          <styleClass>
             <String fx:value="button" />
             <String fx:value="name" />
          </styleClass>
       </TextField>
-      <TextField fx:id="userid" prefHeight="26.0" prefWidth="94.0" styleClass="button" />
-      <TextField fx:id="isbn" prefHeight="26.0" prefWidth="185.0" styleClass="button" />
-      <TextField fx:id="requestdate" prefHeight="23.0" prefWidth="162.0" styleClass="button">
+      <TextField fx:id="userid" prefHeight="26.0" prefWidth="131.0" styleClass="button" />
+      <TextField fx:id="isbn" prefHeight="26.0" prefWidth="106.0" styleClass="button" />
+      <TextField fx:id="requestdate" prefHeight="23.0" prefWidth="180.0" styleClass="button">
          <HBox.margin>
             <Insets />
          </HBox.margin>
