@@ -13,7 +13,10 @@ public class Document {
     private String previewLink;
     private int quantity;
     private boolean isBorrowed;
-    private boolean add;
+
+    public Document(String isbn) {
+        this.isbn = isbn;
+    }
 
     public Document(String isbn, String title, String authors, String description, String categories, String thumbnailLink, String previewLink, int quantity) {
         this.isbn = isbn;
@@ -102,10 +105,6 @@ public class Document {
 
     public void returnBook() {
         this.isBorrowed = false;
-    }
-
-    public boolean isAdd() {
-        return add;
     }
 }
 
