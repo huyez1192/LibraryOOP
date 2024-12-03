@@ -84,46 +84,36 @@ public class BookDetailsController {
 
     @FXML
     private void handleBorrowBook() {
-        try {
-            if (requestDAO != null && document != null) {
-                // Kiểm tra xem người dùng đã yêu cầu mượn sách này chưa
-                boolean requestExists = requestDAO.checkIfRequestExists(userId, document.getIsbn());
-                if (!requestExists) {
-                    // Nếu chưa có yêu cầu, tiến hành thêm yêu cầu mượn sách
-                    borrowButton.setText("Chờ phê duyệt");
+        if (requestDAO != null && document != null) {
+            // Kiểm tra xem người dùng đã yêu cầu mượn sách này chưa
+            boolean requestExists = requestDAO.checkIfRequestExists(userId, document.getIsbn());
+            if (!requestExists) {
+                // Nếu chưa có yêu cầu, tiến hành thêm yêu cầu mượn sách
+                borrowButton.setText("Chờ phê duyệt");
 
-                    // Thêm yêu cầu mượn sách vào cơ sở dữ liệu
-                    Date requestDate = new Date(System.currentTimeMillis());
-                    requestDAO.addRequest(userId, document.getIsbn(), requestDate);
+                // Thêm yêu cầu mượn sách vào cơ sở dữ liệu
+                Date requestDate = new Date(System.currentTimeMillis());
+                requestDAO.addRequest(userId, document.getIsbn(), requestDate);
 
-                    // Hiển thị thông báo
-                    Alert alert = new Alert(AlertType.INFORMATION);
-                    alert.setTitle("Yêu cầu mượn sách");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Yêu cầu mượn sách đã được gửi. Chờ phê duyệt.");
-                    alert.showAndWait();
+                // Hiển thị thông báo
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Yêu cầu mượn sách");
+                alert.setHeaderText(null);
+                alert.setContentText("Yêu cầu mượn sách đã được gửi. Chờ phê duyệt.");
+                alert.showAndWait();
 
-                    System.out.println("Đã mượn sách: " + document.getTitle());
+                System.out.println("Đã mượn sách: " + document.getTitle());
 
-                    // Sau khi gửi yêu cầu, kiểm tra lại trạng thái
-                    checkRequestStatus();
-                } else {
-                    // Nếu yêu cầu đã tồn tại, thông báo cho người dùng
-                    Alert alert = new Alert(AlertType.WARNING);
-                    alert.setTitle("Yêu cầu đã tồn tại");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Bạn đã yêu cầu mượn sách này rồi.");
-                    alert.showAndWait();
-                }
+                // Sau khi gửi yêu cầu, kiểm tra lại trạng thái
+                checkRequestStatus();
+            } else {
+                // Nếu yêu cầu đã tồn tại, thông báo cho người dùng
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setTitle("Yêu cầu đã tồn tại");
+                alert.setHeaderText(null);
+                alert.setContentText("Bạn đã yêu cầu mượn sách này rồi.");
+                alert.showAndWait();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // Xử lý lỗi
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Lỗi hệ thống");
-            alert.setHeaderText(null);
-            alert.setContentText("Đã xảy ra lỗi khi gửi yêu cầu mượn sách. Vui lòng thử lại sau.");
-            alert.showAndWait();
         }
     }
 
