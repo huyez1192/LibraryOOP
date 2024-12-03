@@ -1,5 +1,6 @@
 package dao;
 import Objects.BorrowRecord;
+import connect.MySQLConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ public class BorrowRecordDAO {
     private Connection connection;
 
     public BorrowRecordDAO() {
+        this.connection = MySQLConnection.getConnection();
     }
 
     public BorrowRecordDAO(Connection connection) {

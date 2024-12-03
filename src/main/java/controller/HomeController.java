@@ -2,6 +2,7 @@ package controller;
 
 import Objects.Document;
 import dao.BookDAO;
+import dao.BorrowRecordDAO;
 import dao.RequestDAO;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -52,6 +53,7 @@ public class HomeController implements Initializable {
     private List<Document> availableBooks; // Danh sách sách có sẵn cho gợi ý
     private int userId; // ID người dùng, cần lấy từ đăng nhập hoặc session
     private RequestDAO requestDAO = new RequestDAO();  // Khởi tạo RequestDAO
+    private BorrowRecordDAO borrowRecordDAO = new BorrowRecordDAO(); // Khởi tạo BorrowRecordDAO
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -166,6 +168,7 @@ public class HomeController implements Initializable {
                         } else {
                             System.err.println("searchField is null!");
                         }
+                        event.consume(); // Ngăn chặn các sự kiện khác
                     });
 
                     // Thêm sự kiện nhấn trực tiếp vào Label (nếu cần)
@@ -178,6 +181,7 @@ public class HomeController implements Initializable {
                         } else {
                             System.err.println("searchField is null!");
                         }
+                        event.consume(); // Ngăn chặn các sự kiện khác
                     });
 
                     // Thêm HBox vào suggestionContent
@@ -292,7 +296,7 @@ public class HomeController implements Initializable {
 
             // Lấy controller của trang chi tiết sách và load thông tin sách
             BookDetailsController bookDetailsController = fxmlLoader.getController();
-            bookDetailsController.loadBookDetails(document, userId, requestDAO);  // Truyền đủ ba tham số
+            bookDetailsController.loadBookDetails(document, userId, requestDAO, borrowRecordDAO);  // Truyền đủ bốn tham số
 
             // Mở cửa sổ mới để hiển thị chi tiết sách
             Stage stage = new Stage();
