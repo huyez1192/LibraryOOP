@@ -98,8 +98,6 @@ public class AdminController implements Initializable {
     }
 
 
-
-    //huyen
     @FXML
     private void handleRequestButton() throws IOException {
         Stage stage = (Stage) requestButton.getScene().getWindow();
@@ -110,7 +108,7 @@ public class AdminController implements Initializable {
 
         stage.setScene(scene);
     }    
-        
+
     public void switchToAdminDocuments(ActionEvent event) {
         try {
             // Tải FXML của giao diện thứ hai

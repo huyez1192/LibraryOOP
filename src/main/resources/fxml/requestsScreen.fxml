@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -13,7 +18,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../css/homeStyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RequestsScreenController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../css/homeStyling.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RequestsScreenController">
    <children>
       <HBox alignment="CENTER" prefHeight="600.0" prefWidth="900.0">
          <children>
@@ -51,12 +56,12 @@
                <children>
                   <HBox alignment="TOP_CENTER" prefHeight="34.0" prefWidth="683.0" VBox.vgrow="SOMETIMES">
                      <children>
-                        <TextField fx:id="searchField" prefHeight="42.0" prefWidth="578.0" promptText="Search for user" style="-fx-font-size: 14px; -fx-padding: 10px; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-color: #0078d4; -fx-border-width: 2; -fx-background-color: #f1f1f1;" HBox.hgrow="ALWAYS">
+                        <TextField fx:id="searchTextField" prefHeight="42.0" prefWidth="578.0" promptText="Search for user name" style="-fx-font-size: 14px; -fx-padding: 10px; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-color: #0078d4; -fx-border-width: 2; -fx-background-color: #f1f1f1;" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin>
                         </TextField>
-                        <Button fx:id="searchButton" prefHeight="44.0" prefWidth="84.0" style="-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-color: #0078d4; -fx-text-fill: white; -fx-background-radius: 25; -fx-border-radius: 25; -fx-cursor: hand; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, rgba(0, 120, 212, 0.7), 10, 0, 0, 4);" text="Search" textFill="#c9c9c9" />
+                        <Button fx:id="searchButton" onAction="#searchUser" prefHeight="44.0" prefWidth="84.0" style="-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-color: #0078d4; -fx-text-fill: white; -fx-background-radius: 25; -fx-border-radius: 25; -fx-cursor: hand; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, rgba(0, 120, 212, 0.7), 10, 0, 0, 4);" text="Search" textFill="#c9c9c9" />
                      </children>
                   </HBox>
                   <HBox alignment="TOP_CENTER" prefHeight="347.0" prefWidth="683.0" spacing="10.0" VBox.vgrow="ALWAYS">
@@ -65,12 +70,13 @@
                            <content>
                               <VBox fx:id="userContainer" prefHeight="487.0" prefWidth="670.0">
                                  <children>
-                                    <TableView fx:id="tableView" prefHeight="430.0" prefWidth="670.0" VBox.vgrow="ALWAYS">
+                                    <TableView fx:id="requestTableView" prefHeight="430.0" prefWidth="670.0" VBox.vgrow="ALWAYS">
                                       <columns>
-                                        <TableColumn fx:id="columnRequestID" prefWidth="166.0" text="Request ID" />
-                                        <TableColumn fx:id="columnUserID" minWidth="8.0" prefWidth="167.0" text="User ID" />
-                                          <TableColumn fx:id="columnISBN" prefWidth="167.0" text="ISBN" />
-                                          <TableColumn fx:id="columnRequestDate" prefWidth="169.0" text="Request Date" />
+                                        <TableColumn fx:id="columnRequestID" prefWidth="115.0" text="Request ID" />
+                                        <TableColumn fx:id="columnUserID" minWidth="8.0" prefWidth="124.0" text="User ID" />
+                                          <TableColumn fx:id="columnUserName" prefWidth="148.0" text="User Name" />
+                                          <TableColumn fx:id="columnISBN" minWidth="0.0" prefWidth="145.0" text="ISBN" />
+                                          <TableColumn fx:id="columnRequestDate" prefWidth="136.0" text="Request Date" />
                                       </columns>
                                     </TableView>
                                  </children></VBox>
