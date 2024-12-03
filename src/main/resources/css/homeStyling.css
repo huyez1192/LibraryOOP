@@ -1,46 +1,53 @@
-.navButton {
-    -fx-background-color:transparent;
-    -fx-font-weight: bold;
+/* homeStyling.css */
+
+/* Đảm bảo suggestionBox có đủ không gian và không bị cắt */
+#suggestionBox {
+    -fx-background-color: white;
+    -fx-border-color: gray;
+    -fx-padding: 10px;
+    -fx-max-height: 300px; /* Thiết lập chiều cao tối đa */
+    -fx-pref-width: 500px; /* Đảm bảo rộng bằng thanh tìm kiếm */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0, 0, 2); /* Thêm hiệu ứng bóng đổ */
 }
 
-.navButton: hover {
-    -fx-background-color: #a7bed1;
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
+#suggestionContent {
+    -fx-spacing: 10px;
 }
 
-.root {
-    -fx-font-family: "Segoe UI";
+/* Định dạng cho các HBox gợi ý */
+.suggestionItem {
+    -fx-background-color: #f9f9f9;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+}
+
+/* Định dạng cho hình ảnh trong gợi ý */
+.suggestionImage {
+    -fx-fit-height: 30px;
+    -fx-fit-width: 30px;
+    -fx-preserve-ratio: true;
+    -fx-smooth: true;
+    -fx-cache: true;
+}
+
+/* Định dạng cho tên sách trong gợi ý */
+.suggestionLabel {
     -fx-font-size: 14px;
+    -fx-text-fill: #333;
+    -fx-wrap-text: true;
+}
+
+/* Định dạng cho navigation buttons */
+.navButton {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333;
+    -fx-background-color: transparent;
+    -fx-border: none;
+    -fx-alignment: CENTER_LEFT;
 }
 
 .pickButton {
--fx-background-color:#a7bed1 ;
--fx-border-color:  #0078d4;
--fx-border-width:  0 0 0 4;
+    /* Các thuộc tính khác của button */
 }
-
-.sumUserButton {
--fx-background-color: #fae7f7;
-}
-
-.sumBookButton {
--fx-background-color: #dbedf4;
-}
-
-.sumRequestButton {
--fx-background-color: #f2f1da;
-}
-
-.sumGeneral {
--fx-font-size: 20px;
--fx-font-family: "Segoe UI";
--fx-font-weight: bold;
--fx-border-radius: 5%;
--fx-background-radius:5%;
-}
-
-.sumGeneral: hover {
--fx-background-color: #c9c9c9;
-}
-

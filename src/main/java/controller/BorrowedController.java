@@ -3,12 +3,13 @@ package controller;
 import Objects.BorrowRecord;
 import Objects.Document;
 import connect.MySQLConnection;
+import dao.BorrowRecordDAO;
+import dao.RequestDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -17,7 +18,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
-import java.time.LocalDate;
 
 public class BorrowedController {
 
@@ -47,6 +47,49 @@ public class BorrowedController {
     public void initialize() {
         setupTableColumns();
         loadDataFromDatabase();
+        borrowedTable.setOnMouseClicked(this::handleRowDoubleClick);
+    }
+
+    private void handleRowDoubleClick(javafx.scene.input.MouseEvent mouseEvent) {
+        if (mouseEvent.getClickCount() == 2) { // Kiểm tra nếu là nhấn đúp chuột
+            BorrowRecord selectedDocument = borrowedTable.getSelectionModel().getSelectedItem();
+            if (selectedDocument != null) {
+                showDocumentDetails(selectedDocument);
+            }
+        }
+    }
+
+    private void showDocumentDetails(BorrowRecord borrowRecord) {
+        try {
+            // Load giao diện bookdetails.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/bookDetail.fxml"));
+            Parent root = loader.load();
+            RequestDAO requestDAO = new RequestDAO();
+            boolean requestExists = requestDAO.checkIfRequestExists(borrowRecord.getUserId(), borrowRecord.getIsbn());
+
+            BorrowRecordDAO borrowRecordDAO = new BorrowRecordDAO();
+            boolean borrowedExists = borrowRecordDAO.checkIfBorrowedExists(borrowRecord.getUserId(), borrowRecord.getIsbn());
+            Document document = new Document(borrowRecord.getIsbn());
+            if (borrowRecord.getReturnDate() == null) {
+                requestExists = false;
+                borrowedExists = true;
+            } else {
+                requestExists = requestExists = false;
+                borrowedExists = false;
+            }
+
+            // Lấy controller của bookdetails.fxml
+            BookDetailsController detailsController = loader.getController();
+            detailsController.loadBookDetails(document, borrowRecord.getUserId(), requestDAO, borrowRecordDAO);
+
+            // Tạo một Stage mới để hiển thị giao diện chi tiết sách
+            Stage stage = new Stage();
+            stage.setTitle("Document Details");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private ObservableList<BorrowRecord> borrowedList = FXCollections.observableArrayList();

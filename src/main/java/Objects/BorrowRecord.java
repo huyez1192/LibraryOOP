@@ -16,6 +16,12 @@ public class BorrowRecord {
     public BorrowRecord() {
     }
 
+    public BorrowRecord(int user_id, String isbn, Date returnDate) {
+        this.userId = user_id;
+        this.isbn = isbn;
+        this.returnDate = returnDate;
+    }
+
     public BorrowRecord(String documentTitle, String isbn, Date borrowDate, Date returnDate) {
         this.documentTitle = documentTitle;
         this.isbn = isbn;
