@@ -7,6 +7,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -39,6 +41,9 @@ public class AdminController implements Initializable {
 
     @FXML
     private VBox userContainer;
+
+    @FXML
+    private Button requestButton;
 
     List<User> recommended;
 
@@ -91,6 +96,18 @@ public class AdminController implements Initializable {
     private void search(ActionEvent event) {
         // Xử lý tìm kiếm tại đây
     }
+
+
+    @FXML
+    private void handleRequestButton() throws IOException {
+        Stage stage = (Stage) requestButton.getScene().getWindow();
+
+        Parent requestRoot = FXMLLoader.load(getClass().getResource("/fxml/requestsScreen.fxml"));
+
+        Scene scene = new Scene(requestRoot, 900, 600);
+
+        stage.setScene(scene);
+    }    
 
     public void switchToAdminDocuments(ActionEvent event) {
         try {
