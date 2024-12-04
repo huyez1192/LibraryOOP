@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../css/homeStyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../css/homeStyling.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminController">
    <children>
       <HBox alignment="CENTER" prefHeight="600.0" prefWidth="900.0">
          <children>
@@ -41,14 +41,13 @@
                      </styleClass>
                   </Button>
 
-                  <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="USERS" onAction="#switchToAdminUsers" textFill="#a7bed1" VBox.vgrow="ALWAYS">
+                  <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchToAdminUsers" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="USERS" textFill="#a7bed1" VBox.vgrow="ALWAYS">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
                   </Button>
                   <Button fx:id="sumBookButton" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchToAdminDocuments" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="DOCUMENTS" textFill="#a7bed1" VBox.vgrow="ALWAYS" />
                   <Button fx:id="requestButton" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="242.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleRequestButton" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="REQUESTS" textFill="#a7bed1" />
-                  <Button alignment="BASELINE_LEFT" layoutX="10.0" layoutY="285.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="MORE" textFill="#a7bed1" />
 
                </children>
             </VBox>

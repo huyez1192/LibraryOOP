@@ -198,7 +198,35 @@ public class RequestsScreenController {
         }
     }
 
+    @FXML
+    private void switchToAdminDocuments(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/libraryDocument.fxml"));
+            Parent root = loader.load();
 
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            System.err.println("Error loading library document: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void switchToAdminUsers(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/adminUsers.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            System.err.println("Error loading users: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
     // Xử lý Accept Request
     private void acceptRequest(Request request) {

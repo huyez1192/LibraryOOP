@@ -79,7 +79,7 @@
                         <HBox prefHeight="34.0" prefWidth="683.0">
                             <children>
                                 <!-- Thanh tìm kiếm -->
-                                <TextField fx:id="searchField" prefHeight="42.0" prefWidth="578.0" promptText="Search for books..." style="-fx-font-size: 14px; -fx-padding: 10px; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-color: #0078d4; -fx-border-width: 2; -fx-background-color: #f1f1f1;">
+                                <TextField fx:id="searchField" prefHeight="42.0" prefWidth="578.0" promptText="Search for documents..." style="-fx-font-size: 14px; -fx-padding: 10px; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-color: #0078d4; -fx-border-width: 2; -fx-background-color: #f1f1f1;">
                                     <HBox.margin>
                                         <Insets right="10.0" />
                                     </HBox.margin>
