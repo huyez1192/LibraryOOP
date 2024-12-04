@@ -1,29 +1,35 @@
 package controller;
 
 import Objects.Document;
+import dao.BookDAO;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.awt.*;
+import java.awt.print.Book;
+import java.net.URL;
+import java.util.ResourceBundle;
+
 public class SmallBookController {
+    @FXML
+    private ImageView bookImage;
 
     @FXML
-    private ImageView bookImage;  // Để hiển thị ảnh bìa sách
+    private Label titleLabel;
 
     @FXML
-    private Label titleLabel;     // Để hiển thị tên sách
+    private Label authorLabel;
 
-    @FXML
-    private Label authorLabel;    // Để hiển thị tác giả sách
 
-    // Phương thức này dùng để load thông tin sách vào các thành phần trong FXML
-    public void loadBookInfo(Document document) {
-        titleLabel.setText(document.getTitle());  // Hiển thị tên sách
-        authorLabel.setText(document.getAuthors());  // Hiển thị tác giả sách
+    public void loadBookInfo(Document doc) {
+        bookImage.setImage(new Image(doc.getThumbnailLink()));
+        titleLabel.setText(doc.getTitle());
+        authorLabel.setText(doc.getAuthors());
 
-        // Nếu có ảnh bìa, hiển thị
-        if (document.getThumbnailLink() != null) {
-            bookImage.setImage(new javafx.scene.image.Image(document.getThumbnailLink()));
-        }
     }
+
+
 }
