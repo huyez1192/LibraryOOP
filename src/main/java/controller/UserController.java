@@ -5,9 +5,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
+import javax.swing.text.html.ImageView;
+
 public class UserController {
     @FXML
-    private Button delete;
+    private ImageView delete;
 
     @FXML
     private TextField name;

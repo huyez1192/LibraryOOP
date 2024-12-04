@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+
+<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="500.0" spacing="10.0" stylesheets="@../css/bookStyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RequestController">
+   <children>
+      <ImageView fitHeight="17.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+         <HBox.margin>
+            <Insets left="10.0" />
+         </HBox.margin>
+         <image>
+            <Image url="@../image/options.png" />
+         </image>
+      </ImageView>
+      <TextField fx:id="requestid" prefHeight="26.0" prefWidth="169.0">
+         <styleClass>
+            <String fx:value="button" />
+            <String fx:value="name" />
+         </styleClass>
+      </TextField>
+      <TextField fx:id="userid" prefHeight="26.0" prefWidth="131.0" styleClass="button" />
+      <TextField fx:id="isbn" prefHeight="26.0" prefWidth="106.0" styleClass="button" />
+      <TextField fx:id="requestdate" prefHeight="23.0" prefWidth="180.0" styleClass="button">
+         <HBox.margin>
+            <Insets />
+         </HBox.margin>
+      </TextField>
+      <ImageView fitHeight="20.0" fitWidth="88.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+         <image>
+            <Image url="@../image/bin.png" />
+         </image>
+         <HBox.margin>
+            <Insets right="10.0" />
+         </HBox.margin>
+      </ImageView>
+   </children>
+</HBox>

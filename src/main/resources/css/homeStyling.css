@@ -40,14 +40,57 @@
 }
 
 /* Định dạng cho navigation buttons */
+
 .navButton {
+    -fx-background-color:transparent;
+    -fx-font-weight: bold;
+}
+
+.navButton: hover {
+    -fx-background-color: #a7bed1;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.label {
+-fx-font-family: "Segoe UI";
+-fx-background-color:#dbedf4;
+-fx-font-weight: bold;
+-fx-font-color: #337ac1;
+}
+
+.root {
+    -fx-font-family: "Segoe UI";
     -fx-font-size: 14px;
-    -fx-text-fill: #333;
-    -fx-background-color: transparent;
-    -fx-border: none;
-    -fx-alignment: CENTER_LEFT;
 }
 
 .pickButton {
-    /* Các thuộc tính khác của button */
+-fx-background-color:#a7bed1 ;
+-fx-border-color:  #0078d4;
+-fx-border-width:  0 0 0 4;
 }
+
+.sumUserButton {
+-fx-background-color: #fae7f7;
+}
+
+.sumBookButton {
+-fx-background-color: #dbedf4;
+}
+
+.sumRequestButton {
+-fx-background-color: #f2f1da;
+}
+
+.sumGeneral {
+-fx-font-size: 20px;
+-fx-font-family: "Segoe UI";
+-fx-font-weight: bold;
+-fx-border-radius: 5%;
+-fx-background-radius:5%;
+}
+
+.sumGeneral: hover {
+-fx-background-color: #c9c9c9;
+}
+
