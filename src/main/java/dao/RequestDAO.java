@@ -113,4 +113,21 @@ public class RequestDAO {
         }
         return false;
     }
+
+    public int getBookQuantity(String isbn) {
+        String query = "SELECT quantity FROM books WHERE isbn = ?";
+        try (Connection conn = MySQLConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, isbn);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("quantity");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

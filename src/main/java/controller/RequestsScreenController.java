@@ -117,7 +117,7 @@ public class RequestsScreenController {
     private void loadDataFromDatabase() {
         String url = "jdbc:mysql://localhost:3306/libraryy";
         String username = "root";
-        String password = "huyen16125";
+        String password = "";
 
         String query = """
             SELECT r.request_id, r.user_id, u.full_name, r.isbn, r.request_date
@@ -233,17 +233,23 @@ public class RequestsScreenController {
         try (Connection connection = MySQLConnection.getConnection()) {
             String insertSql = "INSERT INTO BorrowedBooks (user_id, isbn, borrow_date) VALUES (?, ?, ?)";
             String deleteSql = "DELETE FROM Requests WHERE request_id = ?";
+            String updateQuantitySql = "UPDATE books SET quantity = quantity - 1 WHERE isbn = ? AND quantity > 0";
 
             connection.setAutoCommit(false); // Bắt đầu transaction
 
             try (PreparedStatement insertStmt = connection.prepareStatement(insertSql);
-                 PreparedStatement deleteStmt = connection.prepareStatement(deleteSql)) {
+                 PreparedStatement deleteStmt = connection.prepareStatement(deleteSql);
+                 PreparedStatement updateQuantityStmt = connection.prepareStatement(updateQuantitySql)) {
 
                 // Thêm thông tin vào bảng BorrowedBooks
                 insertStmt.setInt(1, request.getUserId());
                 insertStmt.setString(2, request.getIsbn());
                 insertStmt.setDate(3, java.sql.Date.valueOf(java.time.LocalDate.now())); // Ngày hiện tại
                 insertStmt.executeUpdate();
+
+                // Giảm số lượng sách trong bảng Books
+                updateQuantityStmt.setString(1, request.getIsbn());
+                int rowsAffected = updateQuantityStmt.executeUpdate();
 
                 // Xóa request khỏi bảng Requests
                 deleteStmt.setInt(1, request.getRequestId());

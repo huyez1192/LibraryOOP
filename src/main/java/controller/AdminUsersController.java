@@ -120,6 +120,21 @@ public class AdminUsersController implements Initializable {
         }
     }
 
+    @FXML
+    private void switchToAdminRequests(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/requestsScreen.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            System.err.println("Error loading requests: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     private void handleRemoveUser() {
         User selectedUser = usersTableViewTable.getSelectionModel().getSelectedItem();
         if (selectedUser != null) {
@@ -155,9 +170,9 @@ public class AdminUsersController implements Initializable {
     }
 
     private void loadDataFromDatabase() {
-        String url = "jdbc:mysql://localhost:3306/library";
+        String url = "jdbc:mysql://localhost:3306/libraryy";
         String username = "root";
-        String password = "caohuongiang171";
+        String password = "";
 
         String query = """
                     SELECT *
