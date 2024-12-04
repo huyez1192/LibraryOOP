@@ -1,12 +1,20 @@
 package controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.sql.Date;
+import java.util.Base64;
 
 import Objects.BorrowRecord;
 import Objects.Document;
+import QRCode.AppUtil;
 import dao.BorrowRecordDAO;
 import dao.RequestDAO;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,6 +22,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class BookDetailsController {
 
@@ -48,6 +59,12 @@ public class BookDetailsController {
 
     @FXML
     private Label shareMessage;
+
+    @FXML
+    private ImageView qrCodeImageView;
+
+    @FXML
+    private Button closeQrButton;
 
     // Phương thức loadBookDetails để hiển thị thông tin sách
     public void loadBookDetails(Document document, int userId, RequestDAO requestDAO, BorrowRecordDAO borrowRecordDAO) {
@@ -169,7 +186,66 @@ public class BookDetailsController {
 
     @FXML
     private void handleShareBook() {
-        shareMessage.setVisible(true);
+        if (document == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Lỗi");
+            alert.setHeaderText(null);
+            alert.setContentText("Không tìm thấy thông tin sách để chia sẻ.");
+            alert.showAndWait();
+            return;
+        }
+
+        // Dữ liệu cần mã hóa thành QR code
+        String qrData = "Sách: " + document.getTitle() + "\nISBN: " + document.getIsbn();
+
+        // Tạo mã QR dưới dạng Base64
+        String qrCodeBase64 = AppUtil.generateQrCode(qrData, 300, 300);
+
+        if (qrCodeBase64 == null || qrCodeBase64.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Lỗi");
+            alert.setHeaderText(null);
+            alert.setContentText("Không thể tạo mã QR.");
+            alert.showAndWait();
+            return;
+        }
+
+        // Loại bỏ phần "data:image/png;base64," nếu có
+        String base64Image = qrCodeBase64.contains(",") ? qrCodeBase64.split(",")[1] : qrCodeBase64;
+
+        try {
+            // Giải mã Base64 thành mảng byte
+            byte[] imageBytes = Base64.getDecoder().decode(base64Image);
+
+            // Tạo Image từ mảng byte
+            Image qrImage = new Image(new ByteArrayInputStream(imageBytes));
+
+            // Tải FXML của QRCodeView
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/QRCodeView.fxml"));
+            VBox qrRoot = loader.load();
+
+            // Lấy controller của QRCodeView
+            QRCodeViewController qrController = loader.getController();
+
+            // Thiết lập QR code Image
+            qrController.setQrCodeImage(qrImage);
+
+            // Tạo Stage mới cho QR code
+            Stage qrStage = new Stage();
+            qrStage.setTitle("Mã QR của " + document.getTitle());
+            qrStage.setScene(new Scene(qrRoot));
+            qrStage.initOwner(shareButton.getScene().getWindow()); // Đặt owner cho Stage mới
+            qrStage.initModality(Modality.APPLICATION_MODAL); // Ngăn tương tác với cửa sổ chính
+            qrStage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Lỗi");
+            alert.setHeaderText(null);
+            alert.setContentText("Không thể hiển thị mã QR.");
+            alert.showAndWait();
+        }
     }
 
     @FXML

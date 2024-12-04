@@ -15,7 +15,7 @@ import java.util.List;
 
 public class BookAPIClient {
     public static List<Document> fetchBooks(String query) throws IOException, InterruptedException {
-        String apiUrl = "https://www.googleapis.com/books/v1/volumes?q=" + query;
+        String apiUrl = "https://www.googleapis.com/books/v1/volumes" + query;
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(apiUrl))
