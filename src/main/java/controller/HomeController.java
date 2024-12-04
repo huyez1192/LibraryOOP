@@ -287,6 +287,24 @@ public class HomeController implements Initializable {
         }
     }
 
+    @FXML
+    public void switchToMore(ActionEvent event) {
+        try {
+            // Tải FXML của giao diện thứ hai
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/More.fxml"));
+            Parent root = loader.load();
+
+            // Lấy Stage hiện tại
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Đổi Scene
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     // Phương thức mở chi tiết sách
     private void openBookDetail(Document document) {
         try {

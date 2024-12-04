@@ -1,19 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Hyperlink?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.*?>
 
-<HBox alignment="CENTER" prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: linear-gradient(to bottom, #fceff9, #e0ffe0); -fx-padding: 20;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+<HBox alignment="CENTER" prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: linear-gradient(to bottom, #fceff9, #e0ffe0); -fx-padding: 20;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
    <children>
       <VBox alignment="CENTER" prefHeight="500.0" prefWidth="300.0" spacing="20.0" style="-fx-background-color: transparent; -fx-padding: 20;">
          <children>
@@ -29,6 +20,9 @@
             <PasswordField fx:id="passwordField" promptText="Password" style="-fx-font-family: 'Roboto'; -fx-prompt-text-fill: #388e3c; -fx-border-color: #80cbc4; -fx-border-radius: 20; -fx-background-radius: 20; -fx-background-color: rgba(255,255,255,0.8); -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 0, 2);" />
 
             <Hyperlink fx:id="signUpLink" onAction="#handleSignUpLink" style="-fx-font-family: 'Helvetica'; -fx-font-size: 12px;" text="Don't have an account? Sign up" textFill="#d81b60" />
+
+            <!-- Thêm Hyperlink "Forgot Password?" ở đây -->
+            <Hyperlink fx:id="forgotPasswordLink" onAction="#handleForgotPasswordLink" style="-fx-font-family: 'Helvetica'; -fx-font-size: 12px;" text="Forgot password?" textFill="#d81b60" />
 
             <Button fx:id="loginButton" onAction="#loginButtonOnAction" style="-fx-font-family: 'Helvetica'; -fx-background-color: linear-gradient(to bottom, #ff4081, #d81b60); -fx-text-fill: white; -fx-font-size: 16px; -fx-border-radius: 20; -fx-background-radius: 20; -fx-padding: 10 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0, 0, 3);" text="Login" />
          </children>
