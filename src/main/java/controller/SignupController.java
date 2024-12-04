@@ -50,9 +50,9 @@ public class SignupController {
     public void SignUpButtonActionPerformed(ActionEvent event) {
         String fullName, username, password, query, email;
         String URL, USER, PASSWORD;
-        URL = "jdbc:mysql://localhost:3306/libraryy";
+        URL = "jdbc:mysql://localhost:3306/library";
         USER = "root";
-        PASSWORD = "huyen16125";
+        PASSWORD = "caohuongiang171";
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
