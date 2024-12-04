@@ -30,12 +30,6 @@ import java.util.ResourceBundle;
 
 public class AdminController implements Initializable {
     @FXML
-    private Button searchButton;
-
-    @FXML
-    private TextField searchField;
-
-    @FXML
     private Button sumUserButton;
 
     @FXML
@@ -108,11 +102,6 @@ public class AdminController implements Initializable {
         UserDAO userDAO = new UserDAO();
         ls = userDAO.getAllUsers();
         return ls;
-    }
-
-    @FXML
-    private void search(ActionEvent event) {
-        // Xử lý tìm kiếm tại đây
     }
 
     private void loadBooks() {
