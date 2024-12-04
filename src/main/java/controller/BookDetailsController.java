@@ -50,6 +50,7 @@ public class BookDetailsController {
     private Label shareMessage;
 
     // Phương thức loadBookDetails để hiển thị thông tin sách
+
     public void loadBookDetails(Document document, int userId, RequestDAO requestDAO, BorrowRecordDAO borrowRecordDAO) {
         this.document = document;
         this.userId = userId;
@@ -65,65 +66,76 @@ public class BookDetailsController {
         // Cập nhật hình ảnh bìa sách
         if (document.getThumbnailLink() != null) {
             bookThumbnail.setImage(new Image(document.getThumbnailLink()));
+        } else {
+            bookThumbnail.setImage(new Image(getClass().getResourceAsStream("/images/default_book.png")));
         }
 
         // Kiểm tra trạng thái yêu cầu mượn sách
         checkRequestStatus();
     }
 
+
     // Kiểm tra trạng thái yêu cầu mượn sách
     private void checkRequestStatus() {
         boolean requestExists = requestDAO.checkIfRequestExists(userId, document.getIsbn());
         boolean borrowedExists = borrowRecordDAO.checkIfBorrowedExists(userId, document.getIsbn());
-        if (requestExists && !borrowedExists) {
+
+        if (borrowedExists) {
+            borrowButton.setText("Đã mượn");
+            borrowButton.setDisable(true);
+        } else if (requestExists) {
             borrowButton.setText("Chờ phê duyệt");
             borrowButton.setDisable(true);
-        } else if (!requestExists && !borrowedExists) {
-            borrowButton.setText("Mượn sách");
-            borrowButton.setDisable(false);
         } else {
-            borrowButton.setText("Trả sách");
+            borrowButton.setText("Mượn sách");
             borrowButton.setDisable(false);
         }
     }
 
     @FXML
     private void handleBorrowBook() {
-        if (requestDAO != null && document != null) {
+        if (requestDAO != null && borrowRecordDAO != null && document != null) {
             boolean requestExists = requestDAO.checkIfRequestExists(userId, document.getIsbn());
             boolean borrowedExists = borrowRecordDAO.checkIfBorrowedExists(userId, document.getIsbn());
+
             if (!requestExists && !borrowedExists) {
-                borrowButton.setText("Chờ phê duyệt");
+                // Gửi yêu cầu mượn sách
                 Date requestDate = new Date(System.currentTimeMillis());
                 requestDAO.addRequest(userId, document.getIsbn(), requestDate);
 
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Yêu cầu mượn sách");
+                alert.setHeaderText(null);
                 alert.setContentText("Yêu cầu mượn sách đã được gửi. Chờ phê duyệt.");
                 alert.showAndWait();
+
+                // Cập nhật trạng thái nút
                 checkRequestStatus();
-            } else if (!requestExists && !borrowedExists) {
+            } else if (requestExists && !borrowedExists) {
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setTitle("Yêu cầu đã tồn tại");
+                alert.setHeaderText(null);
                 alert.setContentText("Bạn đã yêu cầu mượn sách này rồi.");
                 alert.showAndWait();
-            } else {
-                Date returnDate = new Date(System.currentTimeMillis());
-                BorrowRecord returnDocument = new BorrowRecord(userId, document.getIsbn(), returnDate);
-                borrowRecordDAO.returnBook(returnDocument);
-                Alert alert = new Alert(AlertType.WARNING);
-                alert.setTitle("Yêu cầu trả sách");
-                alert.setContentText("Bạn đã trả sách.");
+            } else if (borrowedExists) {
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Sách đã được mượn");
+                alert.setHeaderText(null);
+                alert.setContentText("Bạn đã mượn sách này.");
                 alert.showAndWait();
             }
         }
     }
 
+    // Phương thức xử lý khi người dùng bấm nút chia sẻ sách
     @FXML
     private void handleShareBook() {
+        // Code để chia sẻ sách
         shareMessage.setVisible(true);
+        System.out.println("Đã chia sẻ đường dẫn của sách.");
     }
 
+    // Phương thức đóng cửa sổ chi tiết sách
     @FXML
     private void handleClose() {
         closeButton.getScene().getWindow().hide();

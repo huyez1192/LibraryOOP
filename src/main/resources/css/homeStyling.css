@@ -1,3 +1,46 @@
+/* homeStyling.css */
+
+/* Đảm bảo suggestionBox có đủ không gian và không bị cắt */
+#suggestionBox {
+    -fx-background-color: white;
+    -fx-border-color: gray;
+    -fx-padding: 10px;
+    -fx-max-height: 300px; /* Thiết lập chiều cao tối đa */
+    -fx-pref-width: 500px; /* Đảm bảo rộng bằng thanh tìm kiếm */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0, 0, 2); /* Thêm hiệu ứng bóng đổ */
+}
+
+#suggestionContent {
+    -fx-spacing: 10px;
+}
+
+/* Định dạng cho các HBox gợi ý */
+.suggestionItem {
+    -fx-background-color: #f9f9f9;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+}
+
+/* Định dạng cho hình ảnh trong gợi ý */
+.suggestionImage {
+    -fx-fit-height: 30px;
+    -fx-fit-width: 30px;
+    -fx-preserve-ratio: true;
+    -fx-smooth: true;
+    -fx-cache: true;
+}
+
+/* Định dạng cho tên sách trong gợi ý */
+.suggestionLabel {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333;
+    -fx-wrap-text: true;
+}
+
+/* Định dạng cho navigation buttons */
+
 .navButton {
     -fx-background-color:transparent;
     -fx-font-weight: bold;
@@ -7,6 +50,13 @@
     -fx-background-color: #a7bed1;
     -fx-scale-x: 1.05;
     -fx-scale-y: 1.05;
+}
+
+.label {
+-fx-font-family: "Segoe UI";
+-fx-background-color:#dbedf4;
+-fx-font-weight: bold;
+-fx-font-color: #337ac1;
 }
 
 .root {

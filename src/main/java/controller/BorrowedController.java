@@ -131,9 +131,9 @@ public class BorrowedController {
     }
 
     private void loadDataFromDatabase() {
-        String url = "jdbc:mysql://localhost:3306/libraryy";
+        String url = "jdbc:mysql://localhost:3306/library";
         String username = "root";
-        String password = "";
+        String password = "gem07012005";
 
         String query = """
             SELECT b.title, br.isbn, br.borrow_date, br.return_date
