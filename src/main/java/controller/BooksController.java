@@ -24,6 +24,6 @@ public class BooksController {
         bookname.setText(book.getTitle());
         bookisbn.setText(book.getIsbn());
         bookauthor.setText(book.getAuthors());
-        bookquantity.setText(book.getQuantity());
+        bookquantity.setText(String.valueOf(book.getQuantity()));
     }
 }

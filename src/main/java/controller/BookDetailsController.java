@@ -131,7 +131,6 @@ public class BookDetailsController {
         }
     }
 
-    // Phương thức xử lý khi người dùng bấm nút chia sẻ sách
     @FXML
     private void handleReturnBook() {
         if (borrowRecordDAO != null && document != null) {
@@ -170,12 +169,9 @@ public class BookDetailsController {
 
     @FXML
     private void handleShareBook() {
-        // Code để chia sẻ sách
         shareMessage.setVisible(true);
-        System.out.println("Đã chia sẻ đường dẫn của sách.");
     }
 
-    // Phương thức đóng cửa sổ chi tiết sách
     @FXML
     private void handleClose() {
         closeButton.getScene().getWindow().hide();

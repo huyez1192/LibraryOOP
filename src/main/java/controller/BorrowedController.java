@@ -64,33 +64,57 @@ public class BorrowedController {
             // Load giao diện bookdetails.fxml
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/bookDetail.fxml"));
             Parent root = loader.load();
-            RequestDAO requestDAO = new RequestDAO();
-            boolean requestExists = requestDAO.checkIfRequestExists(borrowRecord.getUserId(), borrowRecord.getIsbn());
-
-            BorrowRecordDAO borrowRecordDAO = new BorrowRecordDAO();
-            boolean borrowedExists = borrowRecordDAO.checkIfBorrowedExists(borrowRecord.getUserId(), borrowRecord.getIsbn());
-            Document document = new Document(borrowRecord.getIsbn());
-            if (borrowRecord.getReturnDate() == null) {
-                requestExists = false;
-                borrowedExists = true;
-            } else {
-                requestExists = requestExists = false;
-                borrowedExists = false;
-            }
 
             // Lấy controller của bookdetails.fxml
             BookDetailsController detailsController = loader.getController();
-            detailsController.loadBookDetails(document, borrowRecord.getUserId(), requestDAO, borrowRecordDAO);
+
+            // Lấy thông tin từ bảng book bằng isbn
+            String isbn = borrowRecord.getIsbn();
+            Document document = getDocumentByIsbn(isbn);  // Hàm lấy thông tin sách từ DB
+
+            // Gửi thông tin cần thiết vào BookDetailsController
+            detailsController.loadBookDetails(document, borrowRecord.getUserId(), new RequestDAO(), new BorrowRecordDAO());
 
             // Tạo một Stage mới để hiển thị giao diện chi tiết sách
             Stage stage = new Stage();
             stage.setTitle("Document Details");
             stage.setScene(new Scene(root));
             stage.show();
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    private Document getDocumentByIsbn(String isbn) {
+        Document document = null;
+        String query = "SELECT title, authors, categories, description, thumbnail_link FROM books WHERE isbn = ?";
+
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/library", "root", "gem07012005");
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, isbn);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    String title = rs.getString("title");
+                    String authors = rs.getString("authors");
+                    String categories = rs.getString("categories");
+                    String description = rs.getString("description");
+                    String thumbnailLink = rs.getString("thumbnail_link");
+
+                    // Tạo đối tượng Document với thông tin từ bảng book
+                    document = new Document(isbn, title, authors, categories, description, thumbnailLink);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return document;
+    }
+
+
+
 
     private ObservableList<BorrowRecord> borrowedList = FXCollections.observableArrayList();
 
