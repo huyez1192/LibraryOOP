@@ -1,5 +1,6 @@
 package dao;
 import Objects.BorrowRecord;
+import connect.MySQLConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -7,6 +8,10 @@ import java.util.List;
 
 public class BorrowRecordDAO {
     private Connection connection;
+
+    public BorrowRecordDAO() {
+        this.connection = MySQLConnection.getConnection();
+    }
 
     public BorrowRecordDAO(Connection connection) {
         this.connection = connection;
@@ -50,18 +55,28 @@ public class BorrowRecordDAO {
     }
 
     public void returnBook(BorrowRecord borrowRecord) {
-        //delete
-        //update quantity
-        String query = "UPDATE BorrowedBooks SET status = 'returned' WHERE borrow_id = ?";
+        // Truy vấn cập nhật trạng thái và ngày trả sách
+        String query = "UPDATE BorrowedBooks SET status = 'returned', return_date = ? WHERE borrow_id = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setInt(1, borrowRecord.getBorrowId());
+            // Lấy ngày hiện tại làm ngày trả
+            Date returnDate = new Date(System.currentTimeMillis());
+            Date borrowDate = borrowRecord.getBorrowDate();
+
+            // Thiết lập tham số cho truy vấn
+            ps.setDate(1, returnDate); // Gán ngày trả
+            ps.setInt(2, borrowRecord.getBorrowId()); // Gán ID mượn sách
+            ps.setDate(3, borrowDate);
+
+            // Thực thi truy vấn
             ps.executeUpdate();
 
-            updateBookQuantity(borrowRecord); // Cập nhật lại số lượng sách trong kho
+            // Cập nhật lại số lượng sách trong kho
+            updateBookQuantity(borrowRecord);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 
     public void deleteRecord(BorrowRecord borrowRecord) {
         String query = "DELETE FROM BorrowedBooks WHERE borrow_id = ?";
@@ -81,6 +96,22 @@ public class BorrowRecordDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean checkIfBorrowedExists(int userId, String isbn) {
+        String query = "SELECT COUNT(*) FROM borrowedbooks WHERE user_id = ? AND isbn = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, userId);
+            ps.setString(2, isbn);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;  // Nếu có ít nhất một yêu cầu trùng thì trả về true
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 

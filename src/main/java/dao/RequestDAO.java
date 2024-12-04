@@ -12,6 +12,15 @@ public class RequestDAO {
     private Connection connection;
 
     public RequestDAO() {
+        try {
+            // Tạo kết nối với cơ sở dữ liệu (thay thế với thông tin kết nối của bạn)
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            this.connection = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/libraryy", "root", "huyen16125"); // Cập nhật thông tin kết nối
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+            // Lỗi nếu kết nối không thành công
+        }
         this.connection = MySQLConnection.getConnection();
     }
 

@@ -1,10 +1,6 @@
 package controller;
 
-import Objects.Document;
-import Objects.Request;
 import Objects.User;
-import dao.BookDAO;
-import dao.RequestDAO;
 import dao.UserDAO;
 import dao.Statistics;
 import javafx.event.ActionEvent;
@@ -12,13 +8,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
-import java.awt.print.Book;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -45,16 +44,9 @@ public class AdminController implements Initializable {
     private VBox userContainer;
 
     @FXML
-    private VBox bookContainer;
+    private Button requestButton;
 
-    @FXML
-    private VBox requestContainer;
-
-    List<User> recommended1;
-
-    List<Document> recommended2;
-
-    List<Request> recommended3;
+    List<User> recommended;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -63,10 +55,6 @@ public class AdminController implements Initializable {
 
         // Hiển thị danh sách người dùng
         loadUsers();
-
-        loadBooks();
-
-        loadRequests();
     }
 
     private void loadStatistics() {
@@ -76,12 +64,12 @@ public class AdminController implements Initializable {
     }
 
     private void loadUsers() {
-        recommended1 = users();
-        System.out.println(recommended1.toString());
-        System.out.println(recommended1.size());
+        recommended = users();
+        System.out.println(recommended.toString());
+        System.out.println(recommended.size());
 
         try {
-            for (User user : recommended1) {
+            for (User user : recommended) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource("/fxml/users.fxml"));
                 HBox userBox = fxmlLoader.load();
@@ -110,63 +98,49 @@ public class AdminController implements Initializable {
         // Xử lý tìm kiếm tại đây
     }
 
-    private void loadBooks() {
-        recommended2 = books();
-        System.out.println(recommended2.toString());
-        System.out.println(recommended2.size());
 
+    @FXML
+    private void handleRequestButton() throws IOException {
+        Stage stage = (Stage) requestButton.getScene().getWindow();
+
+        Parent requestRoot = FXMLLoader.load(getClass().getResource("/fxml/requestsScreen.fxml"));
+
+        Scene scene = new Scene(requestRoot, 900, 600);
+
+        stage.setScene(scene);
+    }    
+
+    public void switchToAdminDocuments(ActionEvent event) {
         try {
-            for (Document book : recommended2) {
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/fxml/books.fxml"));
-                HBox userBox = fxmlLoader.load();
+            // Tải FXML của giao diện thứ hai
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/libraryDocument.fxml"));
+            Parent root = loader.load();
 
-                userBox.getStylesheets().add(getClass().getResource("/css/bookStyling.css").toExternalForm());
+            // Lấy Stage hiện tại
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
 
-                BooksController booksController = fxmlLoader.getController();
-                booksController.loadBookInfo(book);
-
-                bookContainer.getChildren().add(userBox);
-            }
+            // Đổi Scene
+            stage.setScene(new Scene(root));
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private List<Document> books() {
-        List<Document> ls = new ArrayList<>();
-        BookDAO bookDAO = new BookDAO();
-        ls = bookDAO.getAllDocuments();
-        return ls;
-    }
-
-    private void loadRequests() {
-        recommended3 = requests();
-        System.out.println(recommended3.toString());
-        System.out.println(recommended3.size());
-
+    public void switchToAdminUsers(ActionEvent event) {
         try {
-            for (Request request : recommended3) {
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/fxml/requests.fxml"));
-                HBox userBox = fxmlLoader.load();
+            // Tải FXML của giao diện thứ hai
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/adminUsers.fxml"));
+            Parent root = loader.load();
 
-                userBox.getStylesheets().add(getClass().getResource("/css/bookStyling.css").toExternalForm());
+            // Lấy Stage hiện tại
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
 
-                RequestController requestController = fxmlLoader.getController();
-                requestController.loadRequestsInfo(request);
-
-                requestContainer.getChildren().add(userBox);
-            }
+            // Đổi Scene
+            stage.setScene(new Scene(root));
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private List<Request> requests() {
-        List<Request> ls = new ArrayList<>();
-        RequestDAO requestDAO = new RequestDAO();
-        ls = requestDAO.getAllRequests();
-        return ls;
     }
 }

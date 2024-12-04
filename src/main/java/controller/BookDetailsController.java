@@ -1,9 +1,11 @@
 package controller;
 
 import java.sql.Date;
-import java.sql.SQLException;
-import dao.RequestDAO;
+
+import Objects.BorrowRecord;
 import Objects.Document;
+import dao.BorrowRecordDAO;
+import dao.RequestDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -15,9 +17,10 @@ import javafx.scene.control.Alert.AlertType;
 
 public class BookDetailsController {
 
-    private RequestDAO requestDAO;  // Đối tượng RequestDAO để quản lý yêu cầu mượn sách
+    private RequestDAO requestDAO;  // Quản lý yêu cầu mượn sách
     private int userId;  // ID người dùng
-    private Document document;  // Đối tượng Document lưu thông tin cuốn sách
+    private Document document;  // Thông tin cuốn sách
+    private BorrowRecordDAO borrowRecordDAO;
 
     @FXML
     private ImageView bookThumbnail;
@@ -46,72 +49,79 @@ public class BookDetailsController {
     @FXML
     private Label shareMessage;
 
-    // Phương thức loadBookDetails để hiển thị thông tin cuốn sách
-    public void loadBookDetails(Document document, int userId, RequestDAO requestDAO) {
-        this.document = document;  // Lưu đối tượng Document
-        this.userId = userId;      // Lưu userId
-        this.requestDAO = requestDAO; // Lưu RequestDAO để kiểm tra yêu cầu mượn sách
+    // Phương thức loadBookDetails để hiển thị thông tin sách
 
-        // Cập nhật thông tin sách vào các control
+    public void loadBookDetails(Document document, int userId, RequestDAO requestDAO, BorrowRecordDAO borrowRecordDAO) {
+        this.document = document;
+        this.userId = userId;
+        this.requestDAO = requestDAO;
+        this.borrowRecordDAO = borrowRecordDAO;
+
+        // Cập nhật thông tin sách vào giao diện
         bookTitle.setText(document.getTitle());
         bookAuthors.setText("Tác giả: " + document.getAuthors());
         bookCategory.setText("Thể loại: " + document.getCategories());
         bookDescription.setText(document.getDescription());
 
-        // Cập nhật hình ảnh bìa sách nếu có
+        // Cập nhật hình ảnh bìa sách
         if (document.getThumbnailLink() != null) {
             bookThumbnail.setImage(new Image(document.getThumbnailLink()));
+        } else {
+            bookThumbnail.setImage(new Image(getClass().getResourceAsStream("/images/default_book.png")));
         }
 
         // Kiểm tra trạng thái yêu cầu mượn sách
         checkRequestStatus();
     }
 
-    // Phương thức kiểm tra trạng thái yêu cầu mượn sách
+
+    // Kiểm tra trạng thái yêu cầu mượn sách
     private void checkRequestStatus() {
-        // Kiểm tra xem người dùng đã yêu cầu mượn sách này chưa và trạng thái của yêu cầu
         boolean requestExists = requestDAO.checkIfRequestExists(userId, document.getIsbn());
-        if (requestExists) {
-            // Nếu yêu cầu đã tồn tại, thay đổi nút thành "Chờ phê duyệt"
+        boolean borrowedExists = borrowRecordDAO.checkIfBorrowedExists(userId, document.getIsbn());
+
+        if (borrowedExists) {
+            borrowButton.setText("Đã mượn");
+            borrowButton.setDisable(true);
+        } else if (requestExists) {
             borrowButton.setText("Chờ phê duyệt");
-            borrowButton.setDisable(true); // Disable nút "Mượn sách" khi đang chờ phê duyệt
+            borrowButton.setDisable(true);
         } else {
-            // Nếu chưa yêu cầu, giữ nút "Mượn sách"
             borrowButton.setText("Mượn sách");
-            borrowButton.setDisable(false); // Enable lại nút "Mượn sách"
+            borrowButton.setDisable(false);
         }
     }
 
     @FXML
     private void handleBorrowBook() {
-        if (requestDAO != null && document != null) {
-            // Kiểm tra xem người dùng đã yêu cầu mượn sách này chưa
+        if (requestDAO != null && borrowRecordDAO != null && document != null) {
             boolean requestExists = requestDAO.checkIfRequestExists(userId, document.getIsbn());
-            if (!requestExists) {
-                // Nếu chưa có yêu cầu, tiến hành thêm yêu cầu mượn sách
-                borrowButton.setText("Chờ phê duyệt");
+            boolean borrowedExists = borrowRecordDAO.checkIfBorrowedExists(userId, document.getIsbn());
 
-                // Thêm yêu cầu mượn sách vào cơ sở dữ liệu
+            if (!requestExists && !borrowedExists) {
+                // Gửi yêu cầu mượn sách
                 Date requestDate = new Date(System.currentTimeMillis());
                 requestDAO.addRequest(userId, document.getIsbn(), requestDate);
 
-                // Hiển thị thông báo
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Yêu cầu mượn sách");
                 alert.setHeaderText(null);
                 alert.setContentText("Yêu cầu mượn sách đã được gửi. Chờ phê duyệt.");
                 alert.showAndWait();
 
-                System.out.println("Đã mượn sách: " + document.getTitle());
-
-                // Sau khi gửi yêu cầu, kiểm tra lại trạng thái
+                // Cập nhật trạng thái nút
                 checkRequestStatus();
-            } else {
-                // Nếu yêu cầu đã tồn tại, thông báo cho người dùng
+            } else if (requestExists && !borrowedExists) {
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setTitle("Yêu cầu đã tồn tại");
                 alert.setHeaderText(null);
                 alert.setContentText("Bạn đã yêu cầu mượn sách này rồi.");
+                alert.showAndWait();
+            } else if (borrowedExists) {
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Sách đã được mượn");
+                alert.setHeaderText(null);
+                alert.setContentText("Bạn đã mượn sách này.");
                 alert.showAndWait();
             }
         }

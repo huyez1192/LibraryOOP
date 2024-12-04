@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -36,13 +41,14 @@
                      </styleClass>
                   </Button>
 
-                  <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="BORROWED" textFill="#a7bed1" VBox.vgrow="ALWAYS">
+                  <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="USERS" onAction="#switchToAdminUsers" textFill="#a7bed1" VBox.vgrow="ALWAYS">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
                   </Button>
-
-                  <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="MORE" textFill="#a7bed1" VBox.vgrow="ALWAYS" />
+                  <Button fx:id="sumBookButton" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchToAdminDocuments" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="DOCUMENTS" textFill="#a7bed1" VBox.vgrow="ALWAYS" />
+                  <Button fx:id="requestButton" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="242.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleRequestButton" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="REQUESTS" textFill="#a7bed1" />
+                  <Button alignment="BASELINE_LEFT" layoutX="10.0" layoutY="285.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="MORE" textFill="#a7bed1" />
 
                </children>
             </VBox>

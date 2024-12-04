@@ -12,7 +12,7 @@
 }
 
 #bookImage {
-    -fx-effect: dropshadow(gaussian, rbga(0,0,0,0.5), 0,0,5,0,6);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 0,0,5,0,6);
 }
 
 #bookImage:hover {

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -14,18 +16,22 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@DashboardStyling.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BorrowedController">
+<?import javafx.geometry.Insets?>
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../css/homeStyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BorrowedController">
     <children>
         <HBox alignment="CENTER" prefHeight="600.0" prefWidth="900.0">
             <children>
-                <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="226.0" style="-fx-padding: 20; -fx-background-radius: 15; -fx-border-radius: 15;">
+                <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="226.0" style="-fx-background-color: #dfe7ef; -fx-background-radius: 0 20 20 0; -fx-border-radius: 0 20 20 0;">
                     <children>
                         <ImageView fitHeight="126.0" fitWidth="195.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
                             <image>
                                 <Image url="@../image/Meolib-Photoroom.png" />
                             </image>
+                            <VBox.margin>
+                                <Insets bottom="20.0" />
+                            </VBox.margin>
                         </ImageView>
-                        <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="43.0" prefWidth="226.0" style="-fx-background-color: transparent; -fx-text-fill: black; -fx-font-family: 'Segoe UI'; -fx-font-size: 14px;" text="   HOME" VBox.vgrow="ALWAYS">
+                        <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="   HOME" onAction="#switchToHome" VBox.vgrow="ALWAYS">
                             <graphic>
                                 <ImageView fitHeight="20.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -33,9 +39,12 @@
                                     </image>
                                 </ImageView>
                             </graphic>
+                            <VBox.margin>
+                                <Insets bottom="20.0" />
+                            </VBox.margin>
                         </Button>
 
-                        <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="43.0" prefWidth="226.0" style="-fx-background-color: ; -fx-text-fill: black; -fx-font-family: 'Segoe UI'; -fx-font-size: 14px;" text="   BORROWED" VBox.vgrow="ALWAYS">
+                        <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" text="   BORROWED" VBox.vgrow="ALWAYS">
                             <graphic>
                                 <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -43,9 +52,16 @@
                                     </image>
                                 </ImageView>
                             </graphic>
+                            <VBox.margin>
+                                <Insets bottom="20.0" />
+                            </VBox.margin>
+                            <styleClass>
+                                <String fx:value="navButton" />
+                                <String fx:value="pickButton" />
+                            </styleClass>
                         </Button>
 
-                        <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="43.0" prefWidth="226.0" style="-fx-background-color: transparent; -fx-text-fill: black; -fx-font-family: 'Segoe UI'; -fx-font-size: 14px;" text="   MORE" VBox.vgrow="ALWAYS">
+                        <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="   MORE" VBox.vgrow="ALWAYS">
                             <graphic>
                                 <ImageView fitHeight="21.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -58,24 +74,31 @@
                     </children>
                 </VBox>
 
-                <VBox prefHeight="600.0" prefWidth="813.0" spacing="15.0" style="-fx-padding: 20;" HBox.hgrow="ALWAYS">
+                <VBox prefHeight="600.0" prefWidth="813.0" spacing="10.0" style="-fx-padding: 30;" HBox.hgrow="ALWAYS">
                     <children>
-                        <HBox alignment="CENTER" prefHeight="50.0" prefWidth="700.0" spacing="10.0" VBox.vgrow="ALWAYS">
+                        <HBox prefHeight="34.0" prefWidth="683.0">
                             <children>
-                                <TextField prefHeight="35.0" prefWidth="550.0" promptText="Search books..." style="-fx-background-color: #FFFFFF; -fx-background-radius: 20; -fx-padding: 5 10; -fx-border-color: #CCCCCC; -fx-border-radius: 20;" HBox.hgrow="ALWAYS" />
-                                <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="104.0" style="-fx-background-color: black; -fx-text-fill: white; -fx-background-radius: 20; -fx-padding: 0 15;" text="Search" HBox.hgrow="ALWAYS" />
+                                <!-- Thanh tìm kiếm -->
+                                <TextField fx:id="searchField" prefHeight="42.0" prefWidth="578.0" promptText="Search for books..." style="-fx-font-size: 14px; -fx-padding: 10px; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-color: #0078d4; -fx-border-width: 2; -fx-background-color: #f1f1f1;">
+                                    <HBox.margin>
+                                        <Insets right="10.0" />
+                                    </HBox.margin>
+                                </TextField>
+
+                                <Button fx:id="searchButton" onAction="#searchDocuments" style="-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-color: #0078d4; -fx-text-fill: white; -fx-background-radius: 25; -fx-border-radius: 25; -fx-cursor: hand; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, rgba(0, 120, 212, 0.7), 10, 0, 0, 4);" text="Search" textFill="#dfe7ef" />
                             </children>
                         </HBox>
-                        <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="600.0" prefWidth="751.0" VBox.vgrow="ALWAYS">
-                     <content>
-                        <TableView prefHeight="200.0" prefWidth="200.0">
-                          <columns>
-                            <TableColumn prefWidth="345.0" text="Title" />
-                            <TableColumn prefWidth="132.0" text="ISBN" />
-                              <TableColumn prefWidth="192.0" text="Borrow Date" />
-                          </columns>
-                        </TableView>
-                     </content>
+                        <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="600.0" prefWidth="750.0" VBox.vgrow="ALWAYS">
+                            <content>
+                                <TableView fx:id="borrowedTable" prefHeight="200.0" prefWidth="200.0">
+                                    <columns>
+                                        <TableColumn fx:id="titleColumn" prefWidth="350.0" text="Title" />
+                                        <TableColumn fx:id="isbnColumn" prefWidth="130.0" text="ISBN" />
+                                        <TableColumn fx:id="borrowDateColumn" prefWidth="100.0" text="Borrow Date" />
+                                        <TableColumn fx:id="returnDateColumn" prefWidth="100.0" text="Return Date" />
+                                    </columns>
+                                </TableView>
+                            </content>
                         </ScrollPane>
                     </children>
                 </VBox>

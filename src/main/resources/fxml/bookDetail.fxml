@@ -3,16 +3,13 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-
 <BorderPane prefHeight="600" prefWidth="900" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BookDetailsController">
-
     <!-- Bên trái: Ảnh bìa -->
     <left>
         <VBox alignment="CENTER" prefWidth="250" spacing="20" style="-fx-padding: 60;">
             <ImageView fx:id="bookThumbnail" fitHeight="600" fitWidth="300" preserveRatio="true" />
         </VBox>
     </left>
-
     <!-- Bên phải: Thông tin sách và các nút -->
     <center>
         <VBox alignment="TOP_LEFT" spacing="30" style="-fx-padding: 50;">
@@ -22,17 +19,14 @@
             <Label fx:id="bookAuthors" style="-fx-font-size: 20px;" text="Tác giả: ..." />
             <!-- Thể loại -->
             <Label fx:id="bookCategory" style="-fx-font-size: 20px;" text="Thể loại: ..." />
-
             <!-- Mô tả sách -->
             <TextArea fx:id="bookDescription" editable="false" prefHeight="200" style="-fx-font-size: 18px;" text="Mô tả sách..." wrapText="true" />
-
             <!-- Các nút -->
             <HBox alignment="CENTER_LEFT" spacing="15">
                 <Button fx:id="borrowButton" onAction="#handleBorrowBook" style="-fx-background-color: #5cb85c; -fx-text-fill: white; -fx-font-size: 18px;" text="Mượn Sách" />
                 <Button fx:id="shareButton" onAction="#handleShareBook" style="-fx-background-color: #0275d8; -fx-text-fill: white; -fx-font-size: 18px;" text="Chia Sẻ" />
                 <Button fx:id="closeButton" onAction="#handleClose" style="-fx-background-color: #d9534f; -fx-text-fill: white; -fx-font-size: 18px" text="Đóng" />
             </HBox>
-
             <!-- Thông báo khi chia sẻ -->
             <Label fx:id="shareMessage" style="-fx-font-size: 16px; -fx-text-fill: green;" visible="false" text="Đã Lưu Đường Dẫn" />
         </VBox>
