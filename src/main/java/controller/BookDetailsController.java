@@ -50,7 +50,6 @@ public class BookDetailsController {
     private Label shareMessage;
 
     // Phương thức loadBookDetails để hiển thị thông tin sách
-
     public void loadBookDetails(Document document, int userId, RequestDAO requestDAO, BorrowRecordDAO borrowRecordDAO) {
         this.document = document;
         this.userId = userId;
@@ -64,7 +63,7 @@ public class BookDetailsController {
         bookDescription.setText(document.getDescription());
 
         // Cập nhật hình ảnh bìa sách
-        if (document.getThumbnailLink() != null) {
+        if (document.getThumbnailLink() != null && !document.getThumbnailLink().isEmpty()) {
             bookThumbnail.setImage(new Image(document.getThumbnailLink()));
         } else {
             bookThumbnail.setImage(new Image(getClass().getResourceAsStream("/images/default_book.png")));
@@ -74,21 +73,26 @@ public class BookDetailsController {
         checkRequestStatus();
     }
 
-
     // Kiểm tra trạng thái yêu cầu mượn sách
     private void checkRequestStatus() {
-        boolean requestExists = requestDAO.checkIfRequestExists(userId, document.getIsbn());
         boolean borrowedExists = borrowRecordDAO.checkIfBorrowedExists(userId, document.getIsbn());
+        boolean requestExists = requestDAO.checkIfRequestExists(userId, document.getIsbn());
 
         if (borrowedExists) {
-            borrowButton.setText("Đã mượn");
-            borrowButton.setDisable(true);
+            borrowButton.setText("Trả sách");
+            borrowButton.setDisable(false); // Kích hoạt nút để người dùng có thể nhấn
+            // Đặt hành động cho nút Trả sách
+            borrowButton.setOnAction(event -> handleReturnBook());
         } else if (requestExists) {
             borrowButton.setText("Chờ phê duyệt");
             borrowButton.setDisable(true);
+            // Đặt hành động rỗng vì nút bị vô hiệu hóa
+            borrowButton.setOnAction(null);
         } else {
             borrowButton.setText("Mượn sách");
             borrowButton.setDisable(false);
+            // Đặt hành động cho nút Mượn sách
+            borrowButton.setOnAction(event -> handleBorrowBook());
         }
     }
 
@@ -122,6 +126,42 @@ public class BookDetailsController {
                 alert.setTitle("Sách đã được mượn");
                 alert.setHeaderText(null);
                 alert.setContentText("Bạn đã mượn sách này.");
+                alert.showAndWait();
+            }
+        }
+    }
+
+    @FXML
+    private void handleReturnBook() {
+        if (borrowRecordDAO != null && document != null) {
+            // Kiểm tra xem người dùng đã mượn sách này chưa
+            boolean borrowedExists = borrowRecordDAO.checkIfBorrowedExists(userId, document.getIsbn());
+
+            if (borrowedExists) {
+                // Xóa bản ghi mượn sách từ cơ sở dữ liệu
+                boolean deleteSuccess = borrowRecordDAO.deleteBorrowRecord(userId, document.getIsbn());
+
+                if (deleteSuccess) {
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Trả sách thành công");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Bạn đã trả sách thành công.");
+                    alert.showAndWait();
+
+                    // Cập nhật trạng thái nút
+                    checkRequestStatus();
+                } else {
+                    Alert alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("Lỗi khi trả sách");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Có lỗi xảy ra khi trả sách. Vui lòng thử lại.");
+                    alert.showAndWait();
+                }
+            } else {
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setTitle("Chưa mượn sách");
+                alert.setHeaderText(null);
+                alert.setContentText("Bạn chưa mượn sách này.");
                 alert.showAndWait();
             }
         }

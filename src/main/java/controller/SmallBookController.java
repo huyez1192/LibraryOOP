@@ -3,6 +3,7 @@ package controller;
 import Objects.Document;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class SmallBookController {
@@ -18,12 +19,23 @@ public class SmallBookController {
 
     // Phương thức này dùng để load thông tin sách vào các thành phần trong FXML
     public void loadBookInfo(Document document) {
-        titleLabel.setText(document.getTitle());  // Hiển thị tên sách
-        authorLabel.setText(document.getAuthors());  // Hiển thị tác giả sách
 
-        // Nếu có ảnh bìa, hiển thị
+        // Hiển thị tên sách và tác giả
+        titleLabel.setText(document.getTitle());
+        authorLabel.setText(document.getAuthors());
+
+        // Kiểm tra nếu có ảnh bìa và tải ảnh từ URL
         if (document.getThumbnailLink() != null) {
-            bookImage.setImage(new javafx.scene.image.Image(document.getThumbnailLink()));
+            try {
+                // Nếu đường dẫn là URL hợp lệ, sử dụng nó để tải ảnh
+                Image image = new Image(document.getThumbnailLink());
+                bookImage.setImage(image);
+            } catch (IllegalArgumentException e) {
+                // Nếu URL không hợp lệ, in ra lỗi
+                System.out.println("Invalid image URL: " + document.getThumbnailLink());
+            }
+        } else {
+            System.out.println("No thumbnail link provided for the book.");
         }
     }
 }
