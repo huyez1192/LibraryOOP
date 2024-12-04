@@ -28,6 +28,9 @@ public class BorrowedController {
     private Button searchButton;
 
     @FXML
+    private Button moreButton;
+
+    @FXML
     private TableView<BorrowRecord> borrowedTable;
 
     @FXML
@@ -154,6 +157,23 @@ public class BorrowedController {
         }
     }
 
+    @FXML
+    public void switchToMore(ActionEvent event) {
+        try {
+            // Tải FXML của giao diện BORROWED
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/More.fxml"));
+            Parent root = loader.load();
+
+            // Lấy Stage hiện tại
+            Stage stage = (Stage) moreButton.getScene().getWindow();
+
+            // Đổi Scene
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     private void loadDataFromDatabase() {
         String url = "jdbc:mysql://localhost:3306/library";
         String username = "root";

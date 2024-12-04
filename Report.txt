@@ -1,0 +1,61 @@
+                BÁO CÁO BÀI TẬP LỚN OOP
+I. Thông tin chung
+•	Tên nhóm: HGML
+•	Tên bài tập lớn: Ứng dụng Java Quản lý Thư viện
+•	Thành viên nhóm:
+    -	23021538 Cao Hương Giang
+    -	23020621 Nguyễn Thị Ngọc Linh
+    -	23021582 Nguyễn Ngọc Huyền
+    -	23021622 Bùi Quang Minh
+        ________________________________________
+II. Tóm tắt nội dung dự án
+1.	Mục tiêu của dự án:
+-	Chức năng Quản lý sách
+    •	Thêm, sửa, xóa thông tin sách (tên sách, tác giả, thể loại, năm xuất bản, số lượng sách, …).
+    •	Tìm kiếm sách theo nhiều tiêu chí (tên, tác giả, ISBN, thể loại...).
+    •	Quản lý số lượng bản sao của mỗi cuốn sách.
+-	Chức năng Mượn trả sách
+    •	Xử lý yêu cầu mượn sách: kiểm tra sách có sẵn, cập nhật tình trạng mượn.
+    •	Quản lý lịch sử mượn trả sách.
+-	Chức năng Thống kê và Báo cáo
+    •	Thống kê số lượng sách hiện có trong thư viện.
+    •	Thống kê số lượng yêu cầu mượn sách.
+    •	Thống kê số lượng người dùng.
+-	 Chức năng Quản lý người dùng (Admin)
+    •	Đăng nhập và phân quyền (quản trị viên, độc giả).
+    •	Quản lý tài khoản người dùng (thêm, xóa tài khoản).
+-	Chức năng Giao diện người dùng thân thiện
+    •	Thiết kế giao diện dễ sử dụng, thân thiện.
+-	Chức năng Hỗ trợ và Liên hệ
+    •	Cung cấp QR cho từng sách, hỗ trợ việc chia sẻ tới những độc giả khác.
+    •	Hỗ trợ khôi phục mật khẩu ứng dụng.
+2.	Các công nghệ sử dụng: Java, JDBC, cơ sở dữ liệu MySQL, thư viện/Framework khác.
+        ________________________________________
+III. Phân công công việc
+1. Cao Hương Giang
+	- Lập trình chức năng Login, Sign up
+	- Lập trình giao diện trang chủ của Admin.
+	- Thiết kế giao diện trang chủ của User.
+    - Xây dựng chức năng thống kê (số sách, số lượng người dùng, số yêu cầu mượn sách).
+    - Thiết kế cơ sở dữ liệu (bảng sách, người dùng, sách đã mượn, yêu cầu mượn sách).
+2. Nguyễn Thị Ngọc Linh
+	- Lập trình phần quản lý người dùng (User) của giao diện Admin.
+	- Lập trình phần quản lý sách (Documents) của giao diện Admin.
+	- Lập trình phần mượn sách (Borrowed) của giao diện User.
+	- Tạo mã QR cho sách.
+	- Lập trình phần forgot password.
+3. Nguyễn Ngọc Huyền
+    - Viết module xử lý giao tiếp cơ sở dữ liệu (DAO).
+    - Kết nối cơ sở dữ liệu với project và liên kết phần Sign up với cơ sở dữ liệu.
+    - Gọi API và thêm sách vào cơ sở dữ liệu.
+    - Liên kết hiện sách lên giao diện trang chủ User từ cơ sở dữ liệu.
+    - Lập trình phần yêu cầu mượn sách (Request) của giao diện Admin.
+    - Viết bài báo cáo.
+4. Bùi Quang Minh
+	- Lập trình chức năng tìm kiếm sách.
+	- Lập trình phần chi tiết sách (BookDetails) của giao diện User.
+	- Liên kết mã QR.
+	- Liên kết forgot password.
+	- Viết tài liệu hướng dẫn sử dụng ứng dụng.
+
+

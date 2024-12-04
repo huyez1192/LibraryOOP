@@ -59,7 +59,7 @@
                             </VBox.margin>
                         </Button>
 
-                        <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="   MORE" VBox.vgrow="ALWAYS">
+                        <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchToMore" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="   MORE" VBox.vgrow="ALWAYS">
 
                             <graphic>
                                 <ImageView fitHeight="21.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
@@ -92,16 +92,9 @@
                             </HBox>
 
                             <!-- Hộp gợi ý tìm kiếm -->
-                            <VBox fx:id="suggestionBox"
-                                  managed="false"
-                                  visible="false"
-                                  style="-fx-background-color: white; -fx-border-color: gray; -fx-padding: 10;"
-                                  prefWidth="500.0"
-                                  maxHeight="300.0"
-                                  StackPane.alignment="TOP_LEFT"
-                                  focusTraversable="false">
+                            <VBox fx:id="suggestionBox" focusTraversable="false" managed="false" maxHeight="300.0" prefWidth="500.0" style="-fx-background-color: white; -fx-border-color: gray; -fx-padding: 10;" visible="false" StackPane.alignment="TOP_LEFT">
                                 <children>
-                                    <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-border-color: transparent; -fx-background-color: transparent;">
+                                    <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-border-color: transparent; -fx-background-color: transparent;">
                                         <content>
                                             <VBox fx:id="suggestionContent" spacing="10.0" />
                                         </content>
