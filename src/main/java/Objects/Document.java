@@ -30,6 +30,16 @@ public class Document {
         this.isBorrowed = false;
     }
 
+    public Document(String isbn, String title, String authors,String categories,String description,  String thumbnailLink) {
+        this.isbn = isbn;
+        this.title = title;
+        this.authors = authors;
+        this.description = description;
+        this.categories = categories;
+        this.thumbnailLink = thumbnailLink;
+        this.isBorrowed = false;
+    }
+
     // Getters and setters
     public String getIsbn() {
         return isbn;

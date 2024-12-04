@@ -1,4 +1,5 @@
 package dao;
+
 import Objects.BorrowRecord;
 import connect.MySQLConnection;
 
@@ -60,12 +61,10 @@ public class BorrowRecordDAO {
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             // Lấy ngày hiện tại làm ngày trả
             Date returnDate = new Date(System.currentTimeMillis());
-            Date borrowDate = borrowRecord.getBorrowDate();
 
             // Thiết lập tham số cho truy vấn
             ps.setDate(1, returnDate); // Gán ngày trả
             ps.setInt(2, borrowRecord.getBorrowId()); // Gán ID mượn sách
-            ps.setDate(3, borrowDate);
 
             // Thực thi truy vấn
             ps.executeUpdate();
@@ -88,6 +87,20 @@ public class BorrowRecordDAO {
         }
     }
 
+    // Thêm phương thức xóa bản ghi dựa trên user_id và isbn
+    public boolean deleteBorrowRecord(int userId, String isbn) {
+        String query = "DELETE FROM BorrowedBooks WHERE user_id = ? AND isbn = ? AND status = 'borrowed'";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, userId);
+            ps.setString(2, isbn);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0; // Trả về true nếu có bản ghi bị xóa
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public void updateBookQuantity(BorrowRecord borrowRecord) {
         String query = "UPDATE Books SET quantity = quantity + 1 WHERE isbn = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
@@ -99,13 +112,13 @@ public class BorrowRecordDAO {
     }
 
     public boolean checkIfBorrowedExists(int userId, String isbn) {
-        String query = "SELECT COUNT(*) FROM borrowedbooks WHERE user_id = ? AND isbn = ?";
+        String query = "SELECT COUNT(*) FROM BorrowedBooks WHERE user_id = ? AND isbn = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, userId);
             ps.setString(2, isbn);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getInt(1) > 0;  // Nếu có ít nhất một yêu cầu trùng thì trả về true
+                    return rs.getInt(1) > 0;  // Trả về true nếu có ít nhất một yêu cầu trùng
                 }
             }
         } catch (SQLException e) {
@@ -113,6 +126,4 @@ public class BorrowRecordDAO {
         }
         return false;
     }
-
-
 }
