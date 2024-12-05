@@ -74,11 +74,11 @@ public class LibraryDocumentController implements Initializable {
         contextMenu = new ContextMenu();
         // Menu item Remove
         MenuItem removeMenuItem = new MenuItem("Remove");
-        removeMenuItem.setOnAction(event -> handleRemoveBook());
+        removeMenuItem.setOnAction(event -> handleRemoveDocument());
 
         // Menu item Update
         MenuItem updateMenuItem = new MenuItem("Update");
-        updateMenuItem.setOnAction(event -> handleUpdateQuantityBook());
+        updateMenuItem.setOnAction(event -> handleUpdateQuantityDocument());
         contextMenu.getItems().addAll(removeMenuItem, updateMenuItem);
 
         // Thêm event nhấn chuột phải vào TableView
@@ -151,7 +151,7 @@ public class LibraryDocumentController implements Initializable {
         }
     }
 
-    private void handleRemoveBook() {
+    private void handleRemoveDocument() {
         Document selectedBook = documentTableViewTable.getSelectionModel().getSelectedItem();
         if (selectedBook != null) {
             Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
@@ -221,7 +221,7 @@ public class LibraryDocumentController implements Initializable {
 //        }
 //    }
 
-private void handleUpdateQuantityBook() {
+private void handleUpdateQuantityDocument() {
     Document selectedBook = documentTableViewTable.getSelectionModel().getSelectedItem();
     if (selectedBook != null) {
         TextInputDialog dialog = new TextInputDialog(String.valueOf(selectedBook.getQuantity()));

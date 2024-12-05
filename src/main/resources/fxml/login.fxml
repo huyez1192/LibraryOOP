@@ -25,6 +25,7 @@
             <Hyperlink fx:id="forgotPasswordLink" onAction="#handleForgotPasswordLink" style="-fx-font-family: 'Helvetica'; -fx-font-size: 12px;" text="Forgot password?" textFill="#d81b60" />
 
             <Button fx:id="loginButton" onAction="#loginButtonOnAction" style="-fx-font-family: 'Helvetica'; -fx-background-color: linear-gradient(to bottom, #ff4081, #d81b60); -fx-text-fill: white; -fx-font-size: 16px; -fx-border-radius: 20; -fx-background-radius: 20; -fx-padding: 10 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0, 0, 3);" text="Login" />
+<!--            <Hyperlink fx:id="forgotPassword" onAction="#handleForgotPasswordLink" style="-fx-font-family: 'Helvetica'; -fx-font-size: 12px;" text="Forgot password?" textFill="#d81b60" />-->
          </children>
       </VBox>
    </children>

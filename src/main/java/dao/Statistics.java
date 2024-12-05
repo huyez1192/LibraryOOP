@@ -12,7 +12,7 @@ public class Statistics {
         // Cập nhật thông tin kết nối với cơ sở dữ liệu của bạn ở đây
         String url = "jdbc:mysql://localhost:3306/library";
         String user = "root";
-        String password = "caohuongiang171";
+        String password = "";
         return DriverManager.getConnection(url, user, password);
     }
 

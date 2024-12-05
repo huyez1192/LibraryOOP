@@ -58,7 +58,7 @@
                         <HBox alignment="TOP_CENTER" prefHeight="34.0" prefWidth="683.0" VBox.vgrow="SOMETIMES">
                             <children>
                                 <!-- Thanh tìm kiếm -->
-                                <TextField fx:id="searchField" onAction="#searchDocuments" prefHeight="44.0" prefWidth="572.0" promptText="Search for books..." style="-fx-font-size: 14px; -fx-padding: 10px; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-color: #0078d4; -fx-border-width: 2; -fx-background-color: #f1f1f1;" HBox.hgrow="ALWAYS">
+                                <TextField fx:id="searchField" onAction="#searchDocuments" prefHeight="44.0" prefWidth="572.0" promptText="Search for documents..." style="-fx-font-size: 14px; -fx-padding: 10px; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-color: #0078d4; -fx-border-width: 2; -fx-background-color: #f1f1f1;" HBox.hgrow="ALWAYS">
                                     <HBox.margin>
                                         <Insets right="10.0" />
                                     </HBox.margin>

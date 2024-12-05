@@ -71,8 +71,6 @@ public class AddDocumentController implements Initializable {
 
     private ContextMenu contextMenu;
 
-    private static final String API_URL = "https://www.googleapis.com/books/v1/volumes?q=java+programming";
-
     private ObservableList<Document> documentsList = FXCollections.observableArrayList();
 
     @Override

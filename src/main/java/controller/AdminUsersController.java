@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -52,16 +53,37 @@ public class AdminUsersController implements Initializable {
     @FXML
     private TableColumn<User, String> emailColumn;
 
+    private ContextMenu contextMenu;
+
     private ObservableList<User> usersList = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupTableColumns();
         loadDataFromDatabase();
+        // Tạo menu ngữ cảnh
+        contextMenu = new ContextMenu();
+        MenuItem addMenuItem = new MenuItem("Remove");
+        addMenuItem.setOnAction(event -> handleRemoveUser()); // Xử lý khi nhấn "Add"
+        contextMenu.getItems().add(addMenuItem);
+
+        // Thêm event nhấn chuột phải vào TableView
+        usersTableViewTable.setRowFactory(tv -> {
+            TableRow<User> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                // Kiểm tra nếu sự kiện là chuột phải và row không rỗng
+                if (event.getButton() == MouseButton.SECONDARY && !row.isEmpty()) {
+                    contextMenu.show(row, event.getScreenX(), event.getScreenY());
+                } else {
+                    contextMenu.hide();
+                }
+            });
+            return row;
+        });
     }
 
     private void setupTableColumns() {
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("userId"));
         fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
         userNameColumn.setCellValueFactory(new PropertyValueFactory<>("userName"));
         passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
@@ -98,10 +120,59 @@ public class AdminUsersController implements Initializable {
         }
     }
 
+    @FXML
+    private void switchToAdminRequests(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/requestsScreen.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            System.err.println("Error loading requests: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void handleRemoveUser() {
+        User selectedUser = usersTableViewTable.getSelectionModel().getSelectedItem();
+        if (selectedUser != null) {
+            Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmation.setTitle("Remove Confirmation");
+            confirmation.setHeaderText(null);
+            confirmation.setContentText("Are you sure you want to remove this user?");
+
+            if (confirmation.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
+                boolean success = MySQLConnection.removeUserFromDatabase(selectedUser.getUserId());
+                if (success) {
+                    usersList.remove(selectedUser); // Xóa sách khỏi danh sách hiển thị
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Success");
+                    alert.setHeaderText(null);
+                    alert.setContentText("User removed successfully!");
+                    alert.showAndWait();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Failed to remove user.");
+                    alert.showAndWait();
+                }
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select an user to remove.");
+            alert.showAndWait();
+        }
+    }
+
     private void loadDataFromDatabase() {
-        String url = "jdbc:mysql://localhost:3306/library";
+        String url = "jdbc:mysql://localhost:3306/libraryy";
         String username = "root";
-        String password = "caohuongiang171";
+        String password = "";
 
         String query = """
                     SELECT *
