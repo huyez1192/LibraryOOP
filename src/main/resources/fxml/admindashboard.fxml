@@ -51,7 +51,7 @@
                <children>
                   <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0" VBox.vgrow="SOMETIMES">
                      <children>
-                        <Button fx:id="sumUserButton" mnemonicParsing="false" prefHeight="100.0" prefWidth="200.0" textFill="#337ac1" HBox.hgrow="ALWAYS">
+                        <Button fx:id="sumUserButton" onAction="#switchToAdminUsers" mnemonicParsing="false" prefHeight="100.0" prefWidth="200.0" textFill="#337ac1" HBox.hgrow="ALWAYS">
                            <graphic>
                               <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -63,7 +63,7 @@
                               <String fx:value="sumUserButton" />
                               <String fx:value="sumGeneral" />
                            </styleClass></Button>
-                        <Button fx:id="sumBookButton" mnemonicParsing="false" prefHeight="100.0" prefWidth="200.0" textFill="#337ac1" HBox.hgrow="ALWAYS">
+                        <Button fx:id="sumBookButton" onAction="#switchToAdminDocuments" mnemonicParsing="false" prefHeight="100.0" prefWidth="200.0" textFill="#337ac1" HBox.hgrow="ALWAYS">
                            <graphic>
                               <ImageView fitHeight="32.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -72,10 +72,11 @@
                               </ImageView>
                            </graphic>
                            <styleClass>
+
                               <String fx:value="sumBookButton" />
                               <String fx:value="sumGeneral" />
                            </styleClass></Button>
-                        <Button fx:id="sumRequestButton" mnemonicParsing="false" prefHeight="100.0" prefWidth="200.0" textFill="#337ac1" HBox.hgrow="ALWAYS">
+                        <Button fx:id="sumRequestButton" onAction="#handleRequestButton" mnemonicParsing="false" prefHeight="100.0" prefWidth="200.0" textFill="#337ac1" HBox.hgrow="ALWAYS">
                            <graphic>
                               <ImageView fitHeight="31.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
