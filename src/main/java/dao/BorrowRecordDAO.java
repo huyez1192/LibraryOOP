@@ -158,4 +158,16 @@ public class BorrowRecordDAO {
         }
         return false;
     }
+
+    public boolean incrementBookQuantity(String isbn) {
+        String query = "UPDATE books SET quantity = quantity + 1 WHERE isbn = ?";
+        try (Connection conn = MySQLConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, isbn);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
