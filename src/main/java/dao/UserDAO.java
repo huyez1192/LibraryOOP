@@ -25,7 +25,7 @@ public class UserDAO {
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setString(1, user.getFullName());
             ps.setString(2, user.getUserName());
-            ps.setString(3, user.getPassword()); // Lưu mật khẩu đã mã hóa (hash)
+            ps.setString(3, user.getPassword()); // Lưu mật khẩu dưới dạng văn bản thuần
             ps.setString(4, user.getEmail());
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -110,7 +110,7 @@ public class UserDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     // So sánh mật khẩu nhập vào với mật khẩu lưu trong cơ sở dữ liệu
-                    return password.equals(rs.getString("pass_word")); // Chú ý, nên mã hóa mật khẩu trước khi so sánh
+                    return password.equals(rs.getString("pass_word")); // So sánh trực tiếp
                 }
             }
         } catch (SQLException e) {
@@ -125,7 +125,7 @@ public class UserDAO {
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setString(1, user.getFullName());
             ps.setString(2, user.getUserName());
-            ps.setString(3, user.getPassword()); // Lưu mật khẩu đã mã hóa (hash)
+            ps.setString(3, user.getPassword()); // Lưu mật khẩu dưới dạng văn bản thuần
             ps.setString(4, user.getEmail());
             ps.setInt(5, user.getUserId());
             ps.executeUpdate();
@@ -144,4 +144,37 @@ public class UserDAO {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Kiểm tra xem người dùng với username và email có tồn tại không.
+     * Nếu tồn tại, cập nhật mật khẩu mới và trả về true.
+     * Ngược lại, trả về false.
+     *
+     * @param username    Tên người dùng
+     * @param email       Địa chỉ email
+     * @param newPassword Mật khẩu mới
+     * @return true nếu cập nhật thành công, false nếu không tìm thấy người dùng
+     */
+    public boolean updatePasswordIfUserExists(String username, String email, String newPassword) {
+        String query = "SELECT user_id FROM Users WHERE user_name = ? AND email = ?";
+        String updateQuery = "UPDATE Users SET pass_word = ? WHERE user_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, username);
+            ps.setString(2, email);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int userId = rs.getInt("user_id");
+                try (PreparedStatement updatePs = connection.prepareStatement(updateQuery)) {
+                    updatePs.setString(1, newPassword); // Lưu mật khẩu dưới dạng văn bản thuần
+                    updatePs.setInt(2, userId);
+                    updatePs.executeUpdate();
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }

@@ -1,16 +1,18 @@
 package controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.fxml.FXMLLoader;
 import javafx.event.ActionEvent;
-import javafx.scene.Parent;
+import javafx.scene.Node;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -22,12 +24,19 @@ public class LoginController {
 
     @FXML
     private Hyperlink signUpLink; // Liên kết tới nút Sign Up
+
+    @FXML
+    private Hyperlink forgotPasswordLink; // Liên kết tới nút Forgot Password
+
     @FXML
     private Label loginMessageLabel;
+
     @FXML
     private TextField usernameTextField;
+
     @FXML
     private PasswordField passwordField;
+
     @FXML
     private Button loginButton;
 
@@ -40,6 +49,21 @@ public class LoginController {
         Parent signUpRoot = FXMLLoader.load(getClass().getResource("/fxml/signup.fxml"));
         Scene scene = new Scene(signUpRoot, 400, 600);
         stage.setScene(scene);
+    }
+
+    // Phương thức chuyển đến cửa sổ Forgot Password khi click vào liên kết Forgot Password
+    @FXML
+    private void handleForgotPasswordLink(ActionEvent event) throws IOException {
+        // Tải FXML của cửa sổ Forgot Password
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/forgotPassword.fxml"));
+        Parent root = loader.load();
+
+        // Tạo Stage mới cho cửa sổ Forgot Password
+        Stage stage = new Stage();
+        stage.setTitle("Forgot Password");
+        stage.setScene(new Scene(root, 400, 600));
+        stage.initModality(Modality.APPLICATION_MODAL); // Ngăn tương tác với cửa sổ chính
+        stage.showAndWait();
     }
 
     // Phương thức xử lý khi người dùng click nút Login
@@ -55,9 +79,9 @@ public class LoginController {
         }
 
         // Kết nối đến cơ sở dữ liệu
-        String URL = "jdbc:mysql://localhost:3306/library";
+        String URL = "jdbc:mysql://localhost:3306/libraryy";
         String USER = "root";
-        String PASSWORD = "caohuongiang171";
+        String PASSWORD = "";
         String query = "SELECT user_id, pass_word FROM Users WHERE user_name = ?";
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -71,16 +95,16 @@ public class LoginController {
                 String passDb = resultSet.getString("pass_word");
                 userId = resultSet.getInt("user_id");  // Lưu userId từ cơ sở dữ liệu
 
+                // Kiểm tra mật khẩu
+
                 // Kiểm tra thông tin đăng nhập đặc biệt
-                if (username.equals("giangcute") && password.equals("caohuongiang171")) {
+                if (username.equals("_linhdaynee") && password.equals("1234")) {
                     Stage stage = (Stage) loginButton.getScene().getWindow();
                     Parent signUpRoot = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/admindashboard.fxml"));
                     Scene scene = new Scene(signUpRoot, 900, 600);
                     stage.setScene(scene);
                     return; // Dừng lại sau khi chuyển đến màn hình admin
                 }
-
-                // Kiểm tra mật khẩu
                 else if (password.equals(passDb)) {
                     // Đăng nhập thành công, chuyển sang trang chính và truyền userId
                     Stage stage = (Stage) loginButton.getScene().getWindow();

@@ -1,7 +1,6 @@
 package Objects;
-import java.time.LocalDate;
-import java.util.Date;
 
+import java.sql.Date;
 
 public class BorrowRecord {
     private int borrowId;
@@ -70,16 +69,16 @@ public class BorrowRecord {
         this.isbn = isbn;
     }
 
-    public java.sql.Date getBorrowDate() {
-        return (java.sql.Date) borrowDate;
+    public Date getBorrowDate() {
+        return borrowDate;
     }
 
     public void setBorrowDate(Date borrowDate) {
         this.borrowDate = borrowDate;
     }
 
-    public java.sql.Date getReturnDate() {
-        return (java.sql.Date) returnDate;
+    public Date getReturnDate() {
+        return returnDate;
     }
 
     public void setReturnDate(Date returnDate) {

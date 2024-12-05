@@ -119,6 +119,25 @@ public class MySQLConnection {
         }
     }
 
+    public static boolean removeUserFromDatabase(int id) {
+        String sql = "DELETE FROM users WHERE id = ?";
+        try {
+            Connection connection = null;
+            // Đăng ký JDBC Driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Tạo kết nối với cơ sở dữ liệu
+            connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1, id);
+            return preparedStatement.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public static void closeConnection(Connection connection) {
         try {
             if (connection != null) {

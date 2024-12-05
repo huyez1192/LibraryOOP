@@ -120,6 +120,16 @@ public class BookDetailsController {
             boolean borrowedExists = borrowRecordDAO.checkIfBorrowedExists(userId, document.getIsbn());
 
             if (!requestExists && !borrowedExists) {
+                // Kiểm tra quantity trước khi mượn sách
+                int quantity = requestDAO.getBookQuantity(document.getIsbn());
+                if (quantity <= 0) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Không thể mượn sách");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Sách hiện không có sẵn để mượn.");
+                    alert.showAndWait();
+                    return;
+                }
                 // Gửi yêu cầu mượn sách
                 Date requestDate = new Date(System.currentTimeMillis());
                 requestDAO.addRequest(userId, document.getIsbn(), requestDate);
@@ -159,6 +169,16 @@ public class BookDetailsController {
                 boolean deleteSuccess = borrowRecordDAO.deleteBorrowRecord(userId, document.getIsbn());
 
                 if (deleteSuccess) {
+                    // Cập nhật quantity trong bảng Books
+                    boolean quantityUpdated = borrowRecordDAO.incrementBookQuantity(document.getIsbn());
+                    if (!quantityUpdated) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Lỗi khi cập nhật số lượng sách");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Có lỗi xảy ra khi cập nhật số lượng sách. Vui lòng thử lại.");
+                        alert.showAndWait();
+                        return;
+                    }
                     Alert alert = new Alert(AlertType.INFORMATION);
                     alert.setTitle("Trả sách thành công");
                     alert.setHeaderText(null);

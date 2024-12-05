@@ -22,6 +22,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -45,6 +46,9 @@ public class HomeController implements Initializable {
     // Thành phần từ LibraryHomeController
     @FXML
     private VBox suggestionBox; // Đảm bảo khai báo này
+
+    @FXML
+    private Button profileButton;
 
     @FXML
     private VBox suggestionContent; // Thêm khai báo này
@@ -286,6 +290,49 @@ public class HomeController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    public void switchToMore(ActionEvent event) {
+        try {
+            // Tải FXML của giao diện thứ hai
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/More.fxml"));
+            Parent root = loader.load();
+
+            // Lấy Stage hiện tại
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Đổi Scene
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    // Phương thức chuyển sang giao diện Profile
+    @FXML
+    public void switchToProfile(ActionEvent event) {
+        try {
+            // Tải FXML của giao diện Profile
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/profile.fxml"));
+            Parent root = loader.load();
+
+            // Lấy controller của ProfileController để truyền userId
+            ProfileController profileController = loader.getController();
+            profileController.setUserId(userId); // Đảm bảo userId đã được thiết lập
+
+            // Tạo và hiển thị Stage mới cho Profile
+            Stage stage = new Stage();
+            stage.setTitle("Profile");
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL); // Ngăn tương tác với cửa sổ chính
+            stage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Cannot open Profile window.", Alert.AlertType.ERROR);
+        }
+    }
+
 
     // Phương thức mở chi tiết sách
     private void openBookDetail(Document document) {
