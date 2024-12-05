@@ -18,6 +18,38 @@ public class BorrowRecordDAO {
         this.connection = connection;
     }
 
+    /**
+     * Lấy lịch sử mượn sách của người dùng dựa trên userId.
+     *
+     * @param userId ID của người dùng
+     * @return List các bản ghi mượn sách
+     */
+    public List<BorrowRecord> getBorrowHistoryByUserId(int userId) {
+        List<BorrowRecord> borrowHistory = new ArrayList<>();
+        String query = "SELECT Books.title AS documentTitle, BorrowRecords.isbn, BorrowRecords.borrow_date, BorrowRecords.return_date " +
+                "FROM BorrowRecords " +
+                "JOIN Books ON BorrowRecords.isbn = Books.isbn " +
+                "WHERE BorrowRecords.user_id = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String documentTitle = rs.getString("documentTitle");
+                String isbn = rs.getString("isbn");
+                Date borrowDate = rs.getDate("borrow_date");
+                Date returnDate = rs.getDate("return_date");
+                BorrowRecord record = new BorrowRecord(documentTitle, isbn, borrowDate, returnDate);
+                borrowHistory.add(record);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return borrowHistory;
+    }
+
     public void add(BorrowRecord br) {
         String query = "INSERT INTO BorrowedBooks (user_id, isbn, borrow_date, return_date, status) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(query)) {

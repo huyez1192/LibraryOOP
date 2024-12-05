@@ -270,9 +270,9 @@ private void handleUpdateQuantityBook() {
 }
 
     private void loadDataFromDatabase() {
-        String url = "jdbc:mysql://localhost:3306/libraryy";
+        String url = "jdbc:mysql://localhost:3306/library";
         String username = "root";
-        String password = "";
+        String password = "gem07012005";
 
         String query = """
             SELECT *
