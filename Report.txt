@@ -43,7 +43,7 @@ III. Phân công công việc
 	- Lập trình phần quản lý sách (Documents) của giao diện Admin.
 	- Lập trình phần mượn sách (Borrowed) của giao diện User.
 	- Tạo mã QR cho sách.
-	- Lập trình phần forgot password.
+	- Bổ sung phần quản lý số lượng sách.
 3. Nguyễn Ngọc Huyền
     - Viết module xử lý giao tiếp cơ sở dữ liệu (DAO).
     - Kết nối cơ sở dữ liệu với project và liên kết phần Sign up với cơ sở dữ liệu.
@@ -55,7 +55,7 @@ III. Phân công công việc
 	- Lập trình chức năng tìm kiếm sách.
 	- Lập trình phần chi tiết sách (BookDetails) của giao diện User.
 	- Liên kết mã QR.
-	- Liên kết forgot password.
+	- Lập trình phần forgot password.
 	- Viết tài liệu hướng dẫn sử dụng ứng dụng.
 
 
