@@ -167,7 +167,7 @@ public class BorrowedController {
         try {
 
             // Tải FXML của giao diện BORROWED
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/More.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/UserMore.fxml"));
             Parent root = loader.load();
 
             // Lấy Stage hiện tại

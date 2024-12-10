@@ -21,36 +21,6 @@ import java.util.List;
 import static connect.MySQLConnection.getConnection;
 
 public class BookDAO {
-//    private static final String API_URL = "https://www.googleapis.com/books/v1/volumes?q=java+programming";
-//
-//    private static final String URL = "jdbc:mysql://localhost:3306/libraryy";
-//    private static final String USER = "root";
-//    private static final String PASSWORD = "huyen16125";
-//
-//    public static void main(String[] args) throws IOException {
-//        OkHttpClient client = new OkHttpClient();
-//
-//        // Tạo Request
-//        Request request = new Request.Builder()
-//                .url(API_URL)
-//                .build();
-//
-//        Response response = client.newCall(request).execute();
-//
-//        if (response.isSuccessful() && response.body() != null) {
-//                String jsonResponse = response.body().string();
-//                try {
-//                    saveBooksToDatabase(jsonResponse);
-//                } catch (SQLException e) {
-//                    e.printStackTrace();
-//                }
-//        } else {
-//            System.out.println("Error: " + response.code());
-//        }
-//
-//    }
-
-
     public static final String API_URL = "https://www.googleapis.com/books/v1/volumes?q=java+programming";
 
     private static final String INSERT_QUERY = "INSERT INTO Books (isbn, title, authors, description, categories, thumbnail_link, previewLink, publisher, quantity) "
@@ -218,6 +188,32 @@ public class BookDAO {
                         rs.getInt("quantity")
                 );
                 documents.add(doc);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return documents;
+    }
+
+    public List<Document> getByCategories(String categories) {
+        List<Document> documents = new ArrayList<>();
+        String query = "SELECT * FROM Books WHERE categories = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, categories);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Document doc = new Document(
+                            rs.getString("isbn"),
+                            rs.getString("title"),
+                            rs.getString("authors"),
+                            rs.getString("description"),
+                            rs.getString("categories"),
+                            rs.getString("thumbnail_link"),
+                            rs.getString("previewlink"),
+                            rs.getInt("quantity")
+                    );
+                    documents.add(doc);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -4,6 +4,7 @@ import Objects.Document;
 import dao.BookDAO;
 import dao.BorrowRecordDAO;
 import dao.RequestDAO;
+import dao.UserDAO;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,6 +28,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +40,9 @@ public class HomeController implements Initializable {
     // Thành phần từ HomeController
     @FXML
     private GridPane bookContainer;
+
+    @FXML
+    private GridPane bookContainer1;
 
     @FXML
     private Button searchButton;
@@ -223,12 +230,60 @@ public class HomeController implements Initializable {
         });
     }
 
+    private void loadSuggestBooks() {
+        UserDAO userDAO = new UserDAO(); // Tạo đối tượng UserDAO
+        String favoriteCategory = userDAO.getUserFavoriteCategory(userId); // Gọi phương thức
+
+        System.out.println(favoriteCategory);
+        // Truy vấn các sách theo thể loại yêu thích
+        BookDAO bookDAO = new BookDAO();
+        List<Document> suggestedBooks = bookDAO.getByCategories(favoriteCategory);
+        System.out.println(suggestedBooks);
+        System.out.println("Suggested books loaded: " + suggestedBooks.size());
+
+        int column = 0;
+        int row = 1;
+
+        try {
+            for (Document document : suggestedBooks) {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("/fxml/small_book.fxml"));
+                VBox bookBox = fxmlLoader.load();
+                bookBox.getStylesheets().add(getClass().getResource("/css/cardStyling.css").toExternalForm());
+
+                SmallBookController smallBookController = fxmlLoader.getController();
+                smallBookController.loadBookInfo(document);
+
+                // Gắn sự kiện nhấn vào thẻ sách để mở trang chi tiết
+                bookBox.setOnMouseClicked(event -> {
+                    System.out.println("Book box clicked: " + document.getTitle());
+                    openBookDetail(document);
+                });
+
+                // Sắp xếp sách vào grid
+                if (column == 8) {  // Giới hạn số cột, có thể thay đổi tùy ý
+                    column = 0;
+                    ++row;
+                }
+
+                // Thêm sách vào GridPane
+                bookContainer1.add(bookBox, column++, row);
+                GridPane.setMargin(bookBox, new Insets(15));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(bookContainer1); // In ra để kiểm tra xem bookContainer1 có null không
+    }
+
     // Tải và hiển thị sách được khuyến nghị từ cơ sở dữ liệu
     private void loadRecommendedBooks() {
         recommended = documents();
         System.out.println("Recommended books loaded: " + recommended.size());
         int column = 0;
         int row = 1;
+
 
         try {
             for (Document document : recommended) {

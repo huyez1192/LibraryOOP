@@ -177,4 +177,21 @@ public class UserDAO {
         return false;
     }
 
+    // Phương thức lấy thể loại yêu thích của người dùng
+    public String getUserFavoriteCategory(int userId) {
+        String category = null;
+        String query = "SELECT userfavorite FROM users WHERE user_id = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                category = rs.getString("userfavorite");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return category;
+    }
 }

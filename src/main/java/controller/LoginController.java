@@ -94,8 +94,7 @@ public class LoginController {
             if (resultSet.next()) {
                 String passDb = resultSet.getString("pass_word");
                 userId = resultSet.getInt("user_id");  // Lưu userId từ cơ sở dữ liệu
-
-                // Kiểm tra mật khẩu
+                System.out.println("user id: " + userId);
 
                 // Kiểm tra thông tin đăng nhập đặc biệt
                 if (username.equals("giangcute") && password.equals("caohuongiang171")) {

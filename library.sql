@@ -58,3 +58,19 @@ CREATE TABLE Requests (
     FOREIGN KEY (user_id) REFERENCES Users(user_id),
     FOREIGN KEY (isbn) REFERENCES Books(isbn)
 );
+
+UPDATE Users u
+SET u.userfavorite = (
+    SELECT most_requested_category.category
+    FROM (
+        SELECT r.user_id, b.categories AS category, COUNT(*) AS request_count
+        FROM Requests r
+        JOIN Books b ON r.isbn = b.isbn
+        GROUP BY r.user_id, b.categories
+        ORDER BY request_count DESC
+        LIMIT 1
+    ) AS most_requested_category
+    WHERE most_requested_category.user_id = u.user_id
+);
+
+ALTER TABLE Users ADD COLUMN userfavorite VARCHAR(100);
