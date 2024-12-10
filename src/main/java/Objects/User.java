@@ -7,18 +7,24 @@ public class User {
     private String userName;
     private String password;
     private String email;
+    private String pathAvatar;  // Thêm thuộc tính đường dẫn ảnh đại diện
 
     // Constructors, getters and setters
-    public User(int userId, String fullName, String userName, String password, String email) {
+    public User(int userId, String fullName, String userName, String password, String email, String pathAvatar) {
         this.userId = userId;
         this.fullName = fullName;
         this.userName = userName;
         this.password = password;
         this.email = email;
+        this.pathAvatar = pathAvatar;
     }
 
-    public User() {
-        
+    public User(int userId, String fullName, String userName, String passWord, String email) {
+        this.userId = userId;
+        this.fullName = fullName;
+        this.userName = userName;
+        this.password = password;
+        this.email = email;
     }
 
     public int getUserId() {
@@ -59,6 +65,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPathAvatar() {
+        return pathAvatar;
+    }
+
+    public void setPathAvatar(String pathAvatar) {
+        this.pathAvatar = pathAvatar;
     }
 
     @Override

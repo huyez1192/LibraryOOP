@@ -312,15 +312,22 @@ public class HomeController implements Initializable {
     @FXML
     public void switchToProfile(ActionEvent event) {
         try {
-            // Tải FXML của giao diện Profile
+            // Tải FXML của Profile
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/profile.fxml"));
-            Parent root = loader.load();
+            Parent root = loader.load();  // Đảm bảo đã tải FXML
 
-            // Lấy controller của ProfileController để truyền userId
+            // Lấy controller từ FXML đã tải
             ProfileController profileController = loader.getController();
-            profileController.setUserId(userId); // Đảm bảo userId đã được thiết lập
 
-            // Tạo và hiển thị Stage mới cho Profile
+            // Kiểm tra xem profileController có được khởi tạo hay không
+            if (profileController != null) {
+                System.out.println("ProfileController đã được khởi tạo.");
+                profileController.setUserId(userId);  // Gọi setUserId sau khi kiểm tra
+            } else {
+                System.err.println("Lỗi: ProfileController không được khởi tạo.");
+            }
+
+            // Mở cửa sổ Profile
             Stage stage = new Stage();
             stage.setTitle("Profile");
             stage.setScene(new Scene(root));
@@ -329,9 +336,11 @@ public class HomeController implements Initializable {
 
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert("Error", "Cannot open Profile window.", Alert.AlertType.ERROR);
+            showAlert("Error", "Không thể mở cửa sổ Profile.", Alert.AlertType.ERROR);
         }
     }
+
+
 
 
     // Phương thức mở chi tiết sách
