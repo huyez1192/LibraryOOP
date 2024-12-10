@@ -15,7 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import utils.Session;
+import utils.UserIdSingleton;
 
 import java.io.IOException;
 import java.sql.*;
@@ -46,6 +46,7 @@ public class BorrowedController {
     @FXML
     private TableColumn<BorrowRecord, Date> returnDateColumn;
 
+    private int userId = UserIdSingleton.getInstance().getUserId();
     // Initialize method is called automatically after the FXML is loaded
     @FXML
     public void initialize() {
@@ -90,7 +91,6 @@ public class BorrowedController {
     }
 
     private Document getDocumentByIsbn(String isbn) {
-        int userID = Session.getUserId();
         String query = "SELECT title, authors, categories, description, thumbnail_link FROM books WHERE isbn = ? AND user_id = ?";
         Document document = null;
 
@@ -98,7 +98,7 @@ public class BorrowedController {
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setString(1, isbn);
-            stmt.setInt(2, userID);
+            stmt.setInt(2, userId);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -110,7 +110,7 @@ public class BorrowedController {
 
                     document = new Document(isbn, title, authors, categories, description, thumbnailLink);
                 } else {
-                    System.err.println("No document found for ISBN: " + isbn + " and userID: " + userID);
+                    System.err.println("No document found for ISBN: " + isbn + " and userID: " + userId);
                 }
             }
         } catch (SQLException e) {
@@ -147,7 +147,6 @@ public class BorrowedController {
 
     public void switchToHome(ActionEvent event) {
         try {
-            int userId = Session.getUserId();
             // Tải FXML của giao diện thứ hai
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/library.fxml"));
             Parent root = loader.load();
@@ -166,7 +165,6 @@ public class BorrowedController {
     @FXML
     public void switchToMore(ActionEvent event) {
         try {
-            int userId = Session.getUserId();
 
             // Tải FXML của giao diện BORROWED
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/More.fxml"));
@@ -183,7 +181,6 @@ public class BorrowedController {
         }
     }
     private void loadDataFromDatabase() {
-        int userID = Session.getUserId();
         Document document = null;
 
         String query = """
@@ -196,7 +193,7 @@ public class BorrowedController {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/libraryy", "root", "");
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            stmt.setInt(1, userID);
+            stmt.setInt(1, userId);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) { // Sử dụng while để duyệt qua toàn bộ các bản ghi
                     String title = rs.getString("title");
