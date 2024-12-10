@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import utils.Session;
 
 import java.io.IOException;
 import java.sql.*;
@@ -89,13 +90,15 @@ public class BorrowedController {
     }
 
     private Document getDocumentByIsbn(String isbn) {
+        int userID = Session.getUserId();
+        String query = "SELECT title, authors, categories, description, thumbnail_link FROM books WHERE isbn = ? AND user_id = ?";
         Document document = null;
-        String query = "SELECT title, authors, categories, description, thumbnail_link FROM books WHERE isbn = ?";
 
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/library", "root", "gem07012005");
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/libraryy", "root", "");
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setString(1, isbn);
+            stmt.setInt(2, userID);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -105,8 +108,9 @@ public class BorrowedController {
                     String description = rs.getString("description");
                     String thumbnailLink = rs.getString("thumbnail_link");
 
-                    // Tạo đối tượng Document với thông tin từ bảng book
                     document = new Document(isbn, title, authors, categories, description, thumbnailLink);
+                } else {
+                    System.err.println("No document found for ISBN: " + isbn + " and userID: " + userID);
                 }
             }
         } catch (SQLException e) {
@@ -115,6 +119,7 @@ public class BorrowedController {
 
         return document;
     }
+
 
 
 
@@ -142,6 +147,7 @@ public class BorrowedController {
 
     public void switchToHome(ActionEvent event) {
         try {
+            int userId = Session.getUserId();
             // Tải FXML của giao diện thứ hai
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/library.fxml"));
             Parent root = loader.load();
@@ -160,6 +166,8 @@ public class BorrowedController {
     @FXML
     public void switchToMore(ActionEvent event) {
         try {
+            int userId = Session.getUserId();
+
             // Tải FXML của giao diện BORROWED
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/UserMore.fxml"));
             Parent root = loader.load();
@@ -175,36 +183,36 @@ public class BorrowedController {
         }
     }
     private void loadDataFromDatabase() {
-        String url = "jdbc:mysql://localhost:3306/library";
-        String username = "root";
-        String password = "gem07012005";
+        int userID = Session.getUserId();
+        Document document = null;
 
         String query = """
-            SELECT b.title, br.isbn, br.borrow_date, br.return_date
-            FROM borrowedbooks br
-            JOIN books b ON br.isbn = b.isbn
-        """;
+                    SELECT b.title, br.isbn, br.borrow_date, br.return_date
+                    FROM borrowedbooks br
+                    JOIN books b ON br.isbn = b.isbn
+                    WHERE br.user_id = ?
+                """;
 
-        try (Connection conn = DriverManager.getConnection(url, username, password);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/libraryy", "root", "");
+             PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            while (rs.next()) {
-                String title = rs.getString("title");
-                String isbn = rs.getString("isbn");
-                // Xử lý Borrow Date và Return Date
-                Date borrowDate = (rs.getDate("borrow_date") != null) ? rs.getDate("borrow_date") : new Date(0); // Giá trị mặc định
-                Date returnDate = (rs.getDate("return_date"));
+            stmt.setInt(1, userID);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) { // Sử dụng while để duyệt qua toàn bộ các bản ghi
+                    String title = rs.getString("title");
+                    String isbn = rs.getString("isbn");
+                    Date borrowDate = (rs.getDate("borrow_date") != null) ? rs.getDate("borrow_date") : new Date(0);
+                    Date returnDate = rs.getDate("return_date");
 
+                    borrowedList.add(new BorrowRecord(title, isbn, borrowDate, returnDate));
+                }
+                borrowedTable.setItems(borrowedList);
 
-
-                borrowedList.add(new BorrowRecord(title, isbn, borrowDate, returnDate));
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-
-            borrowedTable.setItems(borrowedList);
-
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 

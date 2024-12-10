@@ -25,6 +25,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import utils.Session;
 
 import java.io.IOException;
 import java.net.URL;
@@ -331,6 +332,10 @@ public class HomeController implements Initializable {
     @FXML
     public void switchToBorrowed(ActionEvent event) {
         try {
+            // Lấy userId từ UserSession
+            int userId = Session.getUserId();
+
+
             // Tải FXML của giao diện thứ hai
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/borrowedDocuments.fxml"));
             Parent root = loader.load();

@@ -13,6 +13,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
+import utils.Session;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -105,6 +106,8 @@ public class LoginController {
                     return; // Dừng lại sau khi chuyển đến màn hình admin
                 }
                 else if (password.equals(passDb)) {
+                    Session.setUserId(userId);
+
                     // Đăng nhập thành công, chuyển sang trang chính và truyền userId
                     Stage stage = (Stage) loginButton.getScene().getWindow();
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/library.fxml"));
@@ -130,10 +133,5 @@ public class LoginController {
             loginMessageLabel.setText("Database connection error!");
             ex.printStackTrace();
         }
-    }
-
-    // Phương thức để lấy userId khi cần
-    public int getUserId() {
-        return userId;
     }
 }
