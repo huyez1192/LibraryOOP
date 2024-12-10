@@ -12,7 +12,7 @@ import javafx.scene.control.PasswordField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
-import javafx.scene.Node;
+import utils.UserIdSingleton;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -79,9 +79,9 @@ public class LoginController {
         }
 
         // Kết nối đến cơ sở dữ liệu
-        String URL = "jdbc:mysql://localhost:3306/library";
+        String URL = "jdbc:mysql://localhost:3306/libraryy";
         String USER = "root";
-        String PASSWORD = "caohuongiang171";
+        String PASSWORD = "";
         String query = "SELECT user_id, pass_word FROM Users WHERE user_name = ?";
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -94,8 +94,7 @@ public class LoginController {
             if (resultSet.next()) {
                 String passDb = resultSet.getString("pass_word");
                 userId = resultSet.getInt("user_id");  // Lưu userId từ cơ sở dữ liệu
-
-                // Kiểm tra mật khẩu
+                System.out.println("user id: " + userId);
 
                 // Kiểm tra thông tin đăng nhập đặc biệt
                 if (username.equals("giangcute") && password.equals("caohuongiang171")) {
@@ -106,14 +105,13 @@ public class LoginController {
                     return; // Dừng lại sau khi chuyển đến màn hình admin
                 }
                 else if (password.equals(passDb)) {
+
                     // Đăng nhập thành công, chuyển sang trang chính và truyền userId
                     Stage stage = (Stage) loginButton.getScene().getWindow();
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/library.fxml"));
                     Parent libraryRoot = loader.load();
 
-                    // Truyền userId sang controller của trang chính (library)
-                    HomeController homeController = loader.getController();
-                    homeController.setUserId(userId);  // Gửi userId cho HomeController
+                    UserIdSingleton.getInstance().setUserId(userId);
 
                     Scene scene = new Scene(libraryRoot, 900, 600);
                     stage.setScene(scene);
@@ -131,10 +129,5 @@ public class LoginController {
             loginMessageLabel.setText("Database connection error!");
             ex.printStackTrace();
         }
-    }
-
-    // Phương thức để lấy userId khi cần
-    public int getUserId() {
-        return userId;
     }
 }

@@ -88,9 +88,9 @@
                               <TextArea layoutX="-1.0" layoutY="34.0" prefHeight="63.0" prefWidth="683.0" style="-fx-background-color: white;" text="    Mở ứng dụng: Chạy ứng dụng trên thiết bị của bạn.&#10;    Đăng nhập: Nhập thông tin tài khoản (username và mật khẩu) và nhấn nút Đăng nhập. Nếu bạn chưa có&#10;tài khoản, hãy chọn Đăng ký để tạo một tài khoản mới." />
                               <Label layoutX="42.0" layoutY="105.0" style="-fx-background-color: transparent;" text="Tìm kiếm sách" />
                               <TextArea layoutX="-1.0" layoutY="133.0" prefHeight="0.0" prefWidth="683.0" style="-fx-background-color: white;" text="   Sử dụng thanh tìm kiếm: Nhập từ khóa (tên sách) vào thanh tìm kiếm và nhấn nút &quot;Search&quot;." />
-                              <Label layoutX="42.0" layoutY="165.0" style="-fx-background-color: transparent;" text="Tìm kiếm sách" />
+                              <Label layoutX="42.0" layoutY="165.0" style="-fx-background-color: transparent;" text="Thông tin chi tiết sách" />
                               <TextArea layoutX="-1.0" layoutY="192.0" prefHeight="62.0" prefWidth="683.0" style="-fx-background-color: white;" text="   Chọn sách: Nhấp vào tên sách trong danh sách kết quả để xem thông tin chi tiết.&#10;   Thông tin sách: Ứng dụng sẽ hiển thị các thông tin như tên sách, tác giả, thể loại, mô tả, và trạng thái &#10;(còn sẵn hay đã mượn)." />
-                              <Label layoutX="42.0" layoutY="262.0" style="-fx-background-color: transparent;" text="Tìm kiếm sách" />
+                              <Label layoutX="42.0" layoutY="262.0" style="-fx-background-color: transparent;" text="Mượn sách" />
                               <TextArea layoutX="-1.0" layoutY="291.0" prefHeight="62.0" prefWidth="683.0" style="-fx-background-color: white;" text="   Chọn sách muốn mượn: Nhấn vào nút Mượn sách trên trang chi tiết của sách.&#10;   Xác nhận mượn: Nhấn vào nút &quot;Mượn sách&quot;, trạng thái sẽ chuyển sang &quot;Chờ phê duyệt&quot;. Bây giờ bạn hãy&#10;chờ quản trị viên phê duyệt là sẽ mượn được sách" />
                               <Label layoutX="42.0" layoutY="365.0" style="-fx-background-color: transparent;" text="Quản lý sách đã mượn" />
                               <TextArea layoutX="-1.0" layoutY="393.0" prefHeight="62.0" prefWidth="683.0" style="-fx-background-color: white;" text="   Xem danh sách sách đã mượn: Chọn tab &quot;Borrowed&quot; để xem tất cả sách bạn hiện đang mượn.&#10;   Trả sách: Nhấn nút Trả sách để hoàn tất việc trả sách sau khi đã đọc xong." />
@@ -103,5 +103,4 @@
             </children>
         </HBox>
     </children>
-
 </StackPane>

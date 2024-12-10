@@ -87,22 +87,6 @@ public class UserDAO {
         return user;
     }
 
-    // Cập nhật người dùng
-    public void updateUser(User user) {
-        String query = "UPDATE Users SET full_name = ?, user_name = ?, pass_word = ?, email = ?, path_avatar = ? WHERE user_id = ?";
-        try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setString(1, user.getFullName());
-            ps.setString(2, user.getUserName());
-            ps.setString(3, user.getPassword());  // Lưu mật khẩu đã mã hóa
-            ps.setString(4, user.getEmail());
-            ps.setString(5, user.getPathAvatar());  // Lưu đường dẫn ảnh đại diện
-            ps.setInt(6, user.getUserId());
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     // Tìm người dùng theo user_name
     public User getUserByUserName(String userName) {
         User user = null;
@@ -142,6 +126,21 @@ public class UserDAO {
             e.printStackTrace();
         }
         return false;
+    }
+
+    // Cập nhật thông tin người dùng
+    public void updateUser(User user) {
+        String query = "UPDATE Users SET full_name = ?, user_name = ?, pass_word = ?, email = ? WHERE user_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, user.getFullName());
+            ps.setString(2, user.getUserName());
+            ps.setString(3, user.getPassword()); // Lưu mật khẩu dưới dạng văn bản thuần
+            ps.setString(4, user.getEmail());
+            ps.setInt(5, user.getUserId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     // Xóa người dùng
@@ -185,5 +184,23 @@ public class UserDAO {
             e.printStackTrace();
         }
         return false;
+    }
+
+    // Phương thức lấy thể loại yêu thích của người dùng
+    public String getUserFavoriteCategory(int userId) {
+        String category = null;
+        String query = "SELECT userfavorite FROM users WHERE user_id = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                category = rs.getString("userfavorite");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return category;
     }
 }
