@@ -26,7 +26,7 @@ public class UserController {
     public void loadUserInfo(User user) {
         name.setText(user.getFullName());
         username.setText(user.getUserName());
-        quantityBorrowed.setText("0");
-        quantityBorrowing.setText("0");
+        quantityBorrowed.setText(String.valueOf(user.getUserId()));
+        quantityBorrowing.setText(user.getEmail());
     }
 }

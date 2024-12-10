@@ -18,19 +18,51 @@ public class BorrowRecordDAO {
         this.connection = connection;
     }
 
-//    public void add(BorrowRecord br) {
-//        String query = "INSERT INTO BorrowedBooks (user_id, isbn, borrow_date, return_date, status) VALUES (?, ?, ?, ?, ?)";
-//        try (PreparedStatement ps = connection.prepareStatement(query)) {
-//            ps.setInt(1, br.getUserId());
-//            ps.setString(2, br.getIsbn());
-//            ps.setDate(3, br.getBorrowDate());
-//            ps.setDate(4, br.getReturnDate());
-//            ps.setString(5, br.getStatus());
-//            ps.executeUpdate();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    /**
+     * Lấy lịch sử mượn sách của người dùng dựa trên userId.
+     *
+     * @param userId ID của người dùng
+     * @return List các bản ghi mượn sách
+     */
+    public List<BorrowRecord> getBorrowHistoryByUserId(int userId) {
+        List<BorrowRecord> borrowHistory = new ArrayList<>();
+        String query = "SELECT Books.title AS documentTitle, BorrowRecords.isbn, BorrowRecords.borrow_date, BorrowRecords.return_date " +
+                "FROM BorrowRecords " +
+                "JOIN Books ON BorrowRecords.isbn = Books.isbn " +
+                "WHERE BorrowRecords.user_id = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String documentTitle = rs.getString("documentTitle");
+                String isbn = rs.getString("isbn");
+                Date borrowDate = rs.getDate("borrow_date");
+                Date returnDate = rs.getDate("return_date");
+                BorrowRecord record = new BorrowRecord(documentTitle, isbn, borrowDate, returnDate);
+                borrowHistory.add(record);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return borrowHistory;
+    }
+
+    public void add(BorrowRecord br) {
+        String query = "INSERT INTO BorrowedBooks (user_id, isbn, borrow_date, return_date, status) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, br.getUserId());
+            ps.setString(2, br.getIsbn());
+            ps.setDate(3, br.getBorrowDate());
+            ps.setDate(4, br.getReturnDate());
+            ps.setString(5, br.getStatus());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public List<BorrowRecord> getAllRecord() {
         List<BorrowRecord> borrowRecords = new ArrayList<>();
@@ -55,37 +87,37 @@ public class BorrowRecordDAO {
         return borrowRecords;
     }
 
-//    public void returnBook(BorrowRecord borrowRecord) {
-//        // Truy vấn cập nhật trạng thái và ngày trả sách
-//        String query = "UPDATE BorrowedBooks SET status = 'returned', return_date = ? WHERE borrow_id = ?";
-//        try (PreparedStatement ps = connection.prepareStatement(query)) {
-//            // Lấy ngày hiện tại làm ngày trả
-//            Date returnDate = new Date(System.currentTimeMillis());
-//
-//            // Thiết lập tham số cho truy vấn
-//            ps.setDate(1, returnDate); // Gán ngày trả
-//            ps.setInt(2, borrowRecord.getBorrowId()); // Gán ID mượn sách
-//
-//            // Thực thi truy vấn
-//            ps.executeUpdate();
-//
-//            // Cập nhật lại số lượng sách trong kho
-//            updateBookQuantity(borrowRecord);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void returnBook(BorrowRecord borrowRecord) {
+        // Truy vấn cập nhật trạng thái và ngày trả sách
+        String query = "UPDATE BorrowedBooks SET status = 'returned', return_date = ? WHERE borrow_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            // Lấy ngày hiện tại làm ngày trả
+            Date returnDate = new Date(System.currentTimeMillis());
+
+            // Thiết lập tham số cho truy vấn
+            ps.setDate(1, returnDate); // Gán ngày trả
+            ps.setInt(2, borrowRecord.getBorrowId()); // Gán ID mượn sách
+
+            // Thực thi truy vấn
+            ps.executeUpdate();
+
+            // Cập nhật lại số lượng sách trong kho
+            updateBookQuantity(borrowRecord);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 
-//    public void deleteRecord(BorrowRecord borrowRecord) {
-//        String query = "DELETE FROM BorrowedBooks WHERE borrow_id = ?";
-//        try (PreparedStatement ps = connection.prepareStatement(query)) {
-//            ps.setInt(1, borrowRecord.getBorrowId());
-//            ps.executeUpdate();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void deleteRecord(BorrowRecord borrowRecord) {
+        String query = "DELETE FROM BorrowedBooks WHERE borrow_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, borrowRecord.getBorrowId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     // Thêm phương thức xóa bản ghi dựa trên user_id và isbn
     public boolean deleteBorrowRecord(int userId, String isbn) {
@@ -101,18 +133,14 @@ public class BorrowRecordDAO {
         return false;
     }
 
-    public boolean incrementBookQuantity(String isbn) {
-        String query = "UPDATE books SET quantity = quantity + 1 WHERE isbn = ?";
-        try (Connection conn = MySQLConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-
-            stmt.setString(1, isbn);
-            return stmt.executeUpdate() > 0;
-
+    public void updateBookQuantity(BorrowRecord borrowRecord) {
+        String query = "UPDATE Books SET quantity = quantity + 1 WHERE isbn = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, borrowRecord.getIsbn());
+            ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
     }
 
     public boolean checkIfBorrowedExists(int userId, String isbn) {
@@ -125,6 +153,18 @@ public class BorrowRecordDAO {
                     return rs.getInt(1) > 0;  // Trả về true nếu có ít nhất một yêu cầu trùng
                 }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean incrementBookQuantity(String isbn) {
+        String query = "UPDATE books SET quantity = quantity + 1 WHERE isbn = ?";
+        try (Connection conn = MySQLConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, isbn);
+            return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }

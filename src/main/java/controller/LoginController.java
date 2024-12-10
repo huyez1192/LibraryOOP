@@ -80,9 +80,9 @@ public class LoginController {
         }
 
         // Kết nối đến cơ sở dữ liệu
-        String URL = "jdbc:mysql://localhost:3306/libraryy";
+        String URL = "jdbc:mysql://localhost:3306/library";
         String USER = "root";
-        String PASSWORD = "";
+        String PASSWORD = "caohuongiang171";
         String query = "SELECT user_id, pass_word FROM Users WHERE user_name = ?";
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -99,7 +99,7 @@ public class LoginController {
                 // Kiểm tra mật khẩu
 
                 // Kiểm tra thông tin đăng nhập đặc biệt
-                if (username.equals("_linhdaynee") && password.equals("1234")) {
+                if (username.equals("giangcute") && password.equals("caohuongiang171")) {
                     Stage stage = (Stage) loginButton.getScene().getWindow();
                     Parent signUpRoot = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/admindashboard.fxml"));
                     Scene scene = new Scene(signUpRoot, 900, 600);

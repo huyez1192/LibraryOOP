@@ -13,7 +13,6 @@
             <children>
                 <!-- Thanh điều hướng bên trái -->
                 <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="226.0" style="-fx-background-color: #dfe7ef; -fx-background-radius: 0 20 20 0; -fx-border-radius: 0 20 20 0;">
-
                     <children>
                         <ImageView fitHeight="126.0" fitWidth="195.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
                             <image>
@@ -24,8 +23,8 @@
                             </VBox.margin>
                         </ImageView>
 
+                        <!-- Nút Home -->
                         <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" text="   HOME" VBox.vgrow="ALWAYS">
-
                             <graphic>
                                 <ImageView fitHeight="20.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -33,19 +32,17 @@
                                     </image>
                                 </ImageView>
                             </graphic>
-
                             <VBox.margin>
                                 <Insets bottom="20.0" />
                             </VBox.margin>
-
                             <styleClass>
                                 <String fx:value="navButton" />
                                 <String fx:value="pickButton" />
                             </styleClass>
                         </Button>
 
+                        <!-- Nút Borrowed -->
                         <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchToBorrowed" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="   BORROWED" VBox.vgrow="ALWAYS">
-
                             <graphic>
                                 <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -53,14 +50,13 @@
                                     </image>
                                 </ImageView>
                             </graphic>
-
                             <VBox.margin>
                                 <Insets bottom="20.0" />
                             </VBox.margin>
                         </Button>
 
+                        <!-- Nút More -->
                         <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchToMore" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="   MORE" VBox.vgrow="ALWAYS">
-
                             <graphic>
                                 <ImageView fitHeight="21.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -68,6 +64,20 @@
                                     </image>
                                 </ImageView>
                             </graphic>
+                        </Button>
+
+                        <!-- Nút Profile -->
+                        <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchToProfile" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="   PROFILE" VBox.vgrow="ALWAYS">
+                            <graphic>
+                                <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@profile.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                            <VBox.margin>
+                                <Insets bottom="20.0" />
+                            </VBox.margin>
                         </Button>
                     </children>
                 </VBox>
