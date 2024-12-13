@@ -20,7 +20,7 @@ import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
 
-public class LibraryDocumentController implements Initializable {
+public class LibraryDocumentController extends Controller implements Initializable {
 
     @FXML
     private Button searchButton;
@@ -107,33 +107,23 @@ public class LibraryDocumentController implements Initializable {
     }
 
     @FXML
-    private void switchToAdminHome(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/admindashboard.fxml"));
-            Parent root = loader.load();
+    private void switchToAdminHome() {
+        switchScene("/fxml/admindashboard.fxml", documentTableViewTable);
+    }
 
-            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            System.err.println("Error loading admin dashboard: " + e.getMessage());
-            e.printStackTrace();
-        }
+    @FXML
+    private void switchToAdminRequests() {
+        switchScene("/fxml/requestsScreen.fxml", documentTableViewTable);
+    }
+
+    @FXML
+    private void switchToAdminUsers() {
+        switchScene("/fxml/adminUsers.fxml", documentTableViewTable);
     }
 
     @FXML
     private void switchToAddDocument(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addDocument.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            System.err.println("Error loading add document: " + e.getMessage());
-            e.printStackTrace();
-        }
+        switchScene("/fxml/addDocument.fxml", documentTableViewTable);
     }
 
     @FXML
@@ -270,9 +260,9 @@ private void handleUpdateQuantityDocument() {
 }
 
     private void loadDataFromDatabase() {
-        String url = "jdbc:mysql://localhost:3306/library";
+        String url = "jdbc:mysql://localhost:3306/libraryy";
         String username = "root";
-        String password = "caohuongiang171";
+        String password = "";
 
         String query = """
             SELECT *
@@ -318,7 +308,19 @@ private void handleUpdateQuantityDocument() {
         documentsList.clear(); // Xóa dữ liệu cũ trước khi tải mới
 
         try (Connection connection = MySQLConnection.getConnection()) {
-            String sql = "SELECT * FROM books WHERE title LIKE ? OR authors LIKE ? OR isbn LIKE ? OR categories LIKE ?";
+            String sql;
+            if (query.isEmpty()) {
+                sql = "SELECT * FROM books"; // Truy vấn toàn bộ bảng
+            } else {
+                sql = """
+        SELECT * 
+        FROM books 
+        WHERE title LIKE ? 
+           OR authors LIKE ? 
+           OR isbn LIKE ? 
+           OR categories LIKE ?
+        """;
+            }
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, "%" + query + "%");
                 preparedStatement.setString(2, "%" + query + "%");

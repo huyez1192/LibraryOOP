@@ -20,7 +20,7 @@ import utils.UserIdSingleton;
 import java.io.IOException;
 import java.sql.*;
 
-public class BorrowedController {
+public class BorrowedController extends Controller {
 
     @FXML
     private TextField searchField;
@@ -134,52 +134,19 @@ public class BorrowedController {
     }
 
     @FXML
-    private void onSearch() {
-        // Handle search functionality when "Search" button is clicked
-        String query = searchField.getText().trim();
-        if (!query.isEmpty()) {
-            System.out.println("Searching for: " + query);
-            // Implement the logic to filter the table data based on the query
-        } else {
-            System.out.println("Search field is empty.");
-        }
+    private void switchToUserMore() {
+        switchScene("/fxml/UserMore.fxml", borrowedTable);
     }
 
-    public void switchToHome(ActionEvent event) {
-        try {
-            // Tải FXML của giao diện thứ hai
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/library.fxml"));
-            Parent root = loader.load();
-
-            // Lấy Stage hiện tại
-            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-
-            // Đổi Scene
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void switchToUserHome() {
+        switchScene("/fxml/library.fxml", borrowedTable);
     }
 
     @FXML
-    public void switchToMore(ActionEvent event) {
-        try {
-
-            // Tải FXML của giao diện BORROWED
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/UserMore.fxml"));
-            Parent root = loader.load();
-
-            // Lấy Stage hiện tại
-            Stage stage = (Stage) moreButton.getScene().getWindow();
-
-            // Đổi Scene
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void switchToUserRequests() {
+        switchScene("/fxml/userRequests.fxml", borrowedTable);
     }
+
     private void loadDataFromDatabase() {
         Document document = null;
 

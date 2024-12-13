@@ -20,7 +20,7 @@
                                 <Insets bottom="20.0" />
                             </VBox.margin>
                         </ImageView>
-                        <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" onAction="#switchToHome" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="   HOME" VBox.vgrow="ALWAYS">
+                        <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" onAction="#switchToUserHome" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="   HOME" VBox.vgrow="ALWAYS">
                             <graphic>
                                 <ImageView fitHeight="20.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -50,7 +50,7 @@
                             </styleClass>
                         </Button>
 
-                        <Button fx:id="moreButton" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchToMore" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="   MORE" VBox.vgrow="ALWAYS">
+                        <Button fx:id="moreButton" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchToUserMore" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="   MORE" VBox.vgrow="ALWAYS">
                             <graphic>
                                 <ImageView fitHeight="21.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                                     <image>

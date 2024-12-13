@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.*?>
 <?import java.lang.*?>
@@ -32,23 +33,45 @@
                                 <Insets bottom="20.0" />
                             </VBox.margin>
                         </ImageView>
-                        <Button fx:id="sumLibraryButton" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" onAction="#switchToLibraryDocument" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="LIBRARY" textFill="#a7bed1" VBox.vgrow="ALWAYS">
+                        <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" onAction="#switchToAdminHome" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="HOME" textFill="#a7bed1" VBox.vgrow="ALWAYS">
                             <VBox.margin>
                                 <Insets />
                             </VBox.margin>
                         </Button>
 
-                        <Button fx:id="sumAddDocumentButton" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" text="ADD DOCUMENT" textFill="#c9dbe1" VBox.vgrow="ALWAYS">
+                        <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="USERS" onAction="#switchToAdminUsers" textFill="#a7bed1" VBox.vgrow="ALWAYS">
                             <VBox.margin>
                                 <Insets />
                             </VBox.margin>
+                        </Button>
+                        <Button fx:id="requestsButton" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="242.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchToAdminRequests" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="REQUESTS" textFill="#a7bed1" />
+
+                        <Button fx:id="sumBookButton" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" text="DOCUMENTS" textFill="#c9dbe1" VBox.vgrow="ALWAYS">
+                     <styleClass>
+                        <String fx:value="navButton" />
+                        <String fx:value="pickButton" />
+                     </styleClass></Button>
+                  <Button fx:id="libraryButton" alignment="BASELINE_LEFT" maxWidth="161.0" minWidth="156.0" mnemonicParsing="false" onAction="#switchToLibraryDocument" prefHeight="35.0" prefWidth="161.0" text="LIBRARY" textFill="#a7bed1">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="NW_RESIZE" />
+                     </cursor>
+                     <styleClass>
+                        <String fx:value="navButton" />
+                        <String fx:value="smallPickButton" />
+                     </styleClass>
+                  </Button>
+                  <Button fx:id="addDocumentButton" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" minHeight="35.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="156.0" text="ADD DOCUMENTS" textFill="#c9dbe1">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
                      <styleClass>
                         <String fx:value="navButton" />
                         <String fx:value="pickButton" />
                      </styleClass>
-                        </Button>
-
-                        <Button fx:id="sumBackButton" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchToAdminHome" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="BACK" textFill="#a7bed1" VBox.vgrow="ALWAYS" />
+                  </Button>
 
                     </children>
                 </VBox>
