@@ -4,48 +4,57 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.Color?>
 
 <StackPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BookDetailsController">
     <!-- Giao diện chính -->
-    <BorderPane prefHeight="600" prefWidth="900">
-        <!-- Bên trái: Ảnh bìa -->
+    <BorderPane prefHeight="600" prefWidth="800" style="-fx-background-color: #f5f5f5; -fx-border-color: #dcdcdc; -fx-border-radius: 15; -fx-background-radius: 15;">
+        <!-- Khu vực hiển thị ảnh bìa -->
         <left>
-            <VBox alignment="CENTER" prefWidth="250" spacing="20" style="-fx-padding: 60;">
-                <ImageView fx:id="bookThumbnail" fitHeight="600" fitWidth="300" preserveRatio="true" />
+            <VBox alignment="CENTER" prefWidth="200" spacing="10" style="-fx-padding: 20;">
+                <ImageView fx:id="bookThumbnail" fitHeight="250" fitWidth="150" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 5);" />
             </VBox>
         </left>
-        <!-- Bên phải: Thông tin sách và các nút -->
+
+        <!-- Khu vực chi tiết sách -->
         <center>
-            <VBox alignment="TOP_LEFT" spacing="30" style="-fx-padding: 50;">
+            <VBox alignment="TOP_LEFT" spacing="15" style="-fx-padding: 20;">
                 <!-- Tiêu đề sách -->
-                <Label fx:id="bookTitle" style="-fx-font-size: 28px; -fx-font-weight: bold;" text="Tên Sách" />
-                <!-- Tác giả -->
-                <Label fx:id="bookAuthors" style="-fx-font-size: 20px;" text="Tác giả: ..." />
-                <!-- Thể loại -->
-                <Label fx:id="bookCategory" style="-fx-font-size: 20px;" text="Thể loại: ..." />
-                <!-- Mô tả sách -->
-                <TextArea fx:id="bookDescription" editable="false" prefHeight="200" style="-fx-font-size: 18px;" text="Mô tả sách..." wrapText="true" />
-                <!-- Các nút -->
-                <HBox alignment="CENTER_LEFT" spacing="15">
-                    <Button fx:id="borrowButton" onAction="#handleBorrowBook" style="-fx-background-color: #5cb85c; -fx-text-fill: white; -fx-font-size: 18px;" text="Mượn Sách" />
-                    <Button fx:id="shareButton" onAction="#handleShareBook" style="-fx-background-color: #0275d8; -fx-text-fill: white; -fx-font-size: 18px;" text="Chia Sẻ" />
-                    <Button fx:id="closeButton" onAction="#handleClose" style="-fx-background-color: #d9534f; -fx-text-fill: white; -fx-font-size: 18px" text="Đóng" />
+                <Label fx:id="bookTitle" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Tên Sách" />
+
+                <!-- Tác giả và thể loại -->
+                <HBox spacing="15">
+                    <Label fx:id="bookAuthors" style="-fx-font-size: 14px; -fx-text-fill: #555;" text="Tác giả: ..." />
+                    <Label fx:id="bookCategory" style="-fx-font-size: 14px; -fx-text-fill: #555;" text="Thể loại: ..." />
                 </HBox>
 
-                <!-- Đánh giá sách -->
-                <HBox fx:id="ratingStars" spacing="5" alignment="CENTER" />
-                <Label fx:id="ratingLabel" style="-fx-font-size: 18px;" />
+                <!-- Mô tả sách -->
+                <TextArea fx:id="bookDescription" editable="false" prefHeight="100" style="-fx-font-size: 14px; -fx-border-color: #ddd; -fx-border-radius: 10; -fx-background-radius: 10; -fx-background-color: #ffffff;" wrapText="true" />
 
-                <!-- Bình luận -->
-                <TextArea fx:id="commentArea" promptText="Viết bình luận..." style="-fx-font-size: 16px; -fx-background-radius: 5;" />
-                <Button fx:id="submitReviewButton" onAction="#handleSubmitReview" text="Đánh giá" />
+                <!-- Đánh giá và các nút chức năng -->
+                <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 10 0;">
+                    <Label fx:id="ratingLabel" style="-fx-font-size: 14px; -fx-text-fill: #333;" text="Số sao trung bình: ..." />
+                    <HBox fx:id="ratingStars" spacing="5" />
+                </HBox>
 
-                <!-- Các bình luận của người dùng -->
-                <VBox fx:id="commentsContainer" spacing="10" style="-fx-padding: 10;">
-                    <Label text="Bình luận về sách" style="-fx-font-weight: bold;" />
-                    <ListView fx:id="commentsListView" />
+                <HBox spacing="10">
+                    <Button fx:id="borrowButton" onAction="#handleBorrowBook" text="Mượn Sách" style="-fx-background-color: #4caf50; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 10;" />
+                    <Button fx:id="shareButton" onAction="#handleShareBook" text="Chia Sẻ" style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 10;" />
+                    <Button fx:id="closeButton" onAction="#handleClose" text="Đóng" style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 10;" />
+                </HBox>
+
+                <!-- Khu vực bình luận -->
+                <VBox spacing="10" style="-fx-background-color: #ffffff; -fx-border-color: #ddd; -fx-border-radius: 10; -fx-padding: 10;">
+                    <Label text="Bình luận về sách" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;" />
+                    <TextArea fx:id="commentArea" promptText="Nhập bình luận..." style="-fx-font-size: 14px; -fx-background-color: #f9f9f9; -fx-border-radius: 10;" />
+                    <Button fx:id="submitReviewButton" onAction="#handleSubmitReview" text="Gửi Bình Luận" style="-fx-background-color: #4caf50; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 10;" />
                 </VBox>
+
+                <!-- Danh sách bình luận -->
+                <ScrollPane fx:id="commentsContainer" fitToWidth="true" style="-fx-background-color: #f9f9f9; -fx-border-color: #ddd; -fx-border-radius: 10;">
+                    <VBox fx:id="commentsVBox" spacing="10" style="-fx-padding: 10;">
+                        <!-- Các bình luận sẽ được thêm động -->
+                    </VBox>
+                </ScrollPane>
             </VBox>
         </center>
     </BorderPane>
