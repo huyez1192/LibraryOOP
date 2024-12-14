@@ -127,7 +127,18 @@ public class BookDetailsController {
         // Kiểm tra trạng thái yêu cầu mượn sách
         checkRequestStatus();
 
+        double averageRating = calculateAverageRating(document.getIsbn());
+        if (averageRating > 0) {
+            ratingLabel.setText(String.format("Số sao trung bình: %.1f/5", averageRating));
+        } else {
+            ratingLabel.setText("Chưa có đánh giá");
+        }
         loadComments();
+    }
+
+    private double calculateAverageRating(String isbn) {
+        double averageRating = commentDAO.getAverageRating(isbn);
+        return averageRating > 0 ? averageRating : 0.0;
     }
 
     private void loadComments() {
@@ -281,19 +292,35 @@ public class BookDetailsController {
     @FXML
     private void handleSubmitReview() {
         String commentText = commentArea.getText();
+
+        // Kiểm tra nếu người dùng không nhập bình luận hoặc không chọn số sao
         if (commentText.isEmpty()) {
             showAlert(Alert.AlertType.WARNING, "Lỗi", "Bình luận không được để trống.");
             return;
         }
+        if (currentRating == 0) {
+            showAlert(Alert.AlertType.WARNING, "Lỗi", "Bạn chưa chọn số sao đánh giá.");
+            return;
+        }
 
-        // Lưu bình luận
-        Comment comment = new Comment(userId, document.getIsbn(), commentText);
+        // Tạo đối tượng Comment với số sao hiện tại
+        Comment comment = new Comment(userId, document.getIsbn(), commentText, currentRating);
+
+        // Gửi bình luận vào cơ sở dữ liệu
         boolean success = commentDAO.addComment(comment);
 
         if (success) {
             showAlert(Alert.AlertType.INFORMATION, "Thành công", "Cảm ơn bạn đã bình luận!");
             commentArea.clear();
+            updateRating(0); // Đặt lại số sao về 0
+            double averageRating = calculateAverageRating(document.getIsbn());
+            if (averageRating > 0) {
+                ratingLabel.setText(String.format("Số sao trung bình: %.1f/5", averageRating));
+            } else {
+                ratingLabel.setText("Chưa có đánh giá");
+            }
             loadComments(); // Tải lại danh sách bình luận
+            updateBookRating(document.getIsbn()); // Cập nhật số sao trung bình của sách
         } else {
             showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể thêm bình luận. Vui lòng thử lại.");
         }
@@ -356,7 +383,7 @@ public class BookDetailsController {
     }
 
     private void updateRating(int starRating) {
-        currentRating = starRating;
+        currentRating = starRating; // Cập nhật số sao hiện tại
         ratingLabel.setText("Đánh giá: " + currentRating + "/5");
         for (int i = 0; i < ratingStars.getChildren().size(); i++) {
             ImageView star = (ImageView) ratingStars.getChildren().get(i);
@@ -367,4 +394,5 @@ public class BookDetailsController {
             }
         }
     }
+
 }

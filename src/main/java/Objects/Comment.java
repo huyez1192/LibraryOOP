@@ -5,16 +5,19 @@ public class Comment {
     private String userName;
     private String isbn;
     private String commentText;
+    private int rating;
 
-    public Comment(int userId, String isbn, String commentText) {
+    public Comment(int userId, String isbn, String commentText, int rating) {
         this.userId = userId;
         this.isbn = isbn;
         this.commentText = commentText;
+        this.rating = rating;
     }
 
-    public Comment(String userName, String commentText) {
+    public Comment(String userName, String commentText, int rating) {
         this.userName = userName;
         this.commentText = commentText;
+        this.rating = rating;
     }
 
     public int getUserId() {
@@ -31,5 +34,9 @@ public class Comment {
 
     public String getCommentText() {
         return commentText;
+    }
+
+    public int getRating() {
+        return rating;
     }
 }
