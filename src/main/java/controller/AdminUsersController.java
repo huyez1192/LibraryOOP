@@ -21,7 +21,7 @@ import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
 
-public class AdminUsersController implements Initializable {
+public class AdminUsersController extends Controller implements Initializable {
 
     @FXML
     private Button searchButton;
@@ -91,48 +91,18 @@ public class AdminUsersController implements Initializable {
     }
 
     @FXML
-    private void switchToAdminHome(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/admindashboard.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            System.err.println("Error loading admin dashboard: " + e.getMessage());
-            e.printStackTrace();
-        }
+    private void switchToAdminHome() {
+        switchScene("/fxml/admindashboard.fxml", usersTableViewTable);
     }
 
     @FXML
-    private void switchToAdminDocuments(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/libraryDocument.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            System.err.println("Error loading library document: " + e.getMessage());
-            e.printStackTrace();
-        }
+    private void switchToAdminDocuments() {
+        switchScene("/fxml/addDocument.fxml", usersTableViewTable);
     }
 
     @FXML
     private void switchToAdminRequests(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/requestsScreen.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            System.err.println("Error loading requests: " + e.getMessage());
-            e.printStackTrace();
-        }
+        switchScene("/fxml/requestsScreen.fxml", usersTableViewTable);
     }
 
     private void handleRemoveUser() {
@@ -216,12 +186,11 @@ public class AdminUsersController implements Initializable {
             usersList.clear(); // Xóa dữ liệu cũ trước khi tải mới
 
             try (Connection connection = MySQLConnection.getConnection()) {
-                String sql = "SELECT * FROM users WHERE user_id LIKE ? OR full_name LIKE ? OR user_name LIKE ? OR email LIKE ?";
+                String sql = "SELECT * FROM users WHERE (user_id LIKE ? OR full_name LIKE ? OR user_name LIKE ?) AND user_id <> 1";
                 try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                     preparedStatement.setString(1, "%" + query + "%");
                     preparedStatement.setString(2, "%" + query + "%");
                     preparedStatement.setString(3, "%" + query + "%");
-                    preparedStatement.setString(4, "%" + query + "%");
 
                     try (ResultSet rs = preparedStatement.executeQuery()) {
                         while (rs.next()) {

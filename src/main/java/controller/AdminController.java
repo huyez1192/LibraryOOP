@@ -165,21 +165,27 @@ public class AdminController implements Initializable {
         return ls;
     }
 
-    @FXML
-    private void handleRequestButton() throws IOException {
-        Stage stage = (Stage) requestButton.getScene().getWindow();
-
-        Parent requestRoot = FXMLLoader.load(getClass().getResource("/fxml/requestsScreen.fxml"));
-
-        Scene scene = new Scene(requestRoot, 900, 600);
-
-        stage.setScene(scene);
-    }    
-
     public void switchToAdminDocuments(ActionEvent event) {
         try {
             // Tải FXML của giao diện thứ hai
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/libraryDocument.fxml"));
+            Parent root = loader.load();
+
+            // Lấy Stage hiện tại
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+
+            // Đổi Scene
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void switchToAdminRequests(ActionEvent event) {
+        try {
+            // Tải FXML của giao diện thứ hai
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/requestsScreen.fxml"));
             Parent root = loader.load();
 
             // Lấy Stage hiện tại
