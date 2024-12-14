@@ -331,7 +331,6 @@ public class HomeController implements Initializable {
     @FXML
     public void switchToBorrowed(ActionEvent event) {
         try {
-
             // Tải FXML của giao diện thứ hai
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/borrowedDocuments.fxml"));
             Parent root = loader.load();
@@ -368,22 +367,15 @@ public class HomeController implements Initializable {
     @FXML
     public void switchToProfile(ActionEvent event) {
         try {
-            // Tải FXML của Profile
+            // Tải FXML của giao diện Profile
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/profile.fxml"));
-            Parent root = loader.load();  // Đảm bảo đã tải FXML
+            Parent root = loader.load();
 
-            // Lấy controller từ FXML đã tải
+            // Lấy controller của ProfileController để truyền userId
             ProfileController profileController = loader.getController();
+            profileController.setUserId(userId); // Đảm bảo userId đã được thiết lập
 
-            // Kiểm tra xem profileController có được khởi tạo hay không
-            if (profileController != null) {
-                System.out.println("ProfileController đã được khởi tạo.");
-                profileController.setUserId(userId);  // Gọi setUserId sau khi kiểm tra
-            } else {
-                System.err.println("Lỗi: ProfileController không được khởi tạo.");
-            }
-
-            // Mở cửa sổ Profile
+            // Tạo và hiển thị Stage mới cho Profile
             Stage stage = new Stage();
             stage.setTitle("Profile");
             stage.setScene(new Scene(root));
@@ -392,11 +384,9 @@ public class HomeController implements Initializable {
 
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert("Error", "Không thể mở cửa sổ Profile.", Alert.AlertType.ERROR);
+            showAlert("Error", "Cannot open Profile window.", Alert.AlertType.ERROR);
         }
     }
-
-
 
 
     // Phương thức mở chi tiết sách
@@ -431,5 +421,14 @@ public class HomeController implements Initializable {
             alert.setContentText(message);
             alert.showAndWait();
         });
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+        loadSuggestBooks();
+    }
+
+    public int getUserId() {
+        return userId;
     }
 }

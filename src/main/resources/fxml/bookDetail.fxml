@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.Color?>
 
-<?import javafx.scene.shape.Rectangle?>
 <StackPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BookDetailsController">
     <!-- Giao diện chính -->
     <BorderPane prefHeight="600" prefWidth="900">
@@ -33,6 +32,20 @@
                     <Button fx:id="shareButton" onAction="#handleShareBook" style="-fx-background-color: #0275d8; -fx-text-fill: white; -fx-font-size: 18px;" text="Chia Sẻ" />
                     <Button fx:id="closeButton" onAction="#handleClose" style="-fx-background-color: #d9534f; -fx-text-fill: white; -fx-font-size: 18px" text="Đóng" />
                 </HBox>
+
+                <!-- Đánh giá sách -->
+                <HBox fx:id="ratingStars" spacing="5" alignment="CENTER" />
+                <Label fx:id="ratingLabel" style="-fx-font-size: 18px;" />
+
+                <!-- Bình luận -->
+                <TextArea fx:id="commentArea" promptText="Viết bình luận..." style="-fx-font-size: 16px; -fx-background-radius: 5;" />
+                <Button fx:id="submitReviewButton" onAction="#handleSubmitReview" text="Đánh giá" />
+
+                <!-- Các bình luận của người dùng -->
+                <VBox fx:id="commentsContainer" spacing="10" style="-fx-padding: 10;">
+                    <Label text="Bình luận về sách" style="-fx-font-weight: bold;" />
+                    <ListView fx:id="commentsListView" />
+                </VBox>
             </VBox>
         </center>
     </BorderPane>

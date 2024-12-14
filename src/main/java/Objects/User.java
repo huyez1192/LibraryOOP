@@ -27,6 +27,13 @@ public class User {
         this.email = email;
     }
 
+    public User() {
+        this.userId = userId;
+        this.fullName = fullName;
+        this.userName = userName;
+        this.password = password;
+        this.email = email;
+    }
     public int getUserId() {
         return userId;
     }

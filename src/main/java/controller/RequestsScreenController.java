@@ -117,7 +117,7 @@ public class RequestsScreenController {
     private void loadDataFromDatabase() {
         String url = "jdbc:mysql://localhost:3306/library";
         String username = "root";
-        String password = "caohuongiang171";
+        String password = "gem07012005";
 
         String query = """
             SELECT r.request_id, r.user_id, u.full_name, r.isbn, r.request_date
