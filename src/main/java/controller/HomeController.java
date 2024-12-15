@@ -180,6 +180,15 @@ public class HomeController implements Initializable {
             openBookDetail(book);
             event.consume();
         });
+        suggestionBoxItem.setOnMousePressed(event -> {
+            searchField.setText(book.getTitle());
+            hideSuggestions();
+            openBookDetail(book);
+            event.consume();
+        });
+
+        return suggestionBoxItem;
+    }
 
         return suggestionBoxItem;
     }
@@ -339,20 +348,22 @@ public class HomeController implements Initializable {
     @FXML
     public void switchToProfile(ActionEvent event) {
         try {
-            // Tải FXML của giao diện Profile
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/profile.fxml"));
             Parent root = loader.load();
 
-            // Lấy controller của ProfileController để truyền userId
             ProfileController profileController = loader.getController();
-            profileController.setUserId(userId); // Đảm bảo userId đã được thiết lập
+            profileController.setUserId(userId);
 
             // Tạo và hiển thị Stage mới cho Profile
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
+            Stage stage = new Stage();
+            stage.setTitle("Profile");
             stage.setScene(new Scene(root));
             stage.show();
 
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
             showAlert("Error", "Cannot open Profile window.", Alert.AlertType.ERROR);
@@ -376,6 +387,23 @@ public class HomeController implements Initializable {
             // Tải FXML của giao diện thứ hai
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/requested.fxml"));
             Parent root = loader.load();
+    @FXML
+    public void switchToRequested(ActionEvent event) {
+        try {
+            // Tải FXML của giao diện thứ hai
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/requested.fxml"));
+            Parent root = loader.load();
+
+            // Lấy Stage hiện tại
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Đổi Scene
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
             // Lấy Stage hiện tại
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -405,6 +433,15 @@ public class HomeController implements Initializable {
         }
     }
 
+    private void showAlert(String title, String message, Alert.AlertType alertType) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(alertType);
+            alert.setTitle(title);
+            alert.setHeaderText(null);
+            alert.setContentText(message);
+            alert.showAndWait();
+        });
+    }
 
     public void setUserId(int userId) {
         this.userId = userId;

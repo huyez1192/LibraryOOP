@@ -88,6 +88,16 @@
                         <Insets bottom="20.0" />
                      </VBox.margin>
                   </Button>
+                                <ImageView fitHeight="21.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@application%20(1).png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                        </Button>
 
                         <!-- Nút More -->
                         <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchToMore" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="   MORE" VBox.vgrow="ALWAYS">
@@ -146,6 +156,17 @@
                             </content>
                         </ScrollPane>
                         <Label prefHeight="33.0" prefWidth="683.0" text="     AVAILABLE BOOKS" VBox.vgrow="ALWAYS" />
+                  <Label prefHeight="34.0" prefWidth="683.0" text="     SUGGESTION BOOKS" VBox.vgrow="ALWAYS" />
+                  <ScrollPane prefHeight="200.0" prefWidth="200.0" style="-fx-border-width: 0; -fx-background-color: transparent;">
+                     <content>
+                        <GridPane fx:id="bookContainer1">
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                        </GridPane>
+                     </content>
+                  </ScrollPane>
+                  <Label prefHeight="33.0" prefWidth="683.0" text="     AVAILABLE BOOKS" VBox.vgrow="ALWAYS" />
 
                         <!-- Danh sách sách -->
                         <ScrollPane prefHeight="234.0" prefWidth="683.0" style="-fx-border-width: 0; -fx-background-color: transparent;" VBox.vgrow="ALWAYS">
@@ -156,6 +177,14 @@
                                     </rowConstraints>
                                 </GridPane>
                             </content>
+                        <ScrollPane prefHeight="234.0" prefWidth="683.0" style="-fx-border-width: 0; -fx-background-color: transparent;" VBox.vgrow="ALWAYS">
+                     <content>
+                        <GridPane fx:id="bookContainer">
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                        </GridPane>
+                     </content>
                         </ScrollPane>
                     </children>
                 </VBox>
