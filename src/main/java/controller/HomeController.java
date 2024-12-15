@@ -23,13 +23,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import utils.UserIdSingleton;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -60,14 +57,17 @@ public class HomeController implements Initializable {
 
     private List<Document> recommended;
     private List<Document> availableBooks;
-    public static int userId;
+    private int userId;
     private RequestDAO requestDAO = new RequestDAO();
     private BorrowRecordDAO borrowRecordDAO = new BorrowRecordDAO();
-    private ExecutorService executor = Executors.newFixedThreadPool(2); // ExecutorService để quản lý thread pool
+    private ExecutorService executor = Executors.newFixedThreadPool(2);
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        userId = UserIdSingleton.getInstance().getUserId();
+
         initializeSearchSuggestions();
+        loadAvailableBooks();
 
         // Sử dụng Task và ExecutorService để tải dữ liệu trong nền
         Task<Void> loadRecommendedTask = new Task<>() {
@@ -78,16 +78,16 @@ public class HomeController implements Initializable {
             }
         };
 
-        Task<Void> loadAvailableBooksTask = new Task<>() {
+        Task<Void> loadSuggestBooksTask = new Task<>() {
             @Override
             protected Void call() {
-                loadAvailableBooks();
+                loadSuggestBooks();
                 return null;
             }
         };
 
         executor.submit(loadRecommendedTask);
-        executor.submit(loadAvailableBooksTask);
+        executor.submit(loadSuggestBooksTask);
     }
 
     private void initializeSearchSuggestions() {
@@ -146,7 +146,6 @@ public class HomeController implements Initializable {
         });
     }
 
-    // Tạo HBox cho mỗi gợi ý sách
     private HBox createSuggestionBoxItem(Document book) {
         HBox suggestionBoxItem = new HBox(10);
         suggestionBoxItem.setPadding(new Insets(5));
@@ -162,17 +161,8 @@ public class HomeController implements Initializable {
 
         String thumbnailUrl = book.getThumbnailLink();
         if (thumbnailUrl != null && !thumbnailUrl.isEmpty()) {
-            // Sử dụng Task để tải hình ảnh trong nền
-            Task<Image> loadImageTask = new Task<>() {
-                @Override
-                protected Image call() throws Exception {
-                    return new Image(thumbnailUrl.replace("http://", "https://"), true);
-                }
-            };
-
-            loadImageTask.setOnSucceeded(e -> bookImageView.setImage(loadImageTask.getValue()));
-            loadImageTask.setOnFailed(e -> bookImageView.setImage(new Image(getClass().getResourceAsStream("/images/default_book.png"))));
-            executor.submit(loadImageTask);
+            Image image = new Image(thumbnailUrl.replace("http://", "https://"), true);
+            bookImageView.setImage(image);
         } else {
             bookImageView.setImage(new Image(getClass().getResourceAsStream("/images/default_book.png")));
         }
@@ -218,13 +208,16 @@ public class HomeController implements Initializable {
 
             BookDAO bookDAO = new BookDAO();
             List<Document> suggestedBooks = bookDAO.getByCategories(favoriteCategory);
+            if (suggestedBooks.size() > 5) {
+                suggestedBooks = suggestedBooks.subList(0, 5);
+            }
             System.out.println("Suggested books loaded: " + suggestedBooks.size());
 
             int column = 0;
             int row = 1;
 
             if (bookContainer1 != null) {
-                Platform.runLater(() -> bookContainer1.getChildren().clear()); // clear() trên JavaFX Application Thread
+                Platform.runLater(() -> bookContainer1.getChildren().clear());
                 for (Document document : suggestedBooks) {
                     FXMLLoader fxmlLoader = new FXMLLoader();
                     fxmlLoader.setLocation(getClass().getResource("/fxml/small_book.fxml"));
@@ -265,7 +258,7 @@ public class HomeController implements Initializable {
             int row = 1;
 
             if (bookContainer != null) {
-                Platform.runLater(() -> bookContainer.getChildren().clear()); // clear() trên JavaFX Application Thread
+                Platform.runLater(() -> bookContainer.getChildren().clear());
                 for (Document document : recommended) {
                     FXMLLoader fxmlLoader = new FXMLLoader();
                     fxmlLoader.setLocation(getClass().getResource("/fxml/small_book.fxml"));
@@ -318,11 +311,6 @@ public class HomeController implements Initializable {
     @FXML
     public void switchToBorrowed(ActionEvent event) {
         try {
-            // Lấy userId từ UserSession
-            int userId = Session.getUserId();
-
-
-            // Tải FXML của giao diện thứ hai
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/borrowedDocuments.fxml"));
             Parent root = loader.load();
 
@@ -368,6 +356,24 @@ public class HomeController implements Initializable {
         }
     }
 
+    @FXML
+    public void switchToRequested(ActionEvent event) {
+        try {
+            // Tải FXML của giao diện thứ hai
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/requested.fxml"));
+            Parent root = loader.load();
+
+            // Lấy Stage hiện tại
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Đổi Scene
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void openBookDetail(Document document) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/bookDetail.fxml"));
@@ -398,18 +404,5 @@ public class HomeController implements Initializable {
 
     public void setUserId(int userId) {
         this.userId = userId;
-        // Sử dụng Task và ExecutorService để tải dữ liệu trong nền
-        Task<Void> loadSuggestBooksTask = new Task<>() {
-            @Override
-            protected Void call() {
-                loadSuggestBooks();
-                return null;
-            }
-        };
-        executor.submit(loadSuggestBooksTask);
-    }
-
-    public int getUserId() {
-        return userId;
     }
 }
