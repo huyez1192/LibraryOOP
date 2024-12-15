@@ -28,7 +28,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ResourceBundle;
 
-public class AddDocumentController implements Initializable {
+public class AddDocumentController extends Controller implements Initializable {
 
     @FXML
     private Button searchButton;
@@ -110,33 +110,22 @@ public class AddDocumentController implements Initializable {
     }
 
     @FXML
-    private void switchToAdminHome(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/admindashboard.fxml"));
-            Parent root = loader.load();
+    private void switchToLibraryDocument() {
+        switchScene("/fxml/libraryDocument.fxml", documentTableViewTable);
+    }
 
-            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            System.err.println("Error loading admin dashboard: " + e.getMessage());
-            e.printStackTrace();
-        }
+    public void switchToAdminHome(ActionEvent event) {
+        switchScene("/fxml/admindashboard.fxml", documentTableViewTable);
     }
 
     @FXML
-    private void switchToLibraryDocument(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/libraryDocument.fxml"));
-            Parent root = loader.load();
+    private void switchToAdminRequests() {
+        switchScene("/fxml/requestsScreen.fxml", documentTableViewTable);
+    }
 
-            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            System.err.println("Error loading library document: " + e.getMessage());
-            e.printStackTrace();
-        }
+    @FXML
+    private void switchToAdminUsers() {
+        switchScene("/fxml/adminUsers.fxml", documentTableViewTable);
     }
 
     @FXML

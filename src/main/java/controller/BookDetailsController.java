@@ -2,36 +2,38 @@ package controller;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.sql.Date;
+import java.sql.*;
 import java.util.Base64;
+import java.util.List;
 
 import Objects.BorrowRecord;
 import Objects.Document;
 import QRCode.AppUtil;
 import dao.BorrowRecordDAO;
+import dao.CommentDAO;
 import dao.RequestDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import connect.MySQLConnection;
+import Objects.Comment;
+
 public class BookDetailsController {
 
-    private RequestDAO requestDAO;  // Quản lý yêu cầu mượn sách
-    private int userId;  // ID người dùng
-    private Document document;  // Thông tin cuốn sách
+    private CommentDAO commentDAO;
+    private RequestDAO requestDAO;
+    private int userId;
+    private Document document;
     private BorrowRecordDAO borrowRecordDAO;
+    private Connection connection;
 
     @FXML
     private ImageView bookThumbnail;
@@ -58,215 +60,212 @@ public class BookDetailsController {
     private Button closeButton;
 
     @FXML
-    private Label shareMessage;
+    private Label ratingLabel;
 
     @FXML
-    private ImageView qrCodeImageView;
+    private TextArea commentArea;
 
     @FXML
-    private Button closeQrButton;
+    private Button submitReviewButton;
 
-    // Phương thức loadBookDetails để hiển thị thông tin sách
+    @FXML
+    private ScrollPane commentsContainer;
+
+    @FXML
+    private VBox commentsVBox;
+
+    @FXML
+    private HBox ratingStars;
+
+    private int currentRating = 0;
+
+    public BookDetailsController() {
+        this.connection = MySQLConnection.getConnection();
+        this.commentDAO = new CommentDAO(connection);
+    }
+
     public void loadBookDetails(Document document, int userId, RequestDAO requestDAO, BorrowRecordDAO borrowRecordDAO) {
         this.document = document;
         this.userId = userId;
         this.requestDAO = requestDAO;
         this.borrowRecordDAO = borrowRecordDAO;
 
-        // Cập nhật thông tin sách vào giao diện
         bookTitle.setText(document.getTitle());
         bookAuthors.setText("Tác giả: " + document.getAuthors());
         bookCategory.setText("Thể loại: " + document.getCategories());
         bookDescription.setText(document.getDescription());
 
-        // Cập nhật hình ảnh bìa sách
         if (document.getThumbnailLink() != null && !document.getThumbnailLink().isEmpty()) {
             bookThumbnail.setImage(new Image(document.getThumbnailLink()));
         } else {
             bookThumbnail.setImage(new Image(getClass().getResourceAsStream("/images/default_book.png")));
         }
 
-        // Kiểm tra trạng thái yêu cầu mượn sách
+        double averageRating = calculateAverageRating(document.getIsbn());
+        if (averageRating > 0) {
+            ratingLabel.setText(String.format("Số sao trung bình: %.1f/5", averageRating));
+        } else {
+            ratingLabel.setText("Chưa có đánh giá");
+        }
+
+        loadComments();
+        displayRatingStars();
         checkRequestStatus();
     }
 
-    // Kiểm tra trạng thái yêu cầu mượn sách
+    private double calculateAverageRating(String isbn) {
+        return commentDAO.getAverageRating(isbn);
+    }
+
+    private void loadComments() {
+        commentsVBox.getChildren().clear();
+        List<Comment> comments = commentDAO.getCommentsByIsbn(document.getIsbn());
+
+        for (Comment comment : comments) {
+            VBox commentBox = new VBox();
+            commentBox.setSpacing(5);
+            commentBox.setStyle("-fx-padding: 10; -fx-background-color: #f9f9f9; -fx-border-color: #ddd; -fx-border-radius: 10;");
+
+            Label userLabel = new Label("Người dùng: " + comment.getUserName());
+            userLabel.setStyle("-fx-font-weight: bold;");
+
+            Label contentLabel = new Label(comment.getCommentText());
+            contentLabel.setWrapText(true);
+
+            commentBox.getChildren().addAll(userLabel, contentLabel);
+            commentsVBox.getChildren().add(commentBox);
+        }
+    }
+
+    private void displayRatingStars() {
+        ratingStars.getChildren().clear();
+        for (int i = 1; i <= 5; i++) {
+            ImageView star = createStar(i);
+            ratingStars.getChildren().add(star);
+        }
+    }
+
+    private ImageView createStar(int starRating) {
+        ImageView star = new ImageView(new Image(getClass().getResourceAsStream("/image/star_empty.jpg")));
+        star.setFitHeight(30);
+        star.setFitWidth(30);
+        star.setOnMouseClicked(event -> updateRating(starRating));
+        return star;
+    }
+
+    private void updateRating(int starRating) {
+        currentRating = starRating;
+        for (int i = 0; i < ratingStars.getChildren().size(); i++) {
+            ImageView star = (ImageView) ratingStars.getChildren().get(i);
+            if (i < starRating) {
+                star.setImage(new Image(getClass().getResourceAsStream("/image/star_filled.jpg")));
+            } else {
+                star.setImage(new Image(getClass().getResourceAsStream("/image/star_empty.jpg")));
+            }
+        }
+    }
+
+    @FXML
+    private void handleSubmitReview() {
+        String commentText = commentArea.getText();
+        if (commentText.isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Lỗi", "Bình luận không được để trống.");
+            return;
+        }
+
+        if (currentRating == 0) {
+            showAlert(Alert.AlertType.WARNING, "Lỗi", "Bạn chưa chọn số sao đánh giá.");
+            return;
+        }
+
+        Comment comment = new Comment(userId, document.getIsbn(), commentText, currentRating);
+        if (commentDAO.addComment(comment)) {
+            showAlert(Alert.AlertType.INFORMATION, "Thành công", "Cảm ơn bạn đã bình luận!");
+            commentArea.clear();
+            updateRating(0);
+            loadComments();
+            ratingLabel.setText(String.format("Số sao trung bình: %.1f/5", calculateAverageRating(document.getIsbn())));
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể thêm bình luận. Vui lòng thử lại.");
+        }
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String contentText) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(contentText);
+        alert.showAndWait();
+    }
+
     private void checkRequestStatus() {
         boolean borrowedExists = borrowRecordDAO.checkIfBorrowedExists(userId, document.getIsbn());
         boolean requestExists = requestDAO.checkIfRequestExists(userId, document.getIsbn());
 
         if (borrowedExists) {
             borrowButton.setText("Trả sách");
-            borrowButton.setDisable(false); // Kích hoạt nút để người dùng có thể nhấn
-            // Đặt hành động cho nút Trả sách
             borrowButton.setOnAction(event -> handleReturnBook());
         } else if (requestExists) {
             borrowButton.setText("Chờ phê duyệt");
             borrowButton.setDisable(true);
-            // Đặt hành động rỗng vì nút bị vô hiệu hóa
-            borrowButton.setOnAction(null);
         } else {
             borrowButton.setText("Mượn sách");
-            borrowButton.setDisable(false);
-            // Đặt hành động cho nút Mượn sách
             borrowButton.setOnAction(event -> handleBorrowBook());
         }
     }
 
     @FXML
     private void handleBorrowBook() {
-        if (requestDAO != null && borrowRecordDAO != null && document != null) {
-            boolean requestExists = requestDAO.checkIfRequestExists(userId, document.getIsbn());
-            boolean borrowedExists = borrowRecordDAO.checkIfBorrowedExists(userId, document.getIsbn());
-
-            if (!requestExists && !borrowedExists) {
-                // Kiểm tra quantity trước khi mượn sách
-                int quantity = requestDAO.getBookQuantity(document.getIsbn());
-                if (quantity <= 0) {
-                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setTitle("Không thể mượn sách");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Sách hiện không có sẵn để mượn.");
-                    alert.showAndWait();
-                    return;
-                }
-                // Gửi yêu cầu mượn sách
-                Date requestDate = new Date(System.currentTimeMillis());
-                requestDAO.addRequest(userId, document.getIsbn(), requestDate);
-
-                Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("Yêu cầu mượn sách");
-                alert.setHeaderText(null);
-                alert.setContentText("Yêu cầu mượn sách đã được gửi. Chờ phê duyệt.");
-                alert.showAndWait();
-
-                // Cập nhật trạng thái nút
-                checkRequestStatus();
-            } else if (requestExists && !borrowedExists) {
-                Alert alert = new Alert(AlertType.WARNING);
-                alert.setTitle("Yêu cầu đã tồn tại");
-                alert.setHeaderText(null);
-                alert.setContentText("Bạn đã yêu cầu mượn sách này rồi.");
-                alert.showAndWait();
-            } else if (borrowedExists) {
-                Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("Sách đã được mượn");
-                alert.setHeaderText(null);
-                alert.setContentText("Bạn đã mượn sách này.");
-                alert.showAndWait();
-            }
+        if (!borrowRecordDAO.checkIfBorrowedExists(userId, document.getIsbn())
+                && !requestDAO.checkIfRequestExists(userId, document.getIsbn())) {
+            requestDAO.addRequest(userId, document.getIsbn(), new Date(System.currentTimeMillis()));
+            showAlert(Alert.AlertType.INFORMATION, "Yêu cầu mượn sách", "Yêu cầu mượn sách đã được gửi.");
+            checkRequestStatus();
         }
     }
 
     @FXML
     private void handleReturnBook() {
-        if (borrowRecordDAO != null && document != null) {
-            // Kiểm tra xem người dùng đã mượn sách này chưa
-            boolean borrowedExists = borrowRecordDAO.checkIfBorrowedExists(userId, document.getIsbn());
-
-            if (borrowedExists) {
-                // Xóa bản ghi mượn sách từ cơ sở dữ liệu
-                boolean deleteSuccess = borrowRecordDAO.deleteBorrowRecord(userId, document.getIsbn());
-
-                if (deleteSuccess) {
-                    // Cập nhật quantity trong bảng Books
-                    boolean quantityUpdated = borrowRecordDAO.incrementBookQuantity(document.getIsbn());
-                    if (!quantityUpdated) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Lỗi khi cập nhật số lượng sách");
-                        alert.setHeaderText(null);
-                        alert.setContentText("Có lỗi xảy ra khi cập nhật số lượng sách. Vui lòng thử lại.");
-                        alert.showAndWait();
-                        return;
-                    }
-                    Alert alert = new Alert(AlertType.INFORMATION);
-                    alert.setTitle("Trả sách thành công");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Bạn đã trả sách thành công.");
-                    alert.showAndWait();
-
-                    // Cập nhật trạng thái nút
-                    checkRequestStatus();
-                } else {
-                    Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("Lỗi khi trả sách");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Có lỗi xảy ra khi trả sách. Vui lòng thử lại.");
-                    alert.showAndWait();
-                }
-            } else {
-                Alert alert = new Alert(AlertType.WARNING);
-                alert.setTitle("Chưa mượn sách");
-                alert.setHeaderText(null);
-                alert.setContentText("Bạn chưa mượn sách này.");
-                alert.showAndWait();
-            }
+        if (borrowRecordDAO.deleteBorrowRecord(userId, document.getIsbn())) {
+            showAlert(Alert.AlertType.INFORMATION, "Trả sách thành công", "Bạn đã trả sách thành công.");
+            checkRequestStatus();
         }
     }
 
     @FXML
     private void handleShareBook() {
         if (document == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Lỗi");
-            alert.setHeaderText(null);
-            alert.setContentText("Không tìm thấy thông tin sách để chia sẻ.");
-            alert.showAndWait();
+            showAlert(Alert.AlertType.ERROR, "Lỗi", "Không tìm thấy thông tin sách để chia sẻ.");
             return;
         }
 
-        // Dữ liệu cần mã hóa thành QR code
         String qrData = "Sách: " + document.getTitle() + "\nISBN: " + document.getIsbn();
-
-        // Tạo mã QR dưới dạng Base64
         String qrCodeBase64 = AppUtil.generateQrCode(qrData, 300, 300);
 
-        if (qrCodeBase64 == null || qrCodeBase64.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Lỗi");
-            alert.setHeaderText(null);
-            alert.setContentText("Không thể tạo mã QR.");
-            alert.showAndWait();
-            return;
-        }
+        if (qrCodeBase64 != null && !qrCodeBase64.isEmpty()) {
+            String base64Image = qrCodeBase64.contains(",") ? qrCodeBase64.split(",")[1] : qrCodeBase64;
+            try {
+                byte[] imageBytes = Base64.getDecoder().decode(base64Image);
+                Image qrImage = new Image(new ByteArrayInputStream(imageBytes));
 
-        // Loại bỏ phần "data:image/png;base64," nếu có
-        String base64Image = qrCodeBase64.contains(",") ? qrCodeBase64.split(",")[1] : qrCodeBase64;
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/QRCodeView.fxml"));
+                VBox qrRoot = loader.load();
+                QRCodeViewController qrController = loader.getController();
+                qrController.setQrCodeImage(qrImage);
 
-        try {
-            // Giải mã Base64 thành mảng byte
-            byte[] imageBytes = Base64.getDecoder().decode(base64Image);
-
-            // Tạo Image từ mảng byte
-            Image qrImage = new Image(new ByteArrayInputStream(imageBytes));
-
-            // Tải FXML của QRCodeView
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/QRCodeView.fxml"));
-            VBox qrRoot = loader.load();
-
-            // Lấy controller của QRCodeView
-            QRCodeViewController qrController = loader.getController();
-
-            // Thiết lập QR code Image
-            qrController.setQrCodeImage(qrImage);
-
-            // Tạo Stage mới cho QR code
-            Stage qrStage = new Stage();
-            qrStage.setTitle("Mã QR của " + document.getTitle());
-            qrStage.setScene(new Scene(qrRoot));
-            qrStage.initOwner(shareButton.getScene().getWindow()); // Đặt owner cho Stage mới
-            qrStage.initModality(Modality.APPLICATION_MODAL); // Ngăn tương tác với cửa sổ chính
-            qrStage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Lỗi");
-            alert.setHeaderText(null);
-            alert.setContentText("Không thể hiển thị mã QR.");
-            alert.showAndWait();
+                Stage qrStage = new Stage();
+                qrStage.setTitle("Mã QR của " + document.getTitle());
+                qrStage.setScene(new Scene(qrRoot));
+                qrStage.initOwner(shareButton.getScene().getWindow());
+                qrStage.initModality(Modality.APPLICATION_MODAL);
+                qrStage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+                showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể hiển thị mã QR.");
+            }
         }
     }
+
 
     @FXML
     private void handleClose() {

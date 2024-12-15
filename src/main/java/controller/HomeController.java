@@ -26,6 +26,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -315,6 +318,11 @@ public class HomeController implements Initializable {
     @FXML
     public void switchToBorrowed(ActionEvent event) {
         try {
+            // Lấy userId từ UserSession
+            int userId = Session.getUserId();
+
+
+            // Tải FXML của giao diện thứ hai
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/borrowedDocuments.fxml"));
             Parent root = loader.load();
 

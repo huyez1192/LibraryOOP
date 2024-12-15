@@ -46,7 +46,8 @@ public class UserDAO {
                         rs.getString("full_name"),
                         rs.getString("user_name"),
                         rs.getString("pass_word"),
-                        rs.getString("email")
+                        rs.getString("email"),
+                        rs.getString("path_avatar") // Đảm bảo trả về đường dẫn ảnh đại diện
                 );
                 users.add(user);
             }
@@ -56,7 +57,7 @@ public class UserDAO {
         return users;
     }
 
-    // Tìm người dùng theo user_id
+    // Lấy người dùng theo user_id
     public User getUserById(int userId) {
         User user = null;
         String query = "SELECT * FROM Users WHERE user_id = ?";
@@ -64,6 +65,12 @@ public class UserDAO {
             ps.setInt(1, userId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
+                    // In ra các giá trị từ ResultSet để kiểm tra
+                    System.out.println("Full Name: " + rs.getString("full_name"));
+                    System.out.println("Username: " + rs.getString("user_name"));
+                    System.out.println("Email: " + rs.getString("email"));
+                    System.out.println("Avatar Path: " + rs.getString("path_avatar"));
+
                     user = new User(
                             rs.getInt("user_id"),
                             rs.getString("full_name"),
@@ -71,6 +78,7 @@ public class UserDAO {
                             rs.getString("pass_word"),
                             rs.getString("email")
                     );
+                    user.setPathAvatar(rs.getString("path_avatar")); // Đọc đường dẫn ảnh đại diện
                 }
             }
         } catch (SQLException e) {
@@ -92,7 +100,8 @@ public class UserDAO {
                             rs.getString("full_name"),
                             rs.getString("user_name"),
                             rs.getString("pass_word"),
-                            rs.getString("email")
+                            rs.getString("email"),
+                            rs.getString("path_avatar") // Đảm bảo trả về đường dẫn ảnh đại diện
                     );
                 }
             }

@@ -13,7 +13,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
-import utils.Session;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -82,7 +81,7 @@ public class LoginController {
         // Kết nối đến cơ sở dữ liệu
         String URL = "jdbc:mysql://localhost:3306/library";
         String USER = "root";
-        String PASSWORD = "caohuongiang171";
+        String PASSWORD = "gem07012005";
         String query = "SELECT user_id, pass_word FROM Users WHERE user_name = ?";
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -98,7 +97,7 @@ public class LoginController {
                 System.out.println("user id: " + userId);
 
                 // Kiểm tra thông tin đăng nhập đặc biệt
-                if (username.equals("giangcute") && password.equals("caohuongiang171")) {
+                if (username.equals("minh") && password.equals("123")) {
                     Stage stage = (Stage) loginButton.getScene().getWindow();
                     Parent signUpRoot = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/admindashboard.fxml"));
                     Scene scene = new Scene(signUpRoot, 900, 600);
@@ -106,8 +105,6 @@ public class LoginController {
                     return; // Dừng lại sau khi chuyển đến màn hình admin
                 }
                 else if (password.equals(passDb)) {
-                    Session.setUserId(userId);
-
                     // Đăng nhập thành công, chuyển sang trang chính và truyền userId
                     Stage stage = (Stage) loginButton.getScene().getWindow();
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/library.fxml"));
@@ -133,5 +130,10 @@ public class LoginController {
             loginMessageLabel.setText("Database connection error!");
             ex.printStackTrace();
         }
+    }
+
+    // Phương thức để lấy userId khi cần
+    public int getUserId() {
+        return userId;
     }
 }

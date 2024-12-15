@@ -1,141 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProfileController">
-   <left>
-      <VBox prefHeight="200.0" prefWidth="340.0" styleClass="primary-color" stylesheets="@../css/stylesProfile.css" BorderPane.alignment="CENTER">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../css/homeStyling.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProfileController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="600.0" prefWidth="900.0">
          <children>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15.0">
-               <VBox.margin>
-                  <Insets top="50.0" />
-               </VBox.margin>
+            <!-- Side Navigation Pane -->
+            <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="226.0" style="-fx-background-color: linear-gradient(to bottom, #dfe7ef, #c3d4e9); -fx-background-radius: 0 20 20 0; -fx-border-radius: 0 20 20 0;">
                <children>
-                  <!-- ImageView để hiển thị hình đại diện -->
-                  <ImageView fx:id="profileImageView" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="126.0" fitWidth="195.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
                      <image>
-                        <Image url="@../../../../../../C:/Users/ASUS/IdeaProjects/LibraryOOP1/LibraryOOP/src/mainresources/0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" /> <!-- Sử dụng đường dẫn tài nguyên hợp lệ -->
+                        <Image url="@../image/Meolib-Photoroom.png" />
                      </image>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
                   </ImageView>
-                  <!-- Label để hiển thị tên người dùng -->
-                  <Label fx:id="usernameLabel" text="Username" textFill="WHITE">
-                     <font>
-                        <Font name="Cambria Bold" size="18.0" />
-                     </font>
-                  </Label>
+                  <Button fx:id="homeButton" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" onAction="#switchToHome" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="   HOME" VBox.vgrow="ALWAYS">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@home%20(3).png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </Button>
+
+                  <Button fx:id="borrowedButton" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchToBorrowed" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="   BORROWED" VBox.vgrow="ALWAYS">
+                     <graphic>
+                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@book.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </Button>
+
+                  <Button fx:id="moreButton" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchToMore" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="   MORE" VBox.vgrow="ALWAYS">
+                     <graphic>
+                        <ImageView fitHeight="21.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@application%20(1).png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </Button>
+
+                  <Button fx:id="profileButton" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="   PROFILE" VBox.vgrow="ALWAYS">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@application%20(1).png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </Button>
                </children>
             </VBox>
-            <VBox prefHeight="330.0" prefWidth="340.0" spacing="20.0">
+
+            <!-- Main Content Area -->
+            <VBox prefHeight="600.0" prefWidth="813.0" spacing="20.0" style="-fx-padding: 30; -fx-background-color: linear-gradient(to bottom, #f9fbfd, #eaf3fc); -fx-background-radius: 10;">
                <children>
-                  <!-- Nút Profile -->
-                  <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="200.0" spacing="20.0">
+                  <!-- Profile Header -->
+                  <HBox alignment="CENTER" spacing="15.0" style="-fx-padding: 15; -fx-background-color: rgba(255, 255, 255, 0.85); -fx-background-radius: 10; -fx-border-color: #d1d9e6; -fx-border-radius: 10;">
                      <children>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../C:/Users/ASUS/IdeaProjects/LibraryOOP1/LibraryOOP/src/mainresources/0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
-                           </image>
-                        </ImageView>
-                        <Label prefHeight="21.0" prefWidth="95.0" text="Profile" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="15.0" />
-                           </font>
-                        </Label>
+                        <ImageView fx:id="profileImageView" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" />
+                        <VBox alignment="CENTER_LEFT" spacing="5.0">
+                           <Label fx:id="usernameDetailLabel" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Username" />
+                           <Label fx:id="emailLabel" style="-fx-font-size: 14px; -fx-text-fill: #555;" text="Email Address" />
+                        </VBox>
+                        <Button fx:id="changeAvatarButton" onAction="#handleChangeAvatar" style="-fx-background-color: #0077cc; -fx-text-fill: white; -fx-font-size: 13px; -fx-background-radius: 5;" text="Change Avatar" />
                      </children>
                   </HBox>
-                  <!-- Nút Password -->
-                  <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="200.0" spacing="20.0">
+
+                  <!-- Profile Details -->
+                  <GridPane hgap="15" style="-fx-padding: 15; -fx-background-color: rgba(255, 255, 255, 0.85); -fx-background-radius: 10; -fx-border-color: #d1d9e6; -fx-border-radius: 10;" vgap="10">
+                     <columnConstraints>
+                        <ColumnConstraints halignment="RIGHT" prefWidth="150" />
+                        <ColumnConstraints halignment="LEFT" prefWidth="300" />
+                     </columnConstraints>
                      <children>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../C:/Users/ASUS/IdeaProjects/LibraryOOP1/LibraryOOP/src/mainresources/0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
-                           </image>
-                        </ImageView>
-                        <Label prefHeight="21.0" prefWidth="95.0" text="Password" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="15.0" />
-                           </font>
-                        </Label>
+                        <Label fx:id="fullNameLabel" style="-fx-font-weight: bold; -fx-text-fill: #444;" text="Full Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <TextField fx:id="fullNameField" promptText="Enter your full name" style="-fx-background-color: white;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <Label fx:id="emailLabel" style="-fx-font-weight: bold; -fx-text-fill: #444;" text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <TextField fx:id="emailField" promptText="Enter your email" style="-fx-background-color: white;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Button fx:id="saveProfileButton" onAction="#handleSaveProfile" style="-fx-background-color: #0066cc; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5;" text="Save Profile" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                      </children>
-                  </HBox>
-                  <!-- Nút Setting -->
-                  <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="200.0" spacing="20.0">
-                     <children>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../C:/Users/ASUS/IdeaProjects/LibraryOOP1/LibraryOOP/src/mainresources/0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
-                           </image>
-                        </ImageView>
-                        <Label prefHeight="21.0" prefWidth="95.0" text="Setting" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="15.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <!-- Nút Edit Profile -->
-                  <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="200.0" spacing="20.0">
-                     <children>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../C:/Users/ASUS/IdeaProjects/LibraryOOP1/LibraryOOP/src/mainresources/0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
-                           </image>
-                        </ImageView>
-                        <Button fx:id="editProfileButton" text="Edit Profile" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 15px;" onAction="#handleEditProfile"/>
-                     </children>
-                  </HBox>
-                  <!-- Nút Borrow History -->
-                  <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="200.0" spacing="20.0">
-                     <children>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../C:/Users/ASUS/IdeaProjects/LibraryOOP1/LibraryOOP/src/mainresources/0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
-                           </image>
-                        </ImageView>
-                        <Button fx:id="viewHistoryButton" text="Borrow History" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 15px;" onAction="#handleViewHistory"/>
-                     </children>
-                  </HBox>
-                  <!-- Nút Logout -->
-                  <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="200.0" spacing="20.0">
-                     <children>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../C:/Users/ASUS/IdeaProjects/LibraryOOP1/LibraryOOP/src/mainresources/0f85d7be-6628-42ea-8d5c-ca19b6bcfc71.jpg" />
-                           </image>
-                        </ImageView>
-                        <Button fx:id="logoutButton" text="Logout" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 15px;" onAction="#handleLogout"/>
-                     </children>
-                  </HBox>
+                     <rowConstraints>
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                     </rowConstraints>
+                  </GridPane>
+
+                  <!-- Feedback Section -->
+                  <VBox spacing="10.0" style="-fx-padding: 15; -fx-background-color: rgba(255, 255, 255, 0.85); -fx-background-radius: 10; -fx-border-color: #d1d9e6; -fx-border-radius: 10;">
+                     <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Feedback" />
+                     <TextArea fx:id="feedbackTextArea" promptText="Write your feedback here..." style="-fx-font-size: 14px; -fx-background-radius: 5; -fx-border-radius: 5;" wrapText="true" />
+                     <Button fx:id="submitFeedbackButton" onAction="#handleSubmitFeedback" style="-fx-background-color: #0077cc; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5;" text="Submit Feedback" />
+                  </VBox>
                </children>
             </VBox>
          </children>
-      </VBox>
-   </left>
-   <center>
-      <VBox alignment="TOP_CENTER" spacing="15.0" prefHeight="600.0" prefWidth="860.0" style="-fx-padding: 30;">
-         <children>
-            <Label text="Welcome to Your Profile!" style="-fx-font-size: 24px; -fx-text-fill: #333;" />
-            <GridPane hgap="10" vgap="10" alignment="CENTER_LEFT">
-               <columnConstraints>
-                  <ColumnConstraints halignment="RIGHT" prefWidth="150" />
-                  <ColumnConstraints halignment="LEFT" prefWidth="300" />
-               </columnConstraints>
-               <children>
-                  <Label text="Full Name:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-                  <Label fx:id="fullNameLabel" text="Full Name" GridPane.rowIndex="0" GridPane.columnIndex="1" />
-
-                  <Label text="Username:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
-                  <Label fx:id="usernameDetailLabel" text="Username" GridPane.rowIndex="1" GridPane.columnIndex="1" />
-
-                  <Label text="Email:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
-                  <Label fx:id="emailLabel" text="Email Address" GridPane.rowIndex="2" GridPane.columnIndex="1" />
-               </children>
-            </GridPane>
-         </children>
-      </VBox>
-   </center>
-</BorderPane>
+      </HBox>
+   </children>
+</StackPane>

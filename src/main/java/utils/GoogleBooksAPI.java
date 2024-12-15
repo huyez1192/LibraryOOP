@@ -3,23 +3,17 @@ package utils;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import dao.BookDAO;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import dao.BookDAO;
 
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class GoogleBooksAPI {
-    private static final String API_KEY = "YOUR_API_KEY_HERE"; // Thay bằng API Key của bạn
+    private static final String API_KEY = "AIzaSyC-bqA6TTM4H5z_Hd-RcBT8lkL_ojwUtf0"; // Thay bằng API Key của bạn
     private static final String BASE_URL = "https://www.googleapis.com/books/v1/volumes";
 
     public static void main(String[] args) {
@@ -45,7 +39,6 @@ public class GoogleBooksAPI {
     public void getData(String isbn) {
         OkHttpClient client = new OkHttpClient();
 
-        // Sửa URL: thêm dấu hai chấm sau 'isbn'
         String url = BASE_URL + "?q=isbn:" + isbn + "&key=" + API_KEY;
 
         // Tạo Request
@@ -61,75 +54,21 @@ public class GoogleBooksAPI {
                 // Đọc nội dung phản hồi
                 String jsonResponse = response.body().string();
                 System.out.println("Results for ISBN: " + isbn);
-                saveBooksToDatabase(jsonResponse);
+                // Sử dụng BookDAO để lưu dữ liệu vào cơ sở dữ liệu
+                BookDAO.saveBooksToDatabase(jsonResponse);
             } else {
                 System.out.println("Error for ISBN " + isbn + ": " + response.code());
             }
         } catch (IOException e) {
             System.out.println("Error for ISBN " + isbn + ": " + e.getMessage());
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
-    }
-
-    // Phương thức lấy danh sách sách dựa trên các từ khóa (tìm kiếm theo từ khóa)
-    public static List<BookSuggestion> getSuggestionsByKeyword(List<String> queries) {
-        List<BookSuggestion> suggestions = new ArrayList<>();
-
-        for (String query : queries) {
-            // URL encode từ khóa để tránh lỗi cú pháp
-            String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);
-            String url = BASE_URL + "?q=" + encodedQuery + "&key=" + API_KEY;
-            OkHttpClient client = new OkHttpClient();
-
-            Request request = new Request.Builder()
-                    .url(url)
-                    .build();
-
-            try (Response response = client.newCall(request).execute()) {
-                if (response.isSuccessful() && response.body() != null) {
-                    String jsonResponse = response.body().string();
-                    System.out.println("API Response for query \"" + query + "\": " + jsonResponse);
-                    suggestions.addAll(parseBooks(jsonResponse));
-                } else {
-                    System.out.println("API request failed for query \"" + query + "\": " + response.code());
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return suggestions;
-    }
-
-    // Phương thức lấy danh sách sách dựa trên ISBN
-    public static List<BookSuggestion> getSuggestionsByISBN(List<String> isbns) {
-        List<BookSuggestion> suggestions = new ArrayList<>();
-
-        for (String isbn : isbns) {
-            String url = BASE_URL + "?q=isbn:" + isbn + "&key=" + API_KEY;
-            OkHttpClient client = new OkHttpClient();
-
-            Request request = new Request.Builder()
-                    .url(url)
-                    .build();
-
-            try (Response response = client.newCall(request).execute()) {
-                if (response.isSuccessful() && response.body() != null) {
-                    String jsonResponse = response.body().string();
-                    suggestions.addAll(parseBooks(jsonResponse));
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return suggestions;
     }
 
     // Phương thức phân tích JSON và tạo danh sách BookSuggestion
     public static List<BookSuggestion> parseBooks(String jsonResponse) {
-        List<BookSuggestion> suggestions = new ArrayList<>();
+        List<BookSuggestion> suggestions = new java.util.ArrayList<>();
         Gson gson = new Gson();
         JsonObject jsonObject = gson.fromJson(jsonResponse, JsonObject.class);
 
@@ -139,55 +78,68 @@ public class GoogleBooksAPI {
                 JsonObject book = items.get(i).getAsJsonObject();
                 JsonObject volumeInfo = book.getAsJsonObject("volumeInfo");
 
+                String isbn = getIsbn(volumeInfo, "ISBN_13"); // Hoặc loại ISBN phù hợp
+                if (isbn == null) {
+                    System.out.println("Skipping book with missing ISBN.");
+                    continue; // Bỏ qua sách không có ISBN
+                }
+
                 String title = volumeInfo.has("title") ? volumeInfo.get("title").getAsString() : "Unknown Title";
+                String authors = volumeInfo.has("authors") ? String.join(", ", gson.fromJson(volumeInfo.get("authors"), String[].class)) : "Unknown Authors";
                 String thumbnail = null;
                 if (volumeInfo.has("imageLinks")) {
                     JsonObject imageLinks = volumeInfo.getAsJsonObject("imageLinks");
                     if (imageLinks.has("thumbnail")) {
                         thumbnail = imageLinks.get("thumbnail").getAsString();
-                        // Google Books API thường trả về URL bắt đầu bằng "http", cần chuyển thành "https"
                         if (thumbnail.startsWith("http://")) {
                             thumbnail = "https://" + thumbnail.substring(7);
                         }
                     }
                 }
 
-                suggestions.add(new BookSuggestion(title, thumbnail));
+                suggestions.add(new BookSuggestion(isbn, title, authors, thumbnail));
             }
         }
 
         return suggestions;
     }
 
-    // Phương thức lưu sách vào cơ sở dữ liệu
-    public static void saveBooksToDatabase(String jsonResponse) throws SQLException {
-        List<BookSuggestion> books = parseBooks(jsonResponse);
-
-        String sql = "INSERT INTO books (title, thumbnail) VALUES (?, ?)";
-
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/library", "root", "gem07012005");
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            for (BookSuggestion book : books) {
-                stmt.setString(1, book.getTitle());
-                stmt.setString(2, book.getThumbnail());
-                stmt.executeUpdate();
+    private static String getIsbn(JsonObject volumeInfo, String type) {
+        if (!volumeInfo.has("industryIdentifiers")) return null;
+        JsonArray industryIdentifiers = volumeInfo.getAsJsonArray("industryIdentifiers");
+        for (int j = 0; j < industryIdentifiers.size(); j++) {
+            JsonObject identifier = industryIdentifiers.get(j).getAsJsonObject();
+            if (identifier.get("type").getAsString().equals(type)) {
+                return identifier.get("identifier").getAsString();
             }
         }
+        return null;
     }
 
     // Lớp BookSuggestion để lưu trữ thông tin sách
     public static class BookSuggestion {
+        private final String isbn;
         private final String title;
+        private final String authors;
         private final String thumbnail;
 
-        public BookSuggestion(String title, String thumbnail) {
+        public BookSuggestion(String isbn, String title, String authors, String thumbnail) {
+            this.isbn = isbn;
             this.title = title;
+            this.authors = authors;
             this.thumbnail = thumbnail;
+        }
+
+        public String getIsbn() {
+            return isbn;
         }
 
         public String getTitle() {
             return title;
+        }
+
+        public String getAuthors() {
+            return authors;
         }
 
         public String getThumbnail() {
