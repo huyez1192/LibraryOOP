@@ -76,7 +76,8 @@ public class UserDAO {
                             rs.getString("full_name"),
                             rs.getString("user_name"),
                             rs.getString("pass_word"),
-                            rs.getString("email")
+                            rs.getString("email"),
+                            rs.getString("path_avatar")
                     );
                     user.setPathAvatar(rs.getString("path_avatar")); // Đọc đường dẫn ảnh đại diện
                 }
@@ -130,18 +131,20 @@ public class UserDAO {
 
     // Cập nhật thông tin người dùng
     public void updateUser(User user) {
-        String query = "UPDATE Users SET full_name = ?, user_name = ?, pass_word = ?, email = ? WHERE user_id = ?";
+        String query = "UPDATE Users SET full_name = ?, user_name = ?, pass_word = ?, email = ?, path_avatar = ? WHERE user_id = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setString(1, user.getFullName());
             ps.setString(2, user.getUserName());
-            ps.setString(3, user.getPassword()); // Lưu mật khẩu dưới dạng văn bản thuần
+            ps.setString(3, user.getPassword()); // Đảm bảo không để mật khẩu null
             ps.setString(4, user.getEmail());
-            ps.setInt(5, user.getUserId());
-            ps.executeUpdate();
+            ps.setString(5, user.getPathAvatar());
+            ps.setInt(6, user.getUserId());
+            ps.executeUpdate(); // Thực thi câu lệnh
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 
     // Xóa người dùng
     public void deleteUser(int userId) {

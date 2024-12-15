@@ -38,22 +38,26 @@ III. Phân công công việc
 	- Thiết kế giao diện trang chủ của User.
     - Xây dựng chức năng thống kê (số sách, số lượng người dùng, số yêu cầu mượn sách).
     - Thiết kế cơ sở dữ liệu (bảng sách, người dùng, sách đã mượn, yêu cầu mượn sách).
+    - Lập trình phần tích hợp đa luồng.
 2. Nguyễn Thị Ngọc Linh
 	- Lập trình phần quản lý người dùng (User) của giao diện Admin.
 	- Lập trình phần quản lý sách (Documents) của giao diện Admin.
 	- Lập trình phần mượn sách (Borrowed) của giao diện User.
 	- Tạo mã QR cho sách.
 	- Bổ sung phần quản lý số lượng sách.
+	- Lập trình phần design pattern.
 3. Nguyễn Ngọc Huyền
+    - Kết nối cơ sở dữ liệu với project.
     - Viết module xử lý giao tiếp cơ sở dữ liệu (DAO).
-    - Kết nối cơ sở dữ liệu với project và liên kết phần Sign up với cơ sở dữ liệu.
+    - Liên kết phần Sign up, Login với cơ sở dữ liệu.
     - Gọi API và thêm sách vào cơ sở dữ liệu.
     - Liên kết hiện sách lên giao diện trang chủ User từ cơ sở dữ liệu.
-    - Lập trình phần yêu cầu mượn sách (Request) của giao diện Admin.
+    - Lập trình phần yêu cầu mượn sách của giao diện Admin và User.
     - Viết bài báo cáo.
 4. Bùi Quang Minh
 	- Lập trình chức năng tìm kiếm sách.
 	- Lập trình phần chi tiết sách (BookDetails) của giao diện User.
+	- Lập trình phần Profile của giao diện User.
 	- Liên kết mã QR.
 	- Lập trình phần forgot password.
 	- Viết tài liệu hướng dẫn sử dụng ứng dụng.

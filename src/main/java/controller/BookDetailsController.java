@@ -25,12 +25,13 @@ import javafx.stage.Stage;
 
 import connect.MySQLConnection;
 import Objects.Comment;
+import utils.UserIdSingleton;
 
 public class BookDetailsController {
 
     private CommentDAO commentDAO;
     private RequestDAO requestDAO;
-    private int userId;
+    private int userId = UserIdSingleton.getInstance().getUserId();
     private Document document;
     private BorrowRecordDAO borrowRecordDAO;
     private Connection connection;

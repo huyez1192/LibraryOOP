@@ -43,14 +43,14 @@
                 </HBox>
 
                 <!-- Khu vực bình luận -->
-                <VBox spacing="10" style="-fx-background-color: #ffffff; -fx-border-color: #ddd; -fx-border-radius: 10; -fx-padding: 10;">
+                <VBox spacing="8" style="-fx-background-color: #ffffff; -fx-border-color: #ddd; -fx-border-radius: 10; -fx-padding: 10;">
                     <Label text="Bình luận về sách" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;" />
-                    <TextArea fx:id="commentArea" promptText="Nhập bình luận..." style="-fx-font-size: 14px; -fx-background-color: #f9f9f9; -fx-border-radius: 10;" />
+                    <TextArea fx:id="commentArea" promptText="Nhập bình luận..." prefHeight="60" style="-fx-font-size: 14px; -fx-background-color: #f9f9f9; -fx-border-radius: 10;" />
                     <Button fx:id="submitReviewButton" onAction="#handleSubmitReview" text="Gửi Bình Luận" style="-fx-background-color: #4caf50; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 10;" />
                 </VBox>
 
                 <!-- Danh sách bình luận -->
-                <ScrollPane fx:id="commentsContainer" fitToWidth="true" style="-fx-background-color: #f9f9f9; -fx-border-color: #ddd; -fx-border-radius: 10;">
+                <ScrollPane fx:id="commentsContainer" fitToWidth="true" style="-fx-background-color: #f9f9f9; -fx-border-color: #ddd; -fx-border-radius: 10;" prefHeight="150">
                     <VBox fx:id="commentsVBox" spacing="10" style="-fx-padding: 10;">
                         <!-- Các bình luận sẽ được thêm động -->
                     </VBox>

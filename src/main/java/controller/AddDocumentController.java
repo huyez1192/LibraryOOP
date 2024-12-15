@@ -27,6 +27,8 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ResourceBundle;
+import java.util.List;
+import utils.BookAPIClient;
 
 public class AddDocumentController extends Controller implements Initializable {
 
@@ -129,78 +131,27 @@ public class AddDocumentController extends Controller implements Initializable {
     }
 
     @FXML
-    private void searchDocuments(ActionEvent event) throws IOException {
+    private void searchDocuments(ActionEvent event) {
         String query = searchField.getText().trim();
         if (query.isEmpty()) {
             System.out.println("Search query is empty.");
             return;
         }
 
-        HttpURLConnection connection = null;
         try {
-            // Mã hóa URL để tránh lỗi ký tự đặc biệt
-            String encodedQuery = URLEncoder.encode("intitle:" + query, StandardCharsets.UTF_8);
-            String apiUrl = "https://www.googleapis.com/books/v1/volumes?q=" + encodedQuery;
+            // Gọi API thông qua BookAPIClient
+            List<Document> fetchedBooks = BookAPIClient.fetchBooks("?q=intitle:" + query);
 
-            // Gửi yêu cầu HTTP đến API và xử lý kết quả
-            connection = (HttpURLConnection) new URL(apiUrl).openConnection();
-            connection.setRequestMethod("GET");
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuilder response = new StringBuilder();
-            String inputLine;
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-            in.close();
+            // Xóa dữ liệu cũ và thêm dữ liệu mới
+            documentsList.clear();
+            documentsList.addAll(fetchedBooks);
 
-            // Parse JSON response
-            JsonObject responseJson = JsonParser.parseString(response.toString()).getAsJsonObject();
-            documentsList.clear(); // Xóa dữ liệu cũ trước khi cập nhật kết quả mới
-
-            if (responseJson.has("items")) {
-                JsonArray items = responseJson.getAsJsonArray("items");
-                for (JsonElement item : items) {
-                    JsonObject volumeInfo = item.getAsJsonObject().getAsJsonObject("volumeInfo");
-
-                    String title = volumeInfo.has("title") ? volumeInfo.get("title").getAsString() : "N/A";
-                    String authors = volumeInfo.has("authors") ? volumeInfo.getAsJsonArray("authors").get(0).getAsString() : "N/A";
-                    String description = volumeInfo.has("description") ? volumeInfo.get("description").getAsString() : "N/A";
-                    String categories = volumeInfo.has("categories") ? volumeInfo.getAsJsonArray("categories").get(0).getAsString() : "N/A";
-                    String thumbnailLink = volumeInfo.has("imageLinks") && volumeInfo.getAsJsonObject("imageLinks").has("thumbnail")
-                            ? volumeInfo.getAsJsonObject("imageLinks").get("thumbnail").getAsString() : "N/A";
-                    String previewLink = volumeInfo.has("previewLink") ? volumeInfo.get("previewLink").getAsString() : "N/A";
-                    int quantity = volumeInfo.has("quantity") ? volumeInfo.get("quantity").getAsInt() : 0;
-
-                    Document document = new Document(
-                            volumeInfo.has("industryIdentifiers") ? volumeInfo.getAsJsonArray("industryIdentifiers").get(0).getAsJsonObject().get("identifier").getAsString() : "N/A",
-                            title,
-                            authors,
-                            description,
-                            categories,
-                            thumbnailLink,
-                            previewLink,
-                            quantity
-                    );
-
-                    documentsList.add(document);
-                }
-            } else {
-                System.out.println("No documents found.");
-            }
-
-            // Cập nhật dữ liệu vào TableView
+            // Cập nhật TableView
             documentTableViewTable.setItems(documentsList);
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             System.err.println("Error fetching data from API: " + e.getMessage());
             e.printStackTrace();
         }
-        int responseCode = connection.getResponseCode();
-        System.out.println("API Response Code: " + responseCode);
-        if (responseCode != 200) {
-            System.err.println("Failed to fetch data from API. Response Code: " + responseCode);
-            return;
-        }
-
     }
 
     private void handleAddDocument() {

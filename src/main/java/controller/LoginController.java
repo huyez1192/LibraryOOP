@@ -13,6 +13,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
+import utils.UserIdSingleton;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -79,9 +80,9 @@ public class LoginController {
         }
 
         // Kết nối đến cơ sở dữ liệu
-        String URL = "jdbc:mysql://localhost:3306/library";
+        String URL = "jdbc:mysql://localhost:3306/libraryy";
         String USER = "root";
-        String PASSWORD = "gem07012005";
+        String PASSWORD = "huyen16125";
         String query = "SELECT user_id, pass_word FROM Users WHERE user_name = ?";
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -97,7 +98,7 @@ public class LoginController {
                 System.out.println("user id: " + userId);
 
                 // Kiểm tra thông tin đăng nhập đặc biệt
-                if (username.equals("minh") && password.equals("123")) {
+                if (username.equals("giang") && password.equals("1")) {
                     Stage stage = (Stage) loginButton.getScene().getWindow();
                     Parent signUpRoot = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/admindashboard.fxml"));
                     Scene scene = new Scene(signUpRoot, 900, 600);
@@ -106,13 +107,15 @@ public class LoginController {
                 }
                 else if (password.equals(passDb)) {
                     // Đăng nhập thành công, chuyển sang trang chính và truyền userId
+                    UserIdSingleton.getInstance().setUserId(userId);
                     Stage stage = (Stage) loginButton.getScene().getWindow();
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/library.fxml"));
                     Parent libraryRoot = loader.load();
 
-                    // Truyền userId sang controller của trang chính (library)
-                    HomeController homeController = loader.getController();
-                    homeController.setUserId(userId);  // Gửi userId cho HomeController
+
+
+//                    HomeController homeController = loader.getController();
+//                    homeController.setUserId(userId);
 
                     Scene scene = new Scene(libraryRoot, 900, 600);
                     stage.setScene(scene);

@@ -140,14 +140,13 @@ public class AdminUsersController extends Controller implements Initializable {
     }
 
     private void loadDataFromDatabase() {
-        String url = "jdbc:mysql://localhost:3306/library";
+        String url = "jdbc:mysql://localhost:3306/libraryy";
         String username = "root";
-        String password = "gem07012005";
+        String password = "huyen16125";
 
         String query = """
                     SELECT *
-                    FROM users
-                    WHERE user_id != "1";
+                    FROM users;
                 """;
 
         try (Connection conn = DriverManager.getConnection(url, username, password);
@@ -171,50 +170,52 @@ public class AdminUsersController extends Controller implements Initializable {
         }
     }
 
-        @FXML
-        private void searchUsers(ActionEvent event) {
-            String query = searchField.getText().trim();
+    @FXML
+    private void searchUsers(ActionEvent event) {
+        String query = searchField.getText().trim();
+
+        usersList.clear(); // Xóa dữ liệu cũ trước khi tải mới
+
+        try (Connection connection = MySQLConnection.getConnection()) {
+            String sql;
+            PreparedStatement preparedStatement;
+
             if (query.isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Warning");
-                alert.setHeaderText(null);
-                alert.setContentText("Please enter a keyword to search.");
-                alert.showAndWait();
-                return;
+                // Truy vấn toàn bộ người dùng khi query trống
+                sql = "SELECT * FROM users";
+                preparedStatement = connection.prepareStatement(sql); // Không cần tham số
+            } else {
+                // Truy vấn có điều kiện khi query không trống
+                sql = "SELECT * FROM users WHERE user_id LIKE ? OR full_name LIKE ? OR user_name LIKE ?";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, "%" + query + "%");
+                preparedStatement.setString(2, "%" + query + "%");
+                preparedStatement.setString(3, "%" + query + "%");
             }
 
-            usersList.clear(); // Xóa dữ liệu cũ trước khi tải mới
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    int id = rs.getInt("user_id");
+                    String fullName = rs.getString("full_name");
+                    String userName = rs.getString("user_name");
+                    String userPassword = rs.getString("pass_word");
+                    String email = rs.getString("email");
 
-            try (Connection connection = MySQLConnection.getConnection()) {
-                String sql = "SELECT * FROM users WHERE (user_id LIKE ? OR full_name LIKE ? OR user_name LIKE ?) AND user_id <> 1";
-                try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                    preparedStatement.setString(1, "%" + query + "%");
-                    preparedStatement.setString(2, "%" + query + "%");
-                    preparedStatement.setString(3, "%" + query + "%");
-
-                    try (ResultSet rs = preparedStatement.executeQuery()) {
-                        while (rs.next()) {
-                            int id = rs.getInt("user_id");
-                            String fullName = rs.getString("full_name");
-                            String userName = rs.getString("user_name");
-                            String userPassword = rs.getString("pass_word");
-                            String email = rs.getString("email");
-
-                            User user = new User(id, fullName, userName, userPassword, email);
-                            usersList.add(user); // Thêm sách vào danh sách
-                        }
-                    }
+                    User user = new User(id, fullName, userName, userPassword, email);
+                    usersList.add(user); // Thêm người dùng vào danh sách
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText(null);
-                alert.setContentText("Failed to search documents from database.");
-                alert.showAndWait();
             }
-
-            // Cập nhật dữ liệu vào TableView
-            usersTableViewTable.setItems(usersList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to search users from database.");
+            alert.showAndWait();
         }
+
+        // Cập nhật dữ liệu vào TableView
+        usersTableViewTable.setItems(usersList);
+    }
+
 }

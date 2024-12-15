@@ -115,9 +115,9 @@ public class RequestsScreenController {
     }
 
     private void loadDataFromDatabase() {
-        String url = "jdbc:mysql://localhost:3306/library";
+        String url = "jdbc:mysql://localhost:3306/libraryy";
         String username = "root";
-        String password = "gem07012005";
+        String password = "huyen16125";
 
         String query = """
             SELECT r.request_id, r.user_id, u.full_name, r.isbn, r.request_date
@@ -155,8 +155,7 @@ public class RequestsScreenController {
         // Kiểm tra nếu ô tìm kiếm trống
         if (query.isEmpty()) {
             // Hiển thị toàn bộ danh sách nếu không có từ khóa tìm kiếm
-            requestTableView.setItems(requestList);
-            return;
+            loadDataFromDatabase();
         }
 
         // Lọc danh sách theo tên người dùng

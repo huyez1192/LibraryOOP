@@ -9,6 +9,9 @@ public class Request {
     private Date requestDate;
 
     private String userName;
+    private String title;
+    private String authors;
+    private String response;
 
     // Constructors, getters and setters
     public Request() {
@@ -27,20 +30,28 @@ public class Request {
         this.requestDate = requestDate;
     }
 
-//    public Request(Integer requestId, Integer userId, String userName, String isbn, java.sql.Date requestDate) {
-//        super();
-//        this.requestId = requestId;
-//        this.userId = userId;
-//        this.isbn = isbn;
-//        this.requestDate = requestDate;
-//    }
 
-    public Request(Integer requestId, Integer userId, String userName, String isbn, java.sql.Date requestDate) {
+    public Request(int requestId, Integer userId, String userName, String isbn, java.sql.Date requestDate) {
         this.requestId = requestId;
         this.userId = userId;
         this.userName = userName;
         this.isbn = isbn;
         this.requestDate = requestDate;
+    }
+
+    public Request(int requestId, String isbn, String title, String authors, String response) {
+        this.requestId = requestId;
+        this.isbn = isbn;
+        this.title = title;
+        this.authors = authors;
+        this.response = response;
+    }
+
+    public Request(String isbn, String title, String authors, String response) {
+        this.isbn = isbn;
+        this.title = title;
+        this.authors = authors;
+        this.response = response;
     }
 
     public int getRequestId() {
@@ -82,5 +93,29 @@ public class Request {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getResponse() {
+        return response;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setAuthors(String authors) {
+        this.authors = authors;
+    }
+
+    public String getAuthors() {
+        return authors;
     }
 }

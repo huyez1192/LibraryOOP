@@ -9,14 +9,14 @@ import java.util.List;
 
 public class RequestDAO {
 
-    private Connection connection;
+    private static Connection connection;
 
     public RequestDAO() {
         try {
             // Tạo kết nối với cơ sở dữ liệu (thay thế với thông tin kết nối của bạn)
             Class.forName("com.mysql.cj.jdbc.Driver");
             this.connection = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/library", "root", "gem07012005"); // Cập nhật thông tin kết nối
+                    "jdbc:mysql://localhost:3306/libraryy", "root", "huyen16125"); // Cập nhật thông tin kết nối
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
             // Lỗi nếu kết nối không thành công
@@ -87,7 +87,7 @@ public class RequestDAO {
     }
 
     // Xóa một yêu cầu theo request_id
-    public void deleteRequest(int requestId) {
+    public static void deleteRequest(int requestId) {
         String query = "DELETE FROM Requests WHERE request_id = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, requestId);

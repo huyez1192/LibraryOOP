@@ -2,6 +2,7 @@ package controller;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -49,6 +50,7 @@ public class UserMoreController {
         }
     }
 
+    @FXML
     public void switchToProfile(ActionEvent event) {
         try {
             // Tải FXML của giao diện Profile
@@ -60,11 +62,10 @@ public class UserMoreController {
             profileController.setUserId(userId); // Đảm bảo userId đã được thiết lập
 
             // Tạo và hiển thị Stage mới cho Profile
-            Stage stage = new Stage();
-            stage.setTitle("Profile");
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
             stage.setScene(new Scene(root));
-            stage.initModality(Modality.APPLICATION_MODAL); // Ngăn tương tác với cửa sổ chính
-            stage.showAndWait();
+            stage.show();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -72,6 +73,7 @@ public class UserMoreController {
         }
     }
 
+    // Hiển thị thông báo
     private void showAlert(String title, String message, Alert.AlertType alertType) {
         Platform.runLater(() -> { // Đảm bảo chạy trên UI thread
             Alert alert = new Alert(alertType);
@@ -82,11 +84,22 @@ public class UserMoreController {
         });
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
 
-    public int getUserId() {
-        return userId;
+    @FXML
+    public void switchToRequested(ActionEvent event) {
+        try {
+            // Tải FXML của giao diện thứ hai
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/requested.fxml"));
+            Parent root = loader.load();
+
+            // Lấy Stage hiện tại
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Đổi Scene
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -42,9 +42,9 @@ public class BookDAO {
 
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+
         Gson gson = new Gson();
         JsonObject jsonObject = gson.fromJson(jsonResponse, JsonObject.class);
-
         JsonArray items = jsonObject.getAsJsonArray("items");
 
         if (items != null) {

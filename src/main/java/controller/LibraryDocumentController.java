@@ -20,7 +20,7 @@ import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
 
-public class LibraryDocumentController implements Initializable {
+public class LibraryDocumentController extends Controller implements Initializable {
 
     @FXML
     private Button searchButton;
@@ -107,33 +107,23 @@ public class LibraryDocumentController implements Initializable {
     }
 
     @FXML
-    private void switchToAdminHome(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/admindashboard.fxml"));
-            Parent root = loader.load();
+    private void switchToAdminHome() {
+        switchScene("/fxml/admindashboard.fxml", documentTableViewTable);
+    }
 
-            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            System.err.println("Error loading admin dashboard: " + e.getMessage());
-            e.printStackTrace();
-        }
+    @FXML
+    private void switchToAdminRequests() {
+        switchScene("/fxml/requestsScreen.fxml", documentTableViewTable);
+    }
+
+    @FXML
+    private void switchToAdminUsers() {
+        switchScene("/fxml/adminUsers.fxml", documentTableViewTable);
     }
 
     @FXML
     private void switchToAddDocument(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addDocument.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            System.err.println("Error loading add document: " + e.getMessage());
-            e.printStackTrace();
-        }
+        switchScene("/fxml/addDocument.fxml", documentTableViewTable);
     }
 
     @FXML
@@ -221,58 +211,58 @@ public class LibraryDocumentController implements Initializable {
 //        }
 //    }
 
-private void handleUpdateQuantityDocument() {
-    Document selectedBook = documentTableViewTable.getSelectionModel().getSelectedItem();
-    if (selectedBook != null) {
-        TextInputDialog dialog = new TextInputDialog(String.valueOf(selectedBook.getQuantity()));
-        dialog.setTitle("Update Quantity");
-        dialog.setHeaderText("Update Quantity for: " + selectedBook.getTitle());
-        dialog.setContentText("Enter new quantity:");
+    private void handleUpdateQuantityDocument() {
+        Document selectedBook = documentTableViewTable.getSelectionModel().getSelectedItem();
+        if (selectedBook != null) {
+            TextInputDialog dialog = new TextInputDialog(String.valueOf(selectedBook.getQuantity()));
+            dialog.setTitle("Update Quantity");
+            dialog.setHeaderText("Update Quantity for: " + selectedBook.getTitle());
+            dialog.setContentText("Enter new quantity:");
 
-        dialog.showAndWait().ifPresent(input -> {
-            try {
-                // Chuyển đổi từ String sang int
-                int newQuantity = Integer.parseInt(input);
+            dialog.showAndWait().ifPresent(input -> {
+                try {
+                    // Chuyển đổi từ String sang int
+                    int newQuantity = Integer.parseInt(input);
 
-                // Kiểm tra nếu số lượng là hợp lệ (không âm)
-                if (newQuantity < 0) {
-                    throw new NumberFormatException("Quantity must be non-negative.");
-                }
+                    // Kiểm tra nếu số lượng là hợp lệ (không âm)
+                    if (newQuantity < 0) {
+                        throw new NumberFormatException("Quantity must be non-negative.");
+                    }
 
-                // Cập nhật vào cơ sở dữ liệu
-                boolean success = MySQLConnection.updateDocumentQuantityInDatabase(selectedBook.getIsbn(), String.valueOf(newQuantity));
-                if (success) {
-                    selectedBook.setQuantity(newQuantity); // Cập nhật trong bảng
-                    documentTableViewTable.refresh();
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Success");
+                    // Cập nhật vào cơ sở dữ liệu
+                    boolean success = MySQLConnection.updateDocumentQuantityInDatabase(selectedBook.getIsbn(), String.valueOf(newQuantity));
+                    if (success) {
+                        selectedBook.setQuantity(newQuantity); // Cập nhật trong bảng
+                        documentTableViewTable.refresh();
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Success");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Quantity updated successfully!");
+                        alert.showAndWait();
+                    } else {
+                        throw new Exception("Database update failed.");
+                    }
+                } catch (NumberFormatException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Invalid Input");
                     alert.setHeaderText(null);
-                    alert.setContentText("Quantity updated successfully!");
+                    alert.setContentText("Please enter a valid non-negative integer.");
                     alert.showAndWait();
-                } else {
-                    throw new Exception("Database update failed.");
+                } catch (Exception e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Failed to update quantity: " + e.getMessage());
+                    alert.showAndWait();
                 }
-            } catch (NumberFormatException e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Invalid Input");
-                alert.setHeaderText(null);
-                alert.setContentText("Please enter a valid non-negative integer.");
-                alert.showAndWait();
-            } catch (Exception e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText(null);
-                alert.setContentText("Failed to update quantity: " + e.getMessage());
-                alert.showAndWait();
-            }
-        });
+            });
+        }
     }
-}
 
     private void loadDataFromDatabase() {
-        String url = "jdbc:mysql://localhost:3306/library";
+        String url = "jdbc:mysql://localhost:3306/libraryy";
         String username = "root";
-        String password = "gem07012005";
+        String password = "huyen16125";
 
         String query = """
             SELECT *
@@ -306,39 +296,47 @@ private void handleUpdateQuantityDocument() {
     @FXML
     private void searchDocuments(ActionEvent event) {
         String query = searchField.getText().trim();
-        if (query.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Warning");
-            alert.setHeaderText(null);
-            alert.setContentText("Please enter a keyword to search.");
-            alert.showAndWait();
-            return;
-        }
 
         documentsList.clear(); // Xóa dữ liệu cũ trước khi tải mới
 
         try (Connection connection = MySQLConnection.getConnection()) {
-            String sql = "SELECT * FROM books WHERE title LIKE ? OR authors LIKE ? OR isbn LIKE ? OR categories LIKE ?";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            String sql;
+            PreparedStatement preparedStatement;
+
+            if (query.isEmpty()) {
+                // Truy vấn toàn bộ sách khi không nhập từ khóa
+                sql = "SELECT * FROM books";
+                preparedStatement = connection.prepareStatement(sql); // Không cần thêm tham số
+            } else {
+                // Truy vấn theo từ khóa
+                sql = """
+                SELECT * 
+                FROM books 
+                WHERE title LIKE ? 
+                   OR authors LIKE ? 
+                   OR isbn LIKE ? 
+                   OR categories LIKE ?
+            """;
+                preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setString(1, "%" + query + "%");
                 preparedStatement.setString(2, "%" + query + "%");
                 preparedStatement.setString(3, "%" + query + "%");
                 preparedStatement.setString(4, "%" + query + "%");
+            }
 
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    while (resultSet.next()) {
-                        String isbn = resultSet.getString("isbn");
-                        String title = resultSet.getString("title");
-                        String authors = resultSet.getString("authors");
-                        String description = resultSet.getString("description");
-                        String categories = resultSet.getString("categories");
-                        String thumbnailLink = resultSet.getString("thumbnail_link");
-                        String previewLink = resultSet.getString("previewLink");
-                        int quantity = resultSet.getInt("quantity");
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    String isbn = resultSet.getString("isbn");
+                    String title = resultSet.getString("title");
+                    String authors = resultSet.getString("authors");
+                    String description = resultSet.getString("description");
+                    String categories = resultSet.getString("categories");
+                    String thumbnailLink = resultSet.getString("thumbnail_link");
+                    String previewLink = resultSet.getString("previewLink");
+                    int quantity = resultSet.getInt("quantity");
 
-                        Document document = new Document(isbn, title, authors, description, categories, thumbnailLink, previewLink, quantity);
-                        documentsList.add(document); // Thêm sách vào danh sách
-                    }
+                    Document document = new Document(isbn, title, authors, description, categories, thumbnailLink, previewLink, quantity);
+                    documentsList.add(document); // Thêm tài liệu vào danh sách
                 }
             }
         } catch (Exception e) {
@@ -353,5 +351,6 @@ private void handleUpdateQuantityDocument() {
         // Cập nhật dữ liệu vào TableView
         documentTableViewTable.setItems(documentsList);
     }
+
 
 }

@@ -5,21 +5,25 @@ import Objects.Document;
 import connect.MySQLConnection;
 import dao.BorrowRecordDAO;
 import dao.RequestDAO;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import utils.UserIdSingleton;
 
 import java.io.IOException;
 import java.sql.*;
 
-public class BorrowedController {
+public class BorrowedController extends Controller {
 
     @FXML
     private TextField searchField;
@@ -45,6 +49,7 @@ public class BorrowedController {
     @FXML
     private TableColumn<BorrowRecord, Date> returnDateColumn;
 
+    private int userId = UserIdSingleton.getInstance().getUserId();
     // Initialize method is called automatically after the FXML is loaded
     @FXML
     public void initialize() {
@@ -89,13 +94,14 @@ public class BorrowedController {
     }
 
     private Document getDocumentByIsbn(String isbn) {
+        String query = "SELECT title, authors, categories, description, thumbnail_link FROM books WHERE isbn = ? AND user_id = ?";
         Document document = null;
-        String query = "SELECT title, authors, categories, description, thumbnail_link FROM books WHERE isbn = ?";
 
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/library", "root", "gem07012005");
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/libraryy", "root", "huyen16125");
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setString(1, isbn);
+            stmt.setInt(2, userId);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -105,8 +111,9 @@ public class BorrowedController {
                     String description = rs.getString("description");
                     String thumbnailLink = rs.getString("thumbnail_link");
 
-                    // Tạo đối tượng Document với thông tin từ bảng book
                     document = new Document(isbn, title, authors, categories, description, thumbnailLink);
+                } else {
+                    System.err.println("No document found for ISBN: " + isbn + " and userID: " + userId);
                 }
             }
         } catch (SQLException e) {
@@ -115,6 +122,7 @@ public class BorrowedController {
 
         return document;
     }
+
 
 
 
@@ -129,43 +137,63 @@ public class BorrowedController {
     }
 
     @FXML
-    private void onSearch() {
-        // Handle search functionality when "Search" button is clicked
-        String query = searchField.getText().trim();
-        if (!query.isEmpty()) {
-            System.out.println("Searching for: " + query);
-            // Implement the logic to filter the table data based on the query
-        } else {
-            System.out.println("Search field is empty.");
+    private void switchToUserMore() {
+        switchScene("/fxml/UserMore.fxml", borrowedTable);
+    }
+
+    public void switchToUserHome() {
+        switchScene("/fxml/library.fxml", borrowedTable);
+    }
+
+//    @FXML
+//    private void switchToUserRequests() {
+//        switchScene("/fxml/userRequests.fxml", borrowedTable);
+//    }
+
+    // Phương thức chuyển sang giao diện Profile
+    @FXML
+    public void switchToProfile(ActionEvent event) {
+        try {
+            // Tải FXML của giao diện Profile
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/profile.fxml"));
+            Parent root = loader.load();
+
+            // Lấy controller của ProfileController để truyền userId
+            ProfileController profileController = loader.getController();
+            profileController.setUserId(userId); // Đảm bảo userId đã được thiết lập
+
+            // Tạo và hiển thị Stage mới cho Profile
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Cannot open Profile window.", Alert.AlertType.ERROR);
         }
     }
 
-    public void switchToHome(ActionEvent event) {
-        try {
-            // Tải FXML của giao diện thứ hai
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/library.fxml"));
-            Parent root = loader.load();
-
-            // Lấy Stage hiện tại
-            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-
-            // Đổi Scene
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    // Hiển thị thông báo
+    private void showAlert(String title, String message, Alert.AlertType alertType) {
+        Platform.runLater(() -> { // Đảm bảo chạy trên UI thread
+            Alert alert = new Alert(alertType);
+            alert.setTitle(title);
+            alert.setHeaderText(null);
+            alert.setContentText(message);
+            alert.showAndWait();
+        });
     }
 
     @FXML
-    public void switchToMore(ActionEvent event) {
+    public void switchToRequested(ActionEvent event) {
         try {
-            // Tải FXML của giao diện BORROWED
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/UserMore.fxml"));
+            // Tải FXML của giao diện thứ hai
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/requested.fxml"));
             Parent root = loader.load();
 
             // Lấy Stage hiện tại
-            Stage stage = (Stage) moreButton.getScene().getWindow();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
             // Đổi Scene
             stage.setScene(new Scene(root));
@@ -174,37 +202,37 @@ public class BorrowedController {
             e.printStackTrace();
         }
     }
+
     private void loadDataFromDatabase() {
-        String url = "jdbc:mysql://localhost:3306/library";
-        String username = "root";
-        String password = "gem07012005";
+        Document document = null;
 
         String query = """
-            SELECT b.title, br.isbn, br.borrow_date, br.return_date
-            FROM borrowedbooks br
-            JOIN books b ON br.isbn = b.isbn
-        """;
+                    SELECT b.title, br.isbn, br.borrow_date, br.return_date
+                    FROM borrowedbooks br
+                    JOIN books b ON br.isbn = b.isbn
+                    WHERE br.user_id = ?
+                """;
 
-        try (Connection conn = DriverManager.getConnection(url, username, password);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/libraryy", "root", "huyen16125");
+             PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            while (rs.next()) {
-                String title = rs.getString("title");
-                String isbn = rs.getString("isbn");
-                // Xử lý Borrow Date và Return Date
-                Date borrowDate = (rs.getDate("borrow_date") != null) ? rs.getDate("borrow_date") : new Date(0); // Giá trị mặc định
-                Date returnDate = (rs.getDate("return_date"));
+            stmt.setInt(1, userId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) { // Sử dụng while để duyệt qua toàn bộ các bản ghi
+                    String title = rs.getString("title");
+                    String isbn = rs.getString("isbn");
+                    Date borrowDate = (rs.getDate("borrow_date") != null) ? rs.getDate("borrow_date") : new Date(0);
+                    Date returnDate = rs.getDate("return_date");
 
+                    borrowedList.add(new BorrowRecord(title, isbn, borrowDate, returnDate));
+                }
+                borrowedTable.setItems(borrowedList);
 
-
-                borrowedList.add(new BorrowRecord(title, isbn, borrowDate, returnDate));
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-
-            borrowedTable.setItems(borrowedList);
-
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 

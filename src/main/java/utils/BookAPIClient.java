@@ -40,7 +40,7 @@ public class BookAPIClient {
                 String thumbnailLink = volumeInfo.has("imageLinks") && volumeInfo.getAsJsonObject("imageLinks").has("thumbnail") ?
                         volumeInfo.getAsJsonObject("imageLinks").get("thumbnail").getAsString() : "N/A";
                 String previewLink = volumeInfo.has("previewLink") ? volumeInfo.get("previewLink").getAsString() : "N/A";
-                int quantity = volumeInfo.has("quantity") ? volumeInfo.get("quantity").getAsInt() : 0;
+                int quantity = volumeInfo.has("quantity") ? volumeInfo.get("quantity").getAsInt() : 1;
 
 
                 books.add(new Document(isbn, title, authors, description, categories, thumbnailLink, previewLink, quantity));

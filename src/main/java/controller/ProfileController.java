@@ -65,7 +65,7 @@ public class ProfileController {
                 profileImageView.setImage(profileImage);
             } else {
                 // Đặt ảnh mặc định nếu không có avatar
-                Image profileImage = new Image(getClass().getResourceAsStream("/image/bin.png"));
+                Image profileImage = new Image(getClass().getResourceAsStream("/image/avatar-trang-4.jpg"));
                 profileImageView.setImage(profileImage);
             }
         } else {
@@ -77,21 +77,32 @@ public class ProfileController {
 
     @FXML
     private void handleChangeAvatar(ActionEvent event) {
+        // Mở hộp thoại chọn tệp
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg"));
         File selectedFile = fileChooser.showOpenDialog(((Node) event.getSource()).getScene().getWindow());
 
         if (selectedFile != null) {
+            // Hiển thị hình ảnh được chọn
             Image image = new Image("file:" + selectedFile.getAbsolutePath());
             profileImageView.setImage(image);
 
+            // Lấy thông tin người dùng từ cơ sở dữ liệu
             User user = userDAO.getUserById(userId);
             if (user != null) {
+
+                System.out.println("Selected File Path: " + selectedFile.getAbsolutePath());
                 user.setPathAvatar(selectedFile.getAbsolutePath());
+
+                // Cập nhật người dùng
                 userDAO.updateUser(user);
+
+            } else {
+                System.out.println("User not found.");
             }
         }
     }
+
 
     @FXML
     private void handleSaveProfile(ActionEvent event) {
@@ -151,7 +162,7 @@ public class ProfileController {
     @FXML
     public void switchToMore(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/More.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/UserMore.fxml"));
             Parent root = loader.load();
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -182,5 +193,23 @@ public class ProfileController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    @FXML
+    public void switchToRequested(ActionEvent event) {
+        try {
+            // Tải FXML của giao diện thứ hai
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/requested.fxml"));
+            Parent root = loader.load();
+
+            // Lấy Stage hiện tại
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Đổi Scene
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

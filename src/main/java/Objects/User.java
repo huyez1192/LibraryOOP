@@ -19,7 +19,7 @@ public class User {
         this.pathAvatar = pathAvatar;
     }
 
-    public User(int userId, String fullName, String userName, String passWord, String email) {
+    public User(int userId, String fullName, String userName, String password, String email) {
         this.userId = userId;
         this.fullName = fullName;
         this.userName = userName;

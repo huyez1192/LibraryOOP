@@ -10,9 +10,9 @@ public class Statistics {
     // Phương thức để lấy kết nối tới cơ sở dữ liệu
     private static Connection getConnection() throws Exception {
         // Cập nhật thông tin kết nối với cơ sở dữ liệu của bạn ở đây
-        String url = "jdbc:mysql://localhost:3306/library";
+        String url = "jdbc:mysql://localhost:3306/libraryy";
         String user = "root";
-        String password = "gem07012005";
+        String password = "huyen16125";
         return DriverManager.getConnection(url, user, password);
     }
 

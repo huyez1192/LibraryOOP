@@ -45,33 +45,32 @@
                             </VBox.margin>
                         </Button>
                         <Button fx:id="requestsButton" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="242.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchToAdminRequests" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="REQUESTS" textFill="#a7bed1" />
-
                         <Button fx:id="sumBookButton" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" text="DOCUMENTS" textFill="#c9dbe1" VBox.vgrow="ALWAYS">
-                     <styleClass>
-                        <String fx:value="navButton" />
-                        <String fx:value="pickButton" />
-                     </styleClass></Button>
-                  <Button fx:id="libraryButton" alignment="BASELINE_LEFT" maxWidth="161.0" minWidth="156.0" mnemonicParsing="false" onAction="#switchToLibraryDocument" prefHeight="35.0" prefWidth="161.0" text="LIBRARY" textFill="#a7bed1">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="NW_RESIZE" />
-                     </cursor>
-                     <styleClass>
-                        <String fx:value="navButton" />
-                        <String fx:value="smallPickButton" />
-                     </styleClass>
-                  </Button>
-                  <Button fx:id="addDocumentButton" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" minHeight="35.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="156.0" text="ADD DOCUMENTS" textFill="#c9dbe1">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <styleClass>
-                        <String fx:value="navButton" />
-                        <String fx:value="pickButton" />
-                     </styleClass>
-                  </Button>
+                            <styleClass>
+                                <String fx:value="navButton" />
+                                <String fx:value="pickButton" />
+                            </styleClass></Button>
+                        <Button fx:id="libraryButton" alignment="BASELINE_LEFT" maxWidth="161.0" minWidth="156.0" mnemonicParsing="false" onAction="#switchToLibraryDocument" prefHeight="35.0" prefWidth="161.0" text="LIBRARY" textFill="#a7bed1">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                            <cursor>
+                                <Cursor fx:constant="NW_RESIZE" />
+                            </cursor>
+                            <styleClass>
+                                <String fx:value="navButton" />
+                                <String fx:value="smallPickButton" />
+                            </styleClass>
+                        </Button>
+                        <Button fx:id="addDocumentButton" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" minHeight="35.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="156.0" text="ADD DOCUMENTS" textFill="#c9dbe1">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                            <styleClass>
+                                <String fx:value="navButton" />
+                                <String fx:value="pickButton" />
+                            </styleClass>
+                        </Button>
 
                     </children>
                 </VBox>
@@ -86,7 +85,6 @@
                                         <Insets right="10.0" />
                                     </HBox.margin>
                                 </TextField>
-
                                 <Button fx:id="searchButton" onAction="#searchDocuments" prefHeight="44.0" prefWidth="84.0" style="-fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-color: #0078d4; -fx-text-fill: white; -fx-background-radius: 25; -fx-border-radius: 25; -fx-cursor: hand; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, rgba(0, 120, 212, 0.7), 10, 0, 0, 4);" text="Search" textFill="#c9c9c9" />
                             </children>
                         </HBox>

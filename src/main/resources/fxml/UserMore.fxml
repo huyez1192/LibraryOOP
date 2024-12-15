@@ -59,6 +59,30 @@
                                 <Insets bottom="20.0" />
                             </VBox.margin>
                         </Button>
+                  <Button alignment="BASELINE_LEFT" layoutX="10.0" layoutY="220.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchToProfile" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="   PROFILE">
+                     <graphic>
+                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@book.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button alignment="BASELINE_LEFT" layoutX="10.0" layoutY="326.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchToRequested" prefHeight="43.0" prefWidth="156.0" styleClass="navButton" text="   REQUESTED">
+                     <graphic>
+                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@book.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </Button>
 
                         <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="43.0" prefWidth="156.0" text="   MORE" VBox.vgrow="ALWAYS">
 
@@ -73,6 +97,9 @@
                         <String fx:value="navButton" />
                         <String fx:value="pickButton" />
                      </styleClass>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
                         </Button>
                     </children>
                 </VBox>
