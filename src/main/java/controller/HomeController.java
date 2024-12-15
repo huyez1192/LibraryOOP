@@ -6,6 +6,7 @@ import dao.BorrowRecordDAO;
 import dao.RequestDAO;
 import dao.UserDAO;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,10 +15,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -25,20 +23,17 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import utils.Session;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class HomeController implements Initializable {
-    // Thành phần từ HomeController
     @FXML
     private GridPane bookContainer;
 
@@ -51,39 +46,49 @@ public class HomeController implements Initializable {
     @FXML
     private TextField searchField;
 
-    // Thành phần từ LibraryHomeController
     @FXML
-    private VBox suggestionBox; // Đảm bảo khai báo này
+    private VBox suggestionBox;
 
     @FXML
     private Button profileButton;
 
     @FXML
-    private VBox suggestionContent; // Thêm khai báo này
+    private VBox suggestionContent;
 
     private List<Document> recommended;
-    private List<Document> availableBooks; // Danh sách sách có sẵn cho gợi ý
-    private int userId; // ID người dùng, cần lấy từ đăng nhập hoặc session
-    private RequestDAO requestDAO = new RequestDAO();  // Khởi tạo RequestDAO
-    private BorrowRecordDAO borrowRecordDAO = new BorrowRecordDAO(); // Khởi tạo BorrowRecordDAO
+    private List<Document> availableBooks;
+    public static int userId;
+    private RequestDAO requestDAO = new RequestDAO();
+    private BorrowRecordDAO borrowRecordDAO = new BorrowRecordDAO();
+    private ExecutorService executor = Executors.newFixedThreadPool(2); // ExecutorService để quản lý thread pool
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Khởi tạo các gợi ý tìm kiếm
         initializeSearchSuggestions();
 
-        // Tải và hiển thị sách được khuyến nghị
-        loadRecommendedBooks();
+        // Sử dụng Task và ExecutorService để tải dữ liệu trong nền
+        Task<Void> loadRecommendedTask = new Task<>() {
+            @Override
+            protected Void call() {
+                loadRecommendedBooks();
+                return null;
+            }
+        };
 
-        // Tải danh sách sách có sẵn cho gợi ý
-        loadAvailableBooks();
+        Task<Void> loadAvailableBooksTask = new Task<>() {
+            @Override
+            protected Void call() {
+                loadAvailableBooks();
+                return null;
+            }
+        };
+
+        executor.submit(loadRecommendedTask);
+        executor.submit(loadAvailableBooksTask);
     }
 
-    // Khởi tạo các gợi ý tìm kiếm
     private void initializeSearchSuggestions() {
-        // Xử lý sự kiện khi người dùng nhập trong thanh tìm kiếm
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("Search field changed: " + newValue);
             if (!newValue.trim().isEmpty()) {
                 showSuggestions(newValue.trim());
             } else {
@@ -91,259 +96,229 @@ public class HomeController implements Initializable {
             }
         });
 
-        // Ẩn danh sách gợi ý khi mất tiêu điểm
         searchField.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
-                System.out.println("Search field lost focus");
                 hideSuggestions();
             }
         });
 
-        // Xử lý sự kiện khi nhấn nút tìm kiếm
-        searchButton.setOnAction(event -> {
-            System.out.println("Search button clicked");
-            onSearchButtonClick();
-        });
+        searchButton.setOnAction(event -> onSearchButtonClick());
     }
 
-    // Tải danh sách sách có sẵn từ cơ sở dữ liệu
     private void loadAvailableBooks() {
-        availableBooks = new ArrayList<>();
-        BookDAO bookDAO = new BookDAO();
-        availableBooks = bookDAO.getAllDocuments();
-        System.out.println("Loaded available books: " + availableBooks.size());
+        try {
+            BookDAO bookDAO = new BookDAO();
+            availableBooks = bookDAO.getAllDocuments();
+            System.out.println("Loaded available books: " + availableBooks.size());
+        } catch (Exception e) {
+            e.printStackTrace();
+            Platform.runLater(() -> showAlert("Error", "Failed to load available books.", Alert.AlertType.ERROR));
+        }
     }
 
-    // Hiển thị các gợi ý dựa trên từ khóa nhập
     private void showSuggestions(String query) {
-        System.out.println("Showing suggestions for query: " + query);
-        // Tìm kiếm các sách có chứa từ khóa trong tiêu đề (không phân biệt chữ hoa chữ thường)
         List<Document> filteredBooks = availableBooks.stream()
                 .filter(book -> book.getTitle().toLowerCase().contains(query.toLowerCase()))
-                .limit(5) // Giới hạn số lượng gợi ý
+                .limit(5)
                 .toList();
 
         if (filteredBooks.isEmpty()) {
-            System.out.println("No suggestions found for query: " + query);
             hideSuggestions();
             return;
         }
 
         Platform.runLater(() -> {
-            if (suggestionBox != null && suggestionContent != null) { // Thêm kiểm tra null
+            try {
                 suggestionContent.getChildren().clear();
                 for (Document book : filteredBooks) {
-                    String title = book.getTitle();
-                    System.out.println("Adding suggestion: " + title);
-
-                    // Tạo HBox cho từng gợi ý
-                    HBox suggestionBoxItem = new HBox(10); // Khoảng cách giữa hình và tên sách
-                    suggestionBoxItem.setPadding(new Insets(5));
-                    suggestionBoxItem.setStyle("-fx-alignment: CENTER_LEFT; -fx-background-color: #f9f9f9; -fx-border-radius: 5; -fx-background-radius: 5;");
-                    suggestionBoxItem.setPrefHeight(40);
-
-                    // Tạo ImageView cho hình nhỏ
-                    ImageView bookImageView = new ImageView();
-                    bookImageView.setFitHeight(30);
-                    bookImageView.setFitWidth(30);
-                    bookImageView.setPreserveRatio(true);
-                    bookImageView.setSmooth(true);
-                    bookImageView.setCache(true);
-
-                    String thumbnailUrl = book.getThumbnailLink();
-                    if (thumbnailUrl != null && !thumbnailUrl.isEmpty()) {
-                        // Thay đổi URL nếu cần thiết (https thay vì http)
-                        thumbnailUrl = thumbnailUrl.replace("http://", "https://");
-                        bookImageView.setImage(new Image(thumbnailUrl, true));
-                    } else {
-                        // Đặt ảnh mặc định nếu không có URL ảnh
-                        bookImageView.setImage(new Image(getClass().getResourceAsStream("/images/default_book.png")));
-                    }
-
-                    // Tạo Label cho tên sách
-                    Label bookTitleLabel = new Label(title);
-                    bookTitleLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #333;");
-                    bookTitleLabel.setWrapText(true);
-                    bookTitleLabel.setMaxWidth(450); // Đảm bảo không vượt quá chiều rộng
-
-                    // Thêm ImageView và Label vào HBox
-                    suggestionBoxItem.getChildren().addAll(bookImageView, bookTitleLabel);
-
-                    // Thêm sự kiện nhấn vào HBox
-                    suggestionBoxItem.setOnMousePressed(event -> { // Sử dụng MousePressed
-                        System.out.println("Suggestion item pressed: " + title);
-                        if (searchField != null) {
-                            searchField.setText(title); // Điền tiêu đề vào thanh tìm kiếm
-                            hideSuggestions();
-                            // Mở chi tiết sách ngay tại đây
-                            openBookDetail(book);
-                        } else {
-                            System.err.println("searchField is null!");
-                        }
-                        event.consume(); // Ngăn chặn các sự kiện khác
-                    });
-
-                    // Thêm sự kiện nhấn trực tiếp vào Label (nếu cần)
-                    bookTitleLabel.setOnMouseClicked(event -> {
-                        System.out.println("Label clicked: " + title);
-                        if (searchField != null) {
-                            searchField.setText(title);
-                            hideSuggestions();
-                            openBookDetail(book);
-                        } else {
-                            System.err.println("searchField is null!");
-                        }
-                        event.consume(); // Ngăn chặn các sự kiện khác
-                    });
-
-                    // Thêm HBox vào suggestionContent
+                    HBox suggestionBoxItem = createSuggestionBoxItem(book);
                     suggestionContent.getChildren().add(suggestionBoxItem);
                 }
-                suggestionBox.setVisible(true); // Hiển thị danh sách gợi ý
-                suggestionBox.setManaged(true); // Chiếm không gian khi hiển thị
-            } else {
-                System.err.println("suggestionBox or suggestionContent is null");
+                suggestionBox.setVisible(true);
+                suggestionBox.setManaged(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+                showAlert("Error", "Failed to show suggestions.", Alert.AlertType.ERROR);
             }
         });
     }
 
-    // Xử lý khi nhấn nút tìm kiếm
+    // Tạo HBox cho mỗi gợi ý sách
+    private HBox createSuggestionBoxItem(Document book) {
+        HBox suggestionBoxItem = new HBox(10);
+        suggestionBoxItem.setPadding(new Insets(5));
+        suggestionBoxItem.setStyle("-fx-alignment: CENTER_LEFT; -fx-background-color: #f9f9f9; -fx-border-radius: 5; -fx-background-radius: 5;");
+        suggestionBoxItem.setPrefHeight(40);
+
+        ImageView bookImageView = new ImageView();
+        bookImageView.setFitHeight(30);
+        bookImageView.setFitWidth(30);
+        bookImageView.setPreserveRatio(true);
+        bookImageView.setSmooth(true);
+        bookImageView.setCache(true);
+
+        String thumbnailUrl = book.getThumbnailLink();
+        if (thumbnailUrl != null && !thumbnailUrl.isEmpty()) {
+            // Sử dụng Task để tải hình ảnh trong nền
+            Task<Image> loadImageTask = new Task<>() {
+                @Override
+                protected Image call() throws Exception {
+                    return new Image(thumbnailUrl.replace("http://", "https://"), true);
+                }
+            };
+
+            loadImageTask.setOnSucceeded(e -> bookImageView.setImage(loadImageTask.getValue()));
+            loadImageTask.setOnFailed(e -> bookImageView.setImage(new Image(getClass().getResourceAsStream("/images/default_book.png"))));
+            executor.submit(loadImageTask);
+        } else {
+            bookImageView.setImage(new Image(getClass().getResourceAsStream("/images/default_book.png")));
+        }
+
+        Label bookTitleLabel = new Label(book.getTitle());
+        bookTitleLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #333;");
+        bookTitleLabel.setWrapText(true);
+        bookTitleLabel.setMaxWidth(450);
+
+        suggestionBoxItem.getChildren().addAll(bookImageView, bookTitleLabel);
+
+        suggestionBoxItem.setOnMousePressed(event -> {
+            searchField.setText(book.getTitle());
+            hideSuggestions();
+            openBookDetail(book);
+            event.consume();
+        });
+
+        return suggestionBoxItem;
+    }
+
     private void onSearchButtonClick() {
         String query = searchField.getText().trim();
         if (!query.isEmpty()) {
-            System.out.println("Performing search for: " + query);
             showSuggestions(query);
-            // Có thể thực hiện hành động tìm kiếm như hiển thị kết quả tìm kiếm
-            // Ví dụ: hiển thị tất cả các sách chứa từ khóa
+            // Thêm logic tìm kiếm ở đây nếu cần
         }
     }
 
-    // Ẩn hộp gợi ý
     private void hideSuggestions() {
-        System.out.println("Hiding suggestions");
         Platform.runLater(() -> {
-            if (suggestionBox != null) { // Thêm kiểm tra null
-                suggestionBox.setVisible(false);  // Ẩn hộp gợi ý
-                suggestionBox.setManaged(false); // Không chiếm không gian
-            } else {
-                System.err.println("suggestionBox is null in hideSuggestions");
+            if (suggestionBox != null) {
+                suggestionBox.setVisible(false);
+                suggestionBox.setManaged(false);
             }
         });
     }
 
     private void loadSuggestBooks() {
-        UserDAO userDAO = new UserDAO(); // Tạo đối tượng UserDAO
-        String favoriteCategory = userDAO.getUserFavoriteCategory(userId); // Gọi phương thức
-
-        System.out.println(favoriteCategory);
-        // Truy vấn các sách theo thể loại yêu thích
-        BookDAO bookDAO = new BookDAO();
-        List<Document> suggestedBooks = bookDAO.getByCategories(favoriteCategory);
-        System.out.println(suggestedBooks);
-        System.out.println("Suggested books loaded: " + suggestedBooks.size());
-
-        int column = 0;
-        int row = 1;
-
         try {
-            for (Document document : suggestedBooks) {
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/fxml/small_book.fxml"));
-                VBox bookBox = fxmlLoader.load();
-                bookBox.getStylesheets().add(getClass().getResource("/css/cardStyling.css").toExternalForm());
+            UserDAO userDAO = new UserDAO();
+            String favoriteCategory = userDAO.getUserFavoriteCategory(userId);
 
-                SmallBookController smallBookController = fxmlLoader.getController();
-                smallBookController.loadBookInfo(document);
+            BookDAO bookDAO = new BookDAO();
+            List<Document> suggestedBooks = bookDAO.getByCategories(favoriteCategory);
+            System.out.println("Suggested books loaded: " + suggestedBooks.size());
 
-                // Gắn sự kiện nhấn vào thẻ sách để mở trang chi tiết
-                bookBox.setOnMouseClicked(event -> {
-                    System.out.println("Book box clicked: " + document.getTitle());
-                    openBookDetail(document);
-                });
+            int column = 0;
+            int row = 1;
 
-                // Sắp xếp sách vào grid
-                if (column == 8) {  // Giới hạn số cột, có thể thay đổi tùy ý
-                    column = 0;
-                    ++row;
+            if (bookContainer1 != null) {
+                Platform.runLater(() -> bookContainer1.getChildren().clear()); // clear() trên JavaFX Application Thread
+                for (Document document : suggestedBooks) {
+                    FXMLLoader fxmlLoader = new FXMLLoader();
+                    fxmlLoader.setLocation(getClass().getResource("/fxml/small_book.fxml"));
+                    VBox bookBox = fxmlLoader.load();
+                    bookBox.getStylesheets().add(getClass().getResource("/css/cardStyling.css").toExternalForm());
+
+                    SmallBookController smallBookController = fxmlLoader.getController();
+                    smallBookController.loadBookInfo(document);
+
+                    bookBox.setOnMouseClicked(event -> openBookDetail(document));
+
+                    if (column == 8) {
+                        column = 0;
+                        ++row;
+                    }
+
+                    int finalColumn = column++;
+                    int finalRow = row;
+                    Platform.runLater(() -> {
+                        bookContainer1.add(bookBox, finalColumn, finalRow);
+                        GridPane.setMargin(bookBox, new Insets(15));
+                    });
                 }
-
-                // Thêm sách vào GridPane
-                bookContainer1.add(bookBox, column++, row);
-                GridPane.setMargin(bookBox, new Insets(15));
+            } else {
+                System.err.println("bookContainer1 is null!");
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            Platform.runLater(() -> showAlert("Error", "Failed to load suggested books.", Alert.AlertType.ERROR));
         }
-
-        System.out.println(bookContainer1); // In ra để kiểm tra xem bookContainer1 có null không
     }
 
-    // Tải và hiển thị sách được khuyến nghị từ cơ sở dữ liệu
     private void loadRecommendedBooks() {
-        recommended = documents();
-        System.out.println("Recommended books loaded: " + recommended.size());
-        int column = 0;
-        int row = 1;
-
-        
         try {
-            for (Document document : recommended) {
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/fxml/small_book.fxml"));
-                VBox bookBox = fxmlLoader.load();
-                bookBox.getStylesheets().add(getClass().getResource("/css/cardStyling.css").toExternalForm());
+            recommended = documents();
+            System.out.println("Recommended books loaded: " + recommended.size());
+            int column = 0;
+            int row = 1;
 
-                SmallBookController smallBookController = fxmlLoader.getController();
-                smallBookController.loadBookInfo(document);
+            if (bookContainer != null) {
+                Platform.runLater(() -> bookContainer.getChildren().clear()); // clear() trên JavaFX Application Thread
+                for (Document document : recommended) {
+                    FXMLLoader fxmlLoader = new FXMLLoader();
+                    fxmlLoader.setLocation(getClass().getResource("/fxml/small_book.fxml"));
+                    VBox bookBox = fxmlLoader.load();
+                    bookBox.getStylesheets().add(getClass().getResource("/css/cardStyling.css").toExternalForm());
 
-                // Gắn sự kiện nhấn vào thẻ sách để mở trang chi tiết
-                bookBox.setOnMouseClicked(event -> {
-                    System.out.println("Book box clicked: " + document.getTitle());
-                    openBookDetail(document);
-                });
+                    SmallBookController smallBookController = fxmlLoader.getController();
+                    smallBookController.loadBookInfo(document);
 
-                if (column == 8) {
-                    column = 0;
-                    ++row;
+                    bookBox.setOnMouseClicked(event -> openBookDetail(document));
+
+                    if (column == 8) {
+                        column = 0;
+                        ++row;
+                    }
+
+                    int finalColumn = column++;
+                    int finalRow = row;
+                    Platform.runLater(() -> {
+                        bookContainer.add(bookBox, finalColumn, finalRow);
+                        GridPane.setMargin(bookBox, new Insets(15));
+                    });
                 }
-
-                bookContainer.add(bookBox, column++, row);
-                GridPane.setMargin(bookBox, new Insets(15));
+            } else {
+                System.err.println("bookContainer is null!");
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            Platform.runLater(() -> showAlert("Error", "Failed to load recommended books.", Alert.AlertType.ERROR));
         }
     }
 
-    // Lấy danh sách sách từ cơ sở dữ liệu
     private List<Document> documents() {
         List<Document> ls = new ArrayList<>();
-        BookDAO bookDAO = new BookDAO();
-        ls = bookDAO.getAllDocuments();
+        try {
+            BookDAO bookDAO = new BookDAO();
+            ls = bookDAO.getAllDocuments();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Platform.runLater(() -> showAlert("Error", "Failed to load documents.", Alert.AlertType.ERROR));
+        }
         return ls;
     }
 
     @FXML
     private void search(ActionEvent event) {
-        // Có thể thêm logic tìm kiếm tại đây nếu cần
+        // Có thể thêm logic tìm kiếm ở đây
     }
 
-    // Phương thức chuyển sang giao diện sách đã mượn
     @FXML
     public void switchToBorrowed(ActionEvent event) {
         try {
-            // Lấy userId từ UserSession
-            int userId = Session.getUserId();
-
-
-            // Tải FXML của giao diện thứ hai
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/borrowedDocuments.fxml"));
             Parent root = loader.load();
 
-            // Lấy Stage hiện tại
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            // Đổi Scene
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
@@ -354,72 +329,57 @@ public class HomeController implements Initializable {
     @FXML
     public void switchToMore(ActionEvent event) {
         try {
-            // Tải FXML của giao diện thứ hai
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/More.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/UserMore.fxml"));
             Parent root = loader.load();
 
-            // Lấy Stage hiện tại
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            // Đổi Scene
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    // Phương thức chuyển sang giao diện Profile
+
     @FXML
     public void switchToProfile(ActionEvent event) {
         try {
-            // Tải FXML của giao diện Profile
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/profile.fxml"));
             Parent root = loader.load();
 
-            // Lấy controller của ProfileController để truyền userId
             ProfileController profileController = loader.getController();
-            profileController.setUserId(userId); // Đảm bảo userId đã được thiết lập
+            profileController.setUserId(userId);
 
-            // Tạo và hiển thị Stage mới cho Profile
             Stage stage = new Stage();
             stage.setTitle("Profile");
             stage.setScene(new Scene(root));
-            stage.initModality(Modality.APPLICATION_MODAL); // Ngăn tương tác với cửa sổ chính
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
-
         } catch (IOException e) {
             e.printStackTrace();
             showAlert("Error", "Cannot open Profile window.", Alert.AlertType.ERROR);
         }
     }
 
-
-    // Phương thức mở chi tiết sách
     private void openBookDetail(Document document) {
         try {
-            // Tạo FXMLLoader để load file FXML cho trang chi tiết sách
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/bookDetail.fxml"));
             Parent bookDetailPage = fxmlLoader.load();
 
-            // Lấy controller của trang chi tiết sách và load thông tin sách
             BookDetailsController bookDetailsController = fxmlLoader.getController();
-            bookDetailsController.loadBookDetails(document, userId, requestDAO, borrowRecordDAO);  // Truyền đủ bốn tham số
+            bookDetailsController.loadBookDetails(document, userId, requestDAO, borrowRecordDAO);
 
-            // Mở cửa sổ mới để hiển thị chi tiết sách
             Stage stage = new Stage();
             Scene scene = new Scene(bookDetailPage);
             stage.setScene(scene);
             stage.setTitle(document.getTitle());
             stage.show();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    // Hiển thị thông báo
     private void showAlert(String title, String message, Alert.AlertType alertType) {
-        Platform.runLater(() -> { // Đảm bảo chạy trên UI thread
+        Platform.runLater(() -> {
             Alert alert = new Alert(alertType);
             alert.setTitle(title);
             alert.setHeaderText(null);
@@ -430,7 +390,15 @@ public class HomeController implements Initializable {
 
     public void setUserId(int userId) {
         this.userId = userId;
-        loadSuggestBooks();
+        // Sử dụng Task và ExecutorService để tải dữ liệu trong nền
+        Task<Void> loadSuggestBooksTask = new Task<>() {
+            @Override
+            protected Void call() {
+                loadSuggestBooks();
+                return null;
+            }
+        };
+        executor.submit(loadSuggestBooksTask);
     }
 
     public int getUserId() {
